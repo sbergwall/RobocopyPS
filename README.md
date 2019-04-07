@@ -44,12 +44,6 @@ To uninstall RobocopyPS:
 PS> Uninstall-Module -Name RobocopyPS
 ```
 
-## Contributing to RobocopyPS
-
-Interested in contributing? Read how you can [Contribute](contributing.md) to RobocopyPS
-
-This project maintains a [Code of Conduct](code-of-conduct.md) that establishes how the project is governed and how everyone involved is expected to behave. You can report unacceptable behavior to [simonbergwall@gmail.com](mailto:simonbergwall@gmail.com).
-
 ## Release History
 
 A detailed release history is contained in the [Change Log](CHANGELOG.md).
