@@ -1,6 +1,6 @@
 Function Start-RoboCopy {
 
-<#
+    <#
 .SYNOPSIS
 Start Robocopy with PowerShell
 
@@ -145,7 +145,6 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
 
     [CmdletBinding(SupportsShouldProcess)]
-    [OutputType('RoboCopyView')]
 
     Param (
         [Parameter( Mandatory = $True,
@@ -166,9 +165,11 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         [Parameter(Mandatory = $False)]
         [String]$LogFile,
 
+        [Parameter(ParameterSetName='IncludeSubDirectories')]
         [Alias('s')]
         [switch]$IncludeSubDirectories,
 
+        [Parameter(ParameterSetName='IncludeEmptySubDirectories')]
         [Alias('e', 'Recurse')]
         [switch]$IncludeEmptySubDirectories,
 
@@ -199,12 +200,15 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         [switch]$Purge,
 
+        [Parameter(ParameterSetName='Mirror')]
         [Alias('mir', 'Sync')]
         [switch]$Mirror,
 
+        [Parameter(ParameterSetName='MoveFiles')]
         [Alias('mov')]
         [switch]$MoveFiles,
 
+        [Parameter(ParameterSetName='MoveFilesAndDirectories')]
         [Alias('move')]
         [switch]$MoveFilesAndDirectories,
 
@@ -218,7 +222,7 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         [switch]$Create,
 
-        [switch]$fat,
+        [switch]$FAT,
 
         [Alias('256')]
         [switch]$IgnoreLongPath,
@@ -237,6 +241,7 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         [Parameter(Mandatory = $False)]
         [Alias('rh')]
+        [ValidatePattern("[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}-[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}")]
         [String]$RunTimes,
 
         [Alias('pf')]
@@ -343,11 +348,13 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         [switch]$SaveRetrySettings,
 
         [Alias('tbd')]
-        [switch]$WaitForShareName
+        [switch]$WaitForShareName,
+
+        [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
+        [String]$Unit = 'Auto'
     )
 
     Process {
-
         # Remove trailing backslash because Robocopy can sometimes error out when spaces are in path names
         $ModifiedSource = $Source -replace '\\$'
         $ModifiedDestination = $Destination -replace '\\$'
@@ -356,17 +363,6 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         $ModifiedSource = '"' + $ModifiedSource + '"'
         $ModifiedDestination = '"' + $ModifiedDestination + '"'
 
-        # Regex filter used for finding strings we want to handle in Robocopy output
-        [regex] $HeaderRegex = '\s+Total\s*Copied\s+Skipped\s+Mismatch\s+FAILED\s+Extras'
-        [regex] $DirLineRegex = 'Dirs\s*:\s*(?<DirCount>\d+)(?:\s+\d+){3}\s+(?<DirFailed>\d+)\s+\d+'
-        [regex] $FileLineRegex = 'Files\s*:\s*(?<FileCount>\d+)(?:\s+\d+){3}\s+(?<FileFailed>\d+)\s+\d+'
-        [regex] $BytesLineRegex = 'Bytes\s*:\s*(?<ByteCount>\d+)(?:\s+\d+){3}\s+(?<BytesFailed>\d+)\s+\d+'
-        [regex] $TimeLineRegex = 'Times\s*:\s*(?<TimeElapsed>\d+).*'
-        [regex] $EndedLineRegex = 'Ended\s*:\s*(?<EndedTime>.+)'
-        [regex] $SpeedLineRegex = 'Speed\s:\s+(\d+)\sBytes\/sec'
-        [regex] $JobSummaryEndLineRegex = '[-]{78}'
-        [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
-
         # RobocopyArguments are not the final variable that countain all robocopy parameters
         $RobocopyArguments = $ModifiedSource, $ModifiedDestination + $Files
 
@@ -374,138 +370,152 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         $RobocopyArguments += '/r:' + $Retry
         $RobocopyArguments += '/w:' + $Wait
 
-        if ($IncludeSubDirectories) {$RobocopyArguments += '/s'; $action = 'Copy'}
-        if ($IncludeEmptySubDirectories) {$RobocopyArguments += '/e'; $action = 'Copy'}
-        if ($Level) {$RobocopyArguments += '/lev:' + $Level}
-        if ($BackupMode) {$RobocopyArguments += '/b'}
-        if ($RestartMode) {$RobocopyArguments += '/z'}
-        if ($EFSRaw) {$RobocopyArguments += '/efsraw'}
-        if ($CopyFlags) {$RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '')}
-        if ($NoCopy) {$RobocopyArguments += '/nocopy'}
-        if ($SecurityFix) {$RobocopyArguments += '/secfix'}
-        if ($Timefix) {$RobocopyArguments += '/timfix'}
-        if ($Purge) {$RobocopyArguments += '/purge' ; $action = 'Purge'}
-        if ($Mirror) {$RobocopyArguments += '/mir'; $action = 'Mirror'}
-        if ($MoveFiles) {$RobocopyArguments += '/mov'; $action = 'Move'}
-        if ($MoveFilesAndDirectories) {$RobocopyArguments += '/move' ; $action = 'Move'}
-        if ($AddAttribute) {$RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object-Unique) -join '')}
-        if ($RemoveAttribute) {$RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object-Unique) -join '')}
-        if ($Create) {$RobocopyArguments += '/create'}
-        if ($fat) {$RobocopyArguments += '/fat'}
-        if ($IgnoreLongPath) {$RobocopyArguments += '/256'}
-        if ($MonitorChanges) {$RobocopyArguments += '/mon:' + $MonitorChanges}
-        if ($MonitorMinutes) {$RobocopyArguments += '/mot:' + $MonitorMinutes}
-        if ($Threads) {$RobocopyArguments += '/MT:' + $Threads}
-        if ($RunTimes) {$RobocopyArguments += '/rh:' + $RunTimes}
-        if ($UsePerFileRunTimes) {$RobocopyArguments += '/pf'}
-        if ($InterPacketGap) {$RobocopyArguments += '/ipg:' + $InterPacketGap}
-        if ($SymbolicLink) {$RobocopyArguments += '/sl'}
-        if ($Archive) {$RobocopyArguments += '/a'}
-        if ($ResetArchiveAttribute) {$RobocopyArguments += '/m'}
-        if ($IncludeAttribute) {$RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object-Unique) -join ''}
-        if ($ExcludeAttribute) {$RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object-Unique) -join ''}
-        if ($ExcludeFileName) {$RobocopyArguments += '/xf ' + $ExcludeFileName -join ' '}
-        if ($ExcludeDirectory) {$RobocopyArguments += '/xd ' + $ExcludeDirectory -join ' '}
-        if ($ExcludeChangedFiles) {$RobocopyArguments += '/xct'}
-        if ($ExcludeNewerFiles) {$RobocopyArguments += '/xn'}
-        if ($ExcludeOlderFiles) {$RobocopyArguments += '/xo'}
-        if ($ExcludeExtraFiles) {$RobocopyArguments += '/xx'}
-        if ($ExcludeLonelyFiles) {$RobocopyArguments += '/xl'}
-        if ($IncludeSameFiles) {$RobocopyArguments += '/is'}
-        if ($IncludeTweakedFiles) {$RobocopyArguments += '/it'}
-        if ($MaximumFileSize) {$RobocopyArguments += '/max:' + $MaximumFileSize}
-        if ($MinimumFileSize) {$RobocopyArguments += '/min:' + $MinimumFileSize}
-        if ($MaximumFileAge) {$RobocopyArguments += '/maxage:' + $MaximumFileAge}
-        if ($MinimumFileAge) {$RobocopyArguments += '/minage:' + $MinimumFileAge}
-        if ($MaximumFileLastAccessDate) {$RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate}
-        if ($MinimumFileLastAccessDate) {$RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate}
-        if ($ExcludeJunctionPoints) {$RobocopyArguments += '/xj'}
-        if ($ExcludeFileJunctionPoints) {$RobocopyArguments += '/xjf'}
-        if ($ExcludeDirectoryJunctionPoints) {$RobocopyArguments += '/xjd'}
-        if ($AssumeFATFileTime) {$RobocopyArguments += '/fft'}
-        if ($CompensateDST) {$RobocopyArguments += '/dst'}
-        if ($SaveRetrySettings) {$RobocopyArguments += '/reg'}
-        if ($WaitForShareName) {$RobocopyArguments += '/tbd'}
+        if ($IncludeSubDirectories) { $RobocopyArguments += '/s'; $action = 'Copy' }
+        if ($IncludeEmptySubDirectories) { $RobocopyArguments += '/e'; $action = 'Copy' }
+        if ($Level) { $RobocopyArguments += '/lev:' + $Level }
+        if ($BackupMode) { $RobocopyArguments += '/b' }
+        if ($RestartMode) { $RobocopyArguments += '/z' }
+        if ($EFSRaw) { $RobocopyArguments += '/efsraw' }
+        if ($CopyFlags) { $RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '') }
+        if ($NoCopy) { $RobocopyArguments += '/nocopy' }
+        if ($SecurityFix) { $RobocopyArguments += '/secfix' }
+        if ($Timefix) { $RobocopyArguments += '/timfix' }
+        if ($Purge) { $RobocopyArguments += '/purge' ; $action = 'Purge' }
+        if ($Mirror) { $RobocopyArguments += '/mir'; $action = 'Mirror' }
+        if ($MoveFiles) { $RobocopyArguments += '/mov'; $action = 'Move' }
+        if ($MoveFilesAndDirectories) { $RobocopyArguments += '/move' ; $action = 'Move' }
+        if ($AddAttribute) { $RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object-Unique) -join '') }
+        if ($RemoveAttribute) { $RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object-Unique) -join '') }
+        if ($Create) { $RobocopyArguments += '/create' }
+        if ($fat) { $RobocopyArguments += '/fat' }
+        if ($IgnoreLongPath) { $RobocopyArguments += '/256' }
+        if ($MonitorChanges) { $RobocopyArguments += '/mon:' + $MonitorChanges }
+        if ($MonitorMinutes) { $RobocopyArguments += '/mot:' + $MonitorMinutes }
+        if ($Threads) { $RobocopyArguments += '/MT:' + $Threads }
+        if ($RunTimes) { $RobocopyArguments += '/rh:' + $RunTimes }
+        if ($UsePerFileRunTimes) { $RobocopyArguments += '/pf' }
+        if ($InterPacketGap) { $RobocopyArguments += '/ipg:' + $InterPacketGap }
+        if ($SymbolicLink) { $RobocopyArguments += '/sl' }
+        if ($Archive) { $RobocopyArguments += '/a' }
+        if ($ResetArchiveAttribute) { $RobocopyArguments += '/m' }
+        if ($IncludeAttribute) { $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object-Unique) -join '' }
+        if ($ExcludeAttribute) { $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object-Unique) -join '' }
+        if ($ExcludeFileName) { $RobocopyArguments += '/xf ' + $ExcludeFileName -join ' ' }
+        if ($ExcludeDirectory) { $RobocopyArguments += '/xd ' + $ExcludeDirectory -join ' ' }
+        if ($ExcludeChangedFiles) { $RobocopyArguments += '/xct' }
+        if ($ExcludeNewerFiles) { $RobocopyArguments += '/xn' }
+        if ($ExcludeOlderFiles) { $RobocopyArguments += '/xo' }
+        if ($ExcludeExtraFiles) { $RobocopyArguments += '/xx' }
+        if ($ExcludeLonelyFiles) { $RobocopyArguments += '/xl' }
+        if ($IncludeSameFiles) { $RobocopyArguments += '/is' }
+        if ($IncludeTweakedFiles) { $RobocopyArguments += '/it' }
+        if ($MaximumFileSize) { $RobocopyArguments += '/max:' + $MaximumFileSize }
+        if ($MinimumFileSize) { $RobocopyArguments += '/min:' + $MinimumFileSize }
+        if ($MaximumFileAge) { $RobocopyArguments += '/maxage:' + $MaximumFileAge }
+        if ($MinimumFileAge) { $RobocopyArguments += '/minage:' + $MinimumFileAge }
+        if ($MaximumFileLastAccessDate) { $RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate }
+        if ($MinimumFileLastAccessDate) { $RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate }
+        if ($ExcludeJunctionPoints) { $RobocopyArguments += '/xj' }
+        if ($ExcludeFileJunctionPoints) { $RobocopyArguments += '/xjf' }
+        if ($ExcludeDirectoryJunctionPoints) { $RobocopyArguments += '/xjd' }
+        if ($AssumeFATFileTime) { $RobocopyArguments += '/fft' }
+        if ($CompensateDST) { $RobocopyArguments += '/dst' }
+        if ($SaveRetrySettings) { $RobocopyArguments += '/reg' }
+        if ($WaitForShareName) { $RobocopyArguments += '/tbd' }
 
-        $StartTime = $(Get-Date)
+        If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
 
-        # Testing PowerShell filter 
-        filter isRc { if ($_ -ne "") { $_ } }
-        #$RoboArgs = " /bytes /mir /tee /np /ns /njh /nc /fp" -split " " # Space before /bytes so output object look correct
+            # Regex filter used for finding strings we want to handle in Robocopy output
+            [regex] $HeaderRegex = '\s+Total\s*Copied\s+Skipped\s+Mismatch\s+FAILED\s+Extras'
+            [regex] $DirLineRegex = 'Dirs\s*:\s*(?<DirCount>\d+)(?:\s+\d+){3}\s+(?<DirFailed>\d+)\s+\d+'
+            [regex] $FileLineRegex = 'Files\s*:\s*(?<FileCount>\d+)(?:\s+\d+){3}\s+(?<FileFailed>\d+)\s+\d+'
+            [regex] $BytesLineRegex = 'Bytes\s*:\s*(?<ByteCount>\d+)(?:\s+\d+){3}\s+(?<BytesFailed>\d+)\s+\d+'
+            [regex] $TimeLineRegex = 'Times\s*:\s*(?<TimeElapsed>\d+).*'
+            [regex] $EndedLineRegex = 'Ended\s*:\s*(?<EndedTime>.+)'
+            [regex] $SpeedLineRegex = 'Speed\s:\s+(\d+)\sBytes\/sec'
+            [regex] $JobSummaryEndLineRegex = '[-]{78}'
+            [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
 
-        # Arguments of the copy command. Fills in the $RoboLog temp file
-        $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /ns /njh /nc /fp" -split " "
+            $StartTime = $(Get-Date)
 
-        Robocopy.exe $RoboArgs | isRc | ForEach-Object {
+            # Testing PowerShell filter 
+            filter isRc { if ($_ -ne "") { $_ } }
+            #$RoboArgs = " /bytes /mir /tee /np /ns /njh /nc /fp" -split " " # Space before /bytes so output object look correct
 
-            If ($_ -match 'ERROR \d \(0x\d{1,11}\)') {
-                # First rule is if we catch an error we will write a warning with the path and error text from Robocopy
-                Write-Warning $_
+            # Arguments of the copy command. Fills in the $RoboLog temp file
+            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /ns /njh /nc /fp" -split " "
+
+            Robocopy.exe $RoboArgs | isRc | ForEach-Object {
+
+                If ($_ -match 'ERROR \d \(0x\d{1,11}\)') {
+                    # First rule is if we catch an error we will write a warning with the path and error text from Robocopy
+                    Write-Warning $_
+                }
+
+                elseif ($_ -like "*$Source*") {
+                    # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
+                    Write-Verbose -Message ("Processing {1}" -f $PSitem.Trim().Split("`t"))
+                }
+
+                elseif ($_ -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
+
+                    # Catch all the summary lines and transform it if no error was found and the passed text didnt contain text from the source.
+                    # Some we will just assign to variables and dont use or dont do anything with
+                    Switch -Regex ($_) {
+                        $JobSummaryEndLine { }
+                        $HeaderRegex { }
+                        $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $EndedLineRegex { }
+                        $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $SpeedInMinutesRegex { }
+                    } # end Switch 
+                }
+
+                else {
+                    # Output all lines we dont have rules for to verbose stream
+                    Write-Verbose $PSitem
+                }
             }
 
-            elseif ($_ -like "*$Source*") {
-                # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size.
-                Write-Verbose -Message ("Processing {1}" -f $PSitem.Trim().Split("`t"))
-            }
-
-            elseif ($_ -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
-
-                # Catch all the summary lines and transform it if no error was found and the passed text didnt contain text from the source.
-                # Some we will just assign to variables or dont do anything with
-                Switch -Regex ($_) {
-                    $JobSummaryEndLine { }
-                    $HeaderRegex { }
-                    $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                    $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                    $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                    $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                    $EndedLineRegex { }
-                    $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                    $SpeedInMinutesRegex { }
-                } # end Switch 
-            }
-
-            else {
-                # Output all lines we dont have rules for
-                $PSitem
-            }
-        }
-
-        $endtime = $(Get-Date) 
+            $endtime = $(Get-Date) 
     
 
-        [PSCustomObject][ordered]@{
-            'Source'               = $Source
-            'Destination'          = $Destination
-            'Command'              = 'Robocopy.exe' + $RoboArgs -join " "
-            'DirCount'             = $TotalDirs
-            'FileCount'            = $TotalFiles
-            #'Duration'     = $TotalDuration
-            'DirCopied'            = $TotalDirCopied
-            'FileCopied'           = $TotalFileCopied
-            #'CopyDuration' = $CopyDuration
-            'DirIgnored'           = $TotalDirIgnored
-            'FileIgnored'          = $TotalFileIgnored
-            'DirMismatched'        = $TotalDirMismatched
-            'FileMismatched'       = $TotalFileMismatched
-            'DirFailed'            = $TotalDirFailed
-            'FileFailed'           = $TotalFileFailed
-            #'FailedDuration'   = $FailedDuration
-            'DirExtra'             = $TotalDirExtra
-            'FileExtra'            = $TotalFileExtra
-            #'ExtraDuration'    = $ExtraDuration
-            'TotalTime'            = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
-            'StartedTime'          = $StartTime
-            'EndedTime'            = $endTime
-            'TotalBytes'           = $TotalBytes
-            'TotalBytesCopied'     = $TotalBytesCopied
-            'TotalBytesIgnored'    = $TotalBytesIgnored
-            'TotalBytesMismatched' = $TotalBytesMismatched
-            'TotalBytesFailed'     = $TotalBytesFailed
-            'TotalBytesExtra'      = $TotalBytesExtra
-            'Speed'                = (Format-SpeedHumanReadable $TotalSpeedBytes) + '/s'
-            'ExitCode'             = $LASTEXITCODE
-            'Success'              = If ($RoboRun.ExitCode -lt 8) { $true } else { $false }
+            [PSCustomObject][ordered]@{
+                'Source'              = $Source
+                'Destination'         = $Destination
+                'Command'             = 'Robocopy.exe ' + $RoboArgs -join " "
+                'DirCount'            = $TotalDirs
+                'FileCount'           = $TotalFiles
+                #'Duration'     = $TotalDuration
+                'DirCopied'           = $TotalDirCopied
+                'FileCopied'          = $TotalFileCopied
+                #'CopyDuration' = $CopyDuration
+                'DirIgnored'          = $TotalDirIgnored
+                'FileIgnored'         = $TotalFileIgnored
+                'DirMismatched'       = $TotalDirMismatched
+                'FileMismatched'      = $TotalFileMismatched
+                'DirFailed'           = $TotalDirFailed
+                'FileFailed'          = $TotalFileFailed
+                #'FailedDuration'   = $FailedDuration
+                'DirExtra'            = $TotalDirExtra
+                'FileExtra'           = $TotalFileExtra
+                #'ExtraDuration'    = $ExtraDuration
+                'TotalTime'           = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
+                'StartedTime'         = $StartTime
+                'EndedTime'           = $endTime
+                'TotalSize'           = (Format-SpeedHumanReadable $Totalbytes -Unit $Unit)
+                'TotalSizeCopied'     = (Format-SpeedHumanReadable $TotalBytesCopied -Unit $Unit)
+                'TotalSizeIgnored'    = (Format-SpeedHumanReadable $TotalBytesIgnored -Unit $Unit)
+                'TotalSizeMismatched' = (Format-SpeedHumanReadable $TotalBytesMismatched -Unit $Unit)
+                'TotalSizeFailed'     = (Format-SpeedHumanReadable $TotalBytesFailed -Unit $Unit)
+                'TotalSizeExtra'      = (Format-SpeedHumanReadable $TotalBytesExtra -Unit $Unit)
+                'Speed'               = (Format-SpeedHumanReadable $TotalSpeedBytes -Unit $Unit) + '/s'
+                'ExitCode'            = $LASTEXITCODE
+                'Success'             = If ($RoboRun.ExitCode -lt 8) { $true } else { $false }
+            }
         }
     }
 }
