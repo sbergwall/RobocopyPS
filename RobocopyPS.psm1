@@ -11,7 +11,7 @@ ForEach ($folder in $functionFolders)
         ForEach ($function in $functions)
         {
             Write-Verbose -Message "  Importing $($function.BaseName)"
-            . $function.providerpath
+            . $function.FullName
         }
     }
 }

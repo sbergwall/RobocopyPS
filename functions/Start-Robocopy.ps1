@@ -1,5 +1,6 @@
 Function Start-RoboCopy {
-    <#
+
+<#
 .SYNOPSIS
 Start Robocopy with PowerShell
 
@@ -367,11 +368,11 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
 
         # RobocopyArguments are not the final variable that countain all robocopy parameters
-        $RobocopyArguments = $Source, $Destination + $Files
+        $RobocopyArguments = $ModifiedSource, $ModifiedDestination + $Files
 
         # We add wait and retry with the default from their parameters, else Robocopy will try a million time before time out
-        $RobocopyArguments += ' /r:' + $Retry
-        $RobocopyArguments += ' /w:' + $Wait
+        $RobocopyArguments += '/r:' + $Retry
+        $RobocopyArguments += '/w:' + $Wait
 
         if ($IncludeSubDirectories) {$RobocopyArguments += '/s'; $action = 'Copy'}
         if ($IncludeEmptySubDirectories) {$RobocopyArguments += '/e'; $action = 'Copy'}
@@ -430,8 +431,12 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         # Testing PowerShell filter 
         filter isRc { if ($_ -ne "") { $_ } }
-        $RoboArgs = " /bytes /mir /tee /np /ns /njh /nc /fp /r:1 /w:1" -split " " # Space before /bytes so output object look correct
-        Robocopy.exe $ModifiedSource $ModifiedDestination $RoboArgs | isRc | ForEach-Object {
+        #$RoboArgs = " /bytes /mir /tee /np /ns /njh /nc /fp" -split " " # Space before /bytes so output object look correct
+
+        # Arguments of the copy command. Fills in the $RoboLog temp file
+        $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /ns /njh /nc /fp" -split " "
+
+        Robocopy.exe $RoboArgs | isRc | ForEach-Object {
 
             If ($_ -match 'ERROR \d \(0x\d{1,11}\)') {
                 # First rule is if we catch an error we will write a warning with the path and error text from Robocopy
@@ -465,7 +470,6 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
                 $PSitem
             }
         }
-
 
         $endtime = $(Get-Date) 
     
