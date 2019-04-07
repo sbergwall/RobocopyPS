@@ -165,11 +165,11 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
         [Parameter(Mandatory = $False)]
         [String]$LogFile,
 
-        [Parameter(ParameterSetName='IncludeSubDirectories')]
+        [Parameter(ParameterSetName = 'IncludeSubDirectories')]
         [Alias('s')]
         [switch]$IncludeSubDirectories,
 
-        [Parameter(ParameterSetName='IncludeEmptySubDirectories')]
+        [Parameter(ParameterSetName = 'IncludeEmptySubDirectories')]
         [Alias('e', 'Recurse')]
         [switch]$IncludeEmptySubDirectories,
 
@@ -200,15 +200,15 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         [switch]$Purge,
 
-        [Parameter(ParameterSetName='Mirror')]
+        [Parameter(ParameterSetName = 'Mirror')]
         [Alias('mir', 'Sync')]
         [switch]$Mirror,
 
-        [Parameter(ParameterSetName='MoveFiles')]
+        [Parameter(ParameterSetName = 'MoveFiles')]
         [Alias('mov')]
         [switch]$MoveFiles,
 
-        [Parameter(ParameterSetName='MoveFilesAndDirectories')]
+        [Parameter(ParameterSetName = 'MoveFilesAndDirectories')]
         [Alias('move')]
         [switch]$MoveFilesAndDirectories,
 
@@ -482,8 +482,29 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
             $endtime = $(Get-Date) 
     
+            # Exit Code lookup "table"
+            $LastExitCodeMessage = switch ($LASTEXITCODE) {
+                0 { '[SUCCESS]No files were copied. No failure was encountered. No files were mismatched. The files already exist in the destination directory; therefore, the copy operation was skipped.' }
+                1 { '[SUCCESS]All files were copied successfully.' }
+                2 { '[SUCCESS]There are some additional files in the destination directory that are not present in the source directory. No files were copied.' }
+                3 { '[SUCCESS]Some files were copied. Additional files were present. No failure was encountered.' }
+                4 { '[WARNING]Some Mismatched files or directories were detected. Examine the output log. Housekeeping might be required.' }
+                5 { '[WARNING]Some files were copied. Some files were mismatched. No failure was encountered.' }
+                6 { '[WARNING]Additional files and mismatched files exist. No files were copied and no failures were encountered. This means that the files already exist in the destination directory.' }
+                7 { '[WARNING]Files were copied, a file mismatch was present, and additional files were present.' }
+                8 { '[ERRROR]Several files did not copy.(copy errors occurred and the retry limit was exceeded). Check these errors further.' }
+                9 { '[ERRROR]Some files did copy, but copy errors occurred and the retry limit was exceeded. Check these errors further.' }
+                10 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
+                11 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
+                12 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
+                13 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
+                14 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
+                15 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
+                16 { '[ERRROR]Robocopy did not copy any files. Either a usage error or an error due to insufficient access privileges on the source or destination directories.' }
+                default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
+            }
 
-            [PSCustomObject][ordered]@{
+            $Output = [PSCustomObject]@{
                 'Source'              = $Source
                 'Destination'         = $Destination
                 'Command'             = 'Robocopy.exe ' + $RoboArgs -join " "
@@ -515,7 +536,11 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
                 'Speed'               = (Format-SpeedHumanReadable $TotalSpeedBytes -Unit $Unit) + '/s'
                 'ExitCode'            = $LASTEXITCODE
                 'Success'             = If ($RoboRun.ExitCode -lt 8) { $true } else { $false }
+                'LastExitCodeMessage' = $LastExitCodeMessage
             }
+
+            $Output.PSObject.TypeNames.Insert(0, 'RoboCopyView')
+            $Output
         }
     }
 }
