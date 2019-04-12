@@ -26,13 +26,15 @@ Function Start-RoboCopy {
 
         # Specifies the path to the source directory. Must be a folder.
         [Parameter( Mandatory = $True,
-            ValueFromPipelineByPropertyName)]
+            ValueFromPipelineByPropertyName,
+            ValueFromPipeline)]
         [Alias('Path')]
         [String]$Source,
 
         # Specifies the path to the destination directory. Must be a folder.
         [Parameter( Mandatory = $True,
-            ValueFromPipelineByPropertyName)]
+            ValueFromPipelineByPropertyName,
+            ValueFromPipeline)]
         [Alias('Target')]
         [String]$Destination,
 
@@ -56,7 +58,7 @@ Function Start-RoboCopy {
 
         # Copies only the top N levels of the source directory tree.
         [Parameter(Mandatory = $False)]
-        [Alias('lev')]
+        [Alias('lev', 'Depth')]
         [Int]$Level,
 
         # Copies files in Backup mode.
@@ -382,18 +384,15 @@ Function Start-RoboCopy {
 
             $StartTime = $(Get-Date)
 
-            # Testing PowerShell filter 
-            filter isRc { if ($PSitem -ne "") { $PSitem } }
-
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
-            Robocopy.exe $RoboArgs | isRc | ForEach-Object {
+            (Robocopy.exe $RoboArgs).Where({$PSItem -ne ""}).ForEach({
 
                 If ($PSitem -match 'ERROR \d \(0x\d{1,11}\)|ERROR : *') {
                     # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
-                    Write-Error $PSitem
+                    Write-Error $PSitem.Trim()
                 }
 
                 elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
@@ -434,7 +433,7 @@ Function Start-RoboCopy {
                     # Write-Verbose $PSitem
                     $PSitem
                 }
-            }
+            })
             #endregion
 
             $endtime = $(Get-Date) 
