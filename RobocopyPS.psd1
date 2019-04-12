@@ -33,7 +33,7 @@ Copyright = '(c) 2019 Simon Bergwall. All rights reserved.'
 Description = 'Wrapper for Robocopy'
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '5'
+PowerShellVersion = '5.1'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -63,7 +63,7 @@ PowerShellVersion = '5'
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = 'RobocopyPS.Format.ps1xml'
+# FormatsToProcess = 'RobocopyPS.Format.ps1xml'
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 # NestedModules = @()

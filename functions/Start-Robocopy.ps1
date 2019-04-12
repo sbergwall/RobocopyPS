@@ -7,7 +7,7 @@ Function Start-RoboCopy {
     .DESCRIPTION
     See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
 
-    Some parameters cannot be used.
+    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl 
 
     .NOTES
     Original script by Keith S. Garner (KeithGa@KeithGa.com) - 6/23/2014
@@ -20,9 +20,7 @@ Function Start-RoboCopy {
     https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
     #>
 
-
     [CmdletBinding(SupportsShouldProcess)]
-    [OutputType('RoboCopyPS')]
 
     Param (
 
@@ -289,7 +287,7 @@ Function Start-RoboCopy {
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto',
 
-        # 
+        # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
         [Alias('l')]
         [Switch]$List
     )
@@ -388,7 +386,7 @@ Function Start-RoboCopy {
             filter isRc { if ($_ -ne "") { $_ } }
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
-            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl" -split " "
+            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
             Robocopy.exe $RoboArgs | isRc | ForEach-Object {
@@ -398,17 +396,19 @@ Function Start-RoboCopy {
                     Write-Error $_
                 }
 
-                elseif ($_ -like "*$Source*") {
+                elseif ($_ -like "*$Source*" -or $PSitem -like "*$Destination*") {
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
 
                     If ($Line[0] -notmatch '[0-9]') {
                         # This should capture all output
-                        Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}".' -f $action, $line[3], $line[0].Trim(), $line[2].Trim())
+                        $Size,[datetime]$TimeStamp = $line[2].Trim().Split(" ",2) # Trimming and splitting on this line instead of in Write-Verbose for readability
+                        Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}". TimeStamp on Item "{4}"' -f $action, $line[3], $line[0].Trim(), $Size, $TimeStamp)
+                        
                     }
                     else {
                         Write-Verbose -Message $PSitem 
-                    }
+                    } # end else in ElseIf
                 }
 
                 elseif ($_ -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
@@ -425,12 +425,14 @@ Function Start-RoboCopy {
                         $EndedLineRegex { }
                         $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
                         $SpeedInMinutesRegex { }
-                    } # end Switch 
+                    } # Switch end in ElseIf
                 }
 
                 else {
                     # Output all lines we dont have rules for to verbose stream
-                    Write-Verbose $PSitem
+                    "Outside logic"
+                    # Write-Verbose $PSitem
+                    $PSitem
                 }
             }
             #endregion
@@ -460,28 +462,28 @@ Function Start-RoboCopy {
             }
 
             $Output = [PSCustomObject]@{
-                'Source'              = $Source
-                'Destination'         = $Destination
+                'Source'              = [System.IO.DirectoryInfo]$Source
+                'Destination'         = [System.IO.DirectoryInfo]$Destination
                 'Command'             = 'Robocopy.exe ' + $RoboArgs -join " "
-                'DirCount'            = $TotalDirs
-                'FileCount'           = $TotalFiles
+                'DirCount'            = [int]$TotalDirs
+                'FileCount'           = [int]$TotalFiles
                 #'Duration'     = $TotalDuration
-                'DirCopied'           = $TotalDirCopied
-                'FileCopied'          = $TotalFileCopied
+                'DirCopied'           = [int]$TotalDirCopied
+                'FileCopied'          = [int]$TotalFileCopied
                 #'CopyDuration' = $CopyDuration
-                'DirIgnored'          = $TotalDirIgnored
-                'FileIgnored'         = $TotalFileIgnored
-                'DirMismatched'       = $TotalDirMismatched
-                'FileMismatched'      = $TotalFileMismatched
-                'DirFailed'           = $TotalDirFailed
-                'FileFailed'          = $TotalFileFailed
+                'DirIgnored'          = [int]$TotalDirIgnored
+                'FileIgnored'         = [int]$TotalFileIgnored
+                'DirMismatched'       = [int]$TotalDirMismatched
+                'FileMismatched'      = [int]$TotalFileMismatched
+                'DirFailed'           = [int]$TotalDirFailed
+                'FileFailed'          = [int]$TotalFileFailed
                 #'FailedDuration'   = $FailedDuration
-                'DirExtra'            = $TotalDirExtra
-                'FileExtra'           = $TotalFileExtra
+                'DirExtra'            = [int]$TotalDirExtra
+                'FileExtra'           = [int]$TotalFileExtra
                 #'ExtraDuration'    = $ExtraDuration
                 'TotalTime'           = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
-                'StartedTime'         = $StartTime
-                'EndedTime'           = $endTime
+                'StartedTime'         = [datetime]$StartTime
+                'EndedTime'           = [datetime]$endTime
                 'TotalSize'           = (Format-SpeedHumanReadable $Totalbytes -Unit $Unit)
                 'TotalSizeCopied'     = (Format-SpeedHumanReadable $TotalBytesCopied -Unit $Unit)
                 'TotalSizeIgnored'    = (Format-SpeedHumanReadable $TotalBytesIgnored -Unit $Unit)
@@ -491,12 +493,10 @@ Function Start-RoboCopy {
                 'Speed'               = (Format-SpeedHumanReadable $TotalSpeedBytes -Unit $Unit) + '/s'
                 'ExitCode'            = $LASTEXITCODE
                 'Success'             = If ($RoboRun.ExitCode -lt 8) { $true } else { $false }
-                'LastExitCodeMessage' = $LastExitCodeMessage
+                'LastExitCodeMessage' = [string]$LastExitCodeMessage
             }
 
-            $Output.PSObject.TypeNames.Insert(0, 'RoboCopyPS')
-            Write-Output $Output
-            #$Output | % {$_.PSobject.TypeNames.Insert(0,'RoboCopyView') }
+            $Output
         }
     }
 }
