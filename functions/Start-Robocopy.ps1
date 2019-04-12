@@ -383,7 +383,7 @@ Function Start-RoboCopy {
             $StartTime = $(Get-Date)
 
             # Testing PowerShell filter 
-            filter isRc { if ($_ -ne "") { $_ } }
+            filter isRc { if ($PSitem -ne "") { $PSitem } }
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
@@ -391,12 +391,12 @@ Function Start-RoboCopy {
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
             Robocopy.exe $RoboArgs | isRc | ForEach-Object {
 
-                If ($_ -match 'ERROR \d \(0x\d{1,11}\)|ERROR : *') {
+                If ($PSitem -match 'ERROR \d \(0x\d{1,11}\)|ERROR : *') {
                     # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
-                    Write-Error $_
+                    Write-Error $PSitem
                 }
 
-                elseif ($_ -like "*$Source*" -or $PSitem -like "*$Destination*") {
+                elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
 
@@ -411,19 +411,19 @@ Function Start-RoboCopy {
                     } # end else in ElseIf
                 }
 
-                elseif ($_ -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
+                elseif ($PSitem -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
 
                     # Catch all the summary lines and transform it if no error was found and the passed text didnt contain text from the source.
                     # Some we will just assign to variables and dont use or dont do anything with
-                    Switch -Regex ($_) {
+                    Switch -Regex ($PSitem) {
                         $JobSummaryEndLine { }
                         $HeaderRegex { }
-                        $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                        $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                        $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
-                        $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                        $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                        $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                        $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $EndedLineRegex { }
-                        $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object { $_.Value } }
+                        $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $SpeedInMinutesRegex { }
                     } # Switch end in ElseIf
                 }
