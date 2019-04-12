@@ -12,7 +12,7 @@
 RootModule = 'RobocopyPS.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1'
+ModuleVersion = '0.0.1'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -33,7 +33,7 @@ Copyright = '(c) 2019 Simon Bergwall. All rights reserved.'
 Description = 'Wrapper for Robocopy'
 
 # Minimum version of the Windows PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5'
 
 # Name of the Windows PowerShell host required by this module
 # PowerShellHostName = ''
@@ -63,7 +63,7 @@ Description = 'Wrapper for Robocopy'
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = @('RobocopyPS.Format.ps1xml')
+FormatsToProcess = 'RobocopyPS.Format.ps1xml'
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 # NestedModules = @()

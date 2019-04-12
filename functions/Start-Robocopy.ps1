@@ -7,131 +7,8 @@ Start Robocopy with PowerShell
 .DESCRIPTION
 See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
 
-Some Jobs parameters cannot be used.
+Some parameters cannot be used.
 
-.PARAMETER Source
-Specifies the path to the source directory. Must be a folder.
-.PARAMETER Destination
-Specifies the path to the destination directory. Must be a folder.
-.PARAMETER Files
-Specifies the file or files to be copied. You can use wildcard characters (* or ?), if you want. If the File parameter is not specified, *.* is used as the default value.
-.PARAMETER LogFile
-Writes the status output to the log file (overwrites the existing log file).
-.PARAMETER IncludeSubDirectories
-Copies subdirectories. Note that this option excludes empty directories.
-.PARAMETER IncludeEmptySubDirectories
-Copies subdirectories. Note that this option includes empty directories.
-.PARAMETER Level
-Copies only the top N levels of the source directory tree.
-.PARAMETER BackupMode
-Copies files in restartable mode.
-.PARAMETER RestartMode
-Copies files in Backup mode.
-.PARAMETER EFSRaw
-Copies all encrypted files in EFS RAW mode.
-.PARAMETER CopyFlags
-Specifies the file properties to be copied. The default value for CopyFlags is DAT (data, attributes, and time stamps).
-D Data
-A Attributes
-T Time stamps
-S NTFS access control list (ACL)
-O Owner information
-U Auditing information
-.PARAMETER NoCopy
-Copies no file information.
-.PARAMETER SecurityFix
-Fixes file security on all files, even skipped ones.
-.PARAMETER Timefix
-Fixes file times on all files, even skipped ones.
-.PARAMETER Purge
-Deletes destination files and directories that no longer exist in the source.
-.PARAMETER Mirror
-Mirrors a directory tree
-.PARAMETER MoveFiles
-Moves files, recursively, and deletes them from the source after they are copied. Folders will still be in source directory.
-.PARAMETER MoveFilesAndDirectories
-Moves files and directories, and deletes them from the source after they are copied.
-.PARAMETER AddAttribute
-Adds the specified attributes to copied files.
-.PARAMETER RemoveAttribute
-Removes the specified attributes from copied files.
-.PARAMETER Create
-Creates a directory tree and zero-length files only.
-.PARAMETER fat
-Creates destination files by using 8.3 character-length FAT file names only.
-.PARAMETER IgnoreLongPath
-Turns off support for very long paths.
-.PARAMETER MonitorChanges
-Monitors the source, and runs again when more than N changes are detected.
-.PARAMETER MonitorMinutes
-Monitors source, and runs again in M minutes if changes are detected.
-.PARAMETER Threads
-Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
-.PARAMETER RunTimes
-Specifies run times when new copies may be started.
-.PARAMETER UsePerFileRunTimes
-Checks run times on a per-file (not per-pass) basis.
-.PARAMETER InterPacketGap
-Specifies the inter-packet gap to free bandwidth on slow lines.
-.PARAMETER SymbolicLink
-Follows the symbolic link and copies the target.
-.PARAMETER Archive
-Copies only files for which the Archive attribute is set.
-.PARAMETER ResetArchiveAttribute
-Copies only files for which the Archive attribute is set, and resets the Archive attribute.
-.PARAMETER IncludeAttribute
-Includes only files for which any of the specified attributes are set.
-.PARAMETER ExcludeAttribute
-Excludes files for which any of the specified attributes are set.
-.PARAMETER ExcludeFileName
-Excludes files that match the specified names or paths. Note that FileName can include wildcard characters (* and ?).
-.PARAMETER ExcludeDirectory
-Excludes directories that match the specified names and paths.
-.PARAMETER ExcludeChangedFiles
-Excludes changed files.
-.PARAMETER ExcludeNewerFiles
-Excludes newer files.
-.PARAMETER ExcludeOlderFiles
-Excludes older files.
-.PARAMETER ExcludeExtraFiles
-Excludes extra files and directories.
-.PARAMETER ExcludeLonelyFiles
-Excludes "lonely" files and directories.
-.PARAMETER IncludeSameFiles
-Includes the same files.
-.PARAMETER IncludeTweakedFiles
-Includes "tweaked" files.
-.PARAMETER MaximumFileSize
-Specifies the maximum file size (to exclude files bigger than N bytes).
-.PARAMETER MinimumFileSize
-Specifies the minimum file size (to exclude files smaller than N bytes).
-.PARAMETER MaximumFileAge
-Specifies the maximum file age (to exclude files older than N days or date).
-.PARAMETER MinimumFileAge
-Specifies the minimum file age (exclude files newer than N days or date).
-.PARAMETER MaximumFileLastAccessDate
-Specifies the maximum last access date (excludes files unused since N).
-.PARAMETER MinimumFileLastAccessDate
-Specifies the minimum last access date (excludes files used since N) If N is less than 1900, N specifies the number of days. Otherwise, N specifies a date in the format YYYYMMDD.
-.PARAMETER ExcludeJunctionPoints
-Excludes junction points, which are normally included by default.
-.PARAMETER ExcludeFileJunctionPoints
-Excludes junction points for files.
-.PARAMETER ExcludeDirectoryJunctionPoints
-Excludes junction points for directories.
-.PARAMETER AssumeFATFileTime
-Assumes FAT file times (two-second precision).
-.PARAMETER CompensateDST
-Compensates for one-hour DST time differences.
-.PARAMETER Retry
-Specifies the number of retries on failed copies. The default value of N is 0.
-.PARAMETER Wait
-Specifies the wait time between retries, in seconds. The default value of N is 0.
-.PARAMETER SaveRetrySettings
-Saves the values specified in the /r and /w options as default settings in the registry.
-.PARAMETER WaitForShareName
-Specifies that the system will wait for share names to be defined (retry error 67).
-    
 .NOTES
 Original script by Keith S. Garner (KeithGa@KeithGa.com) - 6/23/2014
 Originally posted on https://keithga.wordpress.com/2014/06/23/copy-itemwithprogress
@@ -147,212 +24,272 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
     [CmdletBinding(SupportsShouldProcess)]
 
     Param (
+
+        # Specifies the path to the source directory. Must be a folder.
         [Parameter( Mandatory = $True,
-            ValueFromPipelineByPropertyName,
-            HelpMessage = 'Specifies the path to the source directory. Must be a folder.')]
+            ValueFromPipelineByPropertyName)]
         [Alias('Path')]
         [String]$Source,
 
+        # Specifies the path to the destination directory. Must be a folder.
         [Parameter( Mandatory = $True,
-            ValueFromPipelineByPropertyName,
-            HelpMessage = 'Specifies the path to the destination directory. Must be a folder.')]
+            ValueFromPipelineByPropertyName)]
         [Alias('Target')]
         [String]$Destination,
 
+        # Specifies the file or files to be copied. You can use wildcard characters (* or ?), if you want. If the File parameter is not specified, *.* is used as the default value.
         [Parameter(Mandatory = $False)]
         [String[]] $Files = '*.*',
 
+        # Writes the status output to the log file (overwrites the existing log file).
         [Parameter(Mandatory = $False)]
         [String]$LogFile,
 
+        # Copies subdirectories. Note that this option excludes empty directories.
         [Parameter(ParameterSetName = 'IncludeSubDirectories')]
         [Alias('s')]
         [switch]$IncludeSubDirectories,
 
+        # Copies subdirectories. Note that this option includes empty directories.
         [Parameter(ParameterSetName = 'IncludeEmptySubDirectories')]
         [Alias('e', 'Recurse')]
         [switch]$IncludeEmptySubDirectories,
 
+        # Copies only the top N levels of the source directory tree.
         [Parameter(Mandatory = $False)]
         [Alias('lev')]
         [Int]$Level,
 
+        # Copies files in Backup mode.
         [Alias('b')]
         [switch]$BackupMode,
 
+        # Copies files in restartable mode.
         [Alias('z')]
         [switch]$RestartMode,
 
+        # Copies all encrypted files in EFS RAW mode.
         [switch]$EFSRaw,
 
+        # Specifies the file properties to be copied. The default value for CopyFlags is DAT (data, attributes, and time stamps). D = Data. A = Attributes. T = Time stamps.S = NTFS access control list (ACL). O =Owner information. U = Auditing information
         [Parameter(Mandatory = $False)]
         [Alias('copy')]
         [ValidateSet('D', 'A', 'T', 'S', 'O', 'U')]
         [String[]]$CopyFlags,
 
+        # Copies no file information.
         [switch]$NoCopy,
 
+        # Fixes file security on all files, even skipped ones.
         [Alias('secfix')]
         [switch]$SecurityFix,
 
+        # Fixes file times on all files, even skipped ones.
         [Alias('timfix')]
         [switch]$Timefix,
 
+        # Deletes destination files and directories that no longer exist in the source.
         [switch]$Purge,
 
+        # Mirrors a directory tree
         [Parameter(ParameterSetName = 'Mirror')]
         [Alias('mir', 'Sync')]
         [switch]$Mirror,
 
+        # Moves files, recursively, and deletes them from the source after they are copied. Folders will still be in source directory.
         [Parameter(ParameterSetName = 'MoveFiles')]
         [Alias('mov')]
         [switch]$MoveFiles,
 
+        # Moves files and directories, and deletes them from the source after they are copied.
         [Parameter(ParameterSetName = 'MoveFilesAndDirectories')]
         [Alias('move')]
         [switch]$MoveFilesAndDirectories,
 
+        # Adds the specified attributes to copied files.
         [Parameter(Mandatory = $False)]
         [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T')]
         [String[]]$AddAttribute,
 
+        # Removes the specified attributes from copied files.
         [Parameter(Mandatory = $False)]
         [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T')]
         [String[]]$RemoveAttribute,
 
+        # Creates a directory tree and zero-length files only.
         [switch]$Create,
 
+        # Creates destination files by using 8.3 character-length FAT file names only.
         [switch]$FAT,
 
+        # Turns off support for very long paths.
         [Alias('256')]
         [switch]$IgnoreLongPath,
 
+        # Monitors the source, and runs again when more than N changes are detected.
         [Parameter(Mandatory = $False)]
         [Alias('mon')]
         [Int]$MonitorChanges,
 
+        # Monitors source, and runs again in M minutes if changes are detected.
         [Parameter(Mandatory = $False)]
         [Alias('mot')]
         [Int]$MonitorMinutes,
 
+        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
         [Parameter(Mandatory = $False)]
         [Alias('MT')]
         [Int]$Threads,
 
+        # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
         [Alias('rh')]
         [ValidatePattern("[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}-[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}")]
         [String]$RunTimes,
 
+        # Checks run times on a per-file (not per-pass) basis.
         [Alias('pf')]
         [switch]$UsePerFileRunTimes,
 
+        # Specifies the inter-packet gap to free bandwidth on slow lines.
         [Parameter(Mandatory = $False)]
         [Alias('ipg')]
         [Int]$InterPacketGap,
 
+        # Follows the symbolic link and copies the target.
         [Alias('sl')]
         [switch]$SymbolicLink,
 
+        # Copies only files for which the Archive attribute is set.
         [Alias('a')]
         [switch]$Archive,
 
+        # Copies only files for which the Archive attribute is set, and resets the Archive attribute.
         [Alias('m')]
         [switch]$ResetArchiveAttribute,
 
+        # Includes only files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
         [Alias('ia')]
         [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T', 'O')]
         [String[]]$IncludeAttribute,
 
+        # Excludes files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
         [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T', 'O')]
         [Alias('xa')]
         [String[]]$ExcludeAttribute,
 
+        # Excludes files that match the specified names or paths. Note that FileName can include wildcard characters (* and ?).
         [Parameter(Mandatory = $False)]
         [Alias('xf')]
         [String[]]$ExcludeFileName,
 
+        # Excludes directories that match the specified names and paths.
         [Parameter(Mandatory = $False)]
         [Alias('xd')]
         [String[]]$ExcludeDirectory,
 
+        # Excludes changed files.
         [Alias('xct')]
         [switch]$ExcludeChangedFiles,
 
+        # Excludes newer files.
         [Alias('xn')]
         [switch]$ExcludeNewerFiles,
 
+        # Excludes older files.
         [Alias('xo')]
         [switch]$ExcludeOlderFiles,
 
+        # Excludes extra files and directories.
         [Alias('xx')]
         [switch]$ExcludeExtraFiles,
 
+        # Excludes "lonely" files and directories.
         [Alias('xl')]
         [switch]$ExcludeLonelyFiles,
 
+        # Includes the same files.
         [Alias('is')]
         [switch]$IncludeSameFiles,
 
+        # Includes "tweaked" files.
         [Alias('it')]
         [switch]$IncludeTweakedFiles,
 
+        # Specifies the maximum file size (to exclude files bigger than N bytes).
         [Parameter(Mandatory = $False)]
         [Alias('max')]
         [String]$MaximumFileSize,
 
+        # Specifies the minimum file size (to exclude files smaller than N bytes).
         [Parameter(Mandatory = $False)]
         [Alias('min')]
         [String]$MinimumFileSize,
 
+        # Specifies the maximum file age (to exclude files older than N days or date).
         [Parameter(Mandatory = $False)]
         [Alias('maxage')]
         [String]$MaximumFileAge,
 
+        # Specifies the minimum file age (exclude files newer than N days or date).
         [Parameter(Mandatory = $False)]
         [Alias('minage')]
         [String]$MinimumFileAge,
 
+        # Specifies the maximum last access date (excludes files unused since N).
         [Parameter(Mandatory = $False)]
         [Alias('maxlad')]
         [String]$MaximumFileLastAccessDate,
 
+        # Specifies the minimum last access date (excludes files used since N) If N is less than 1900, N specifies the number of days. Otherwise, N specifies a date in the format YYYYMMDD.
         [Parameter(Mandatory = $False)]
         [Alias('minlad')]
         [String]$MinimumFileLastAccessDate,
 
+        # Excludes junction points, which are normally included by default.
         [Alias('xj')]
         [switch]$ExcludeJunctionPoints,
 
+        # Excludes junction points for files.
         [Alias('xjf')]
         [switch]$ExcludeFileJunctionPoints,
 
+        # Excludes junction points for directories.
         [Alias('xjd')]
         [switch]$ExcludeDirectoryJunctionPoints,
 
+        # Assumes FAT file times (two-second precision).
         [Alias('fft')]
         [switch]$AssumeFATFileTime,
 
+        # Compensates for one-hour DST time differences.
         [Alias('dst')]
         [switch]$CompensateDST,
 
+        # Specifies the number of retries on failed copies. Default is 3. 
         [Alias('r')]
         [int]$Retry = 3,
 
+        # Specifies the wait time between retries, in seconds. The default value of N is 3.
         [Alias('w')]
         [int]$Wait = 3,
 
+        # Saves the values specified in the /r and /w options as default settings in the registry.
         [Alias('reg')]
         [switch]$SaveRetrySettings,
 
+        # Specifies that the system will wait for share names to be defined (retry error 67).
         [Alias('tbd')]
         [switch]$WaitForShareName,
 
+        # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto'
     )
+
+    Begin { }
 
     Process {
         # Remove trailing backslash because Robocopy can sometimes error out when spaces are in path names
@@ -372,6 +309,7 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
         if ($IncludeSubDirectories) { $RobocopyArguments += '/s'; $action = 'Copy' }
         if ($IncludeEmptySubDirectories) { $RobocopyArguments += '/e'; $action = 'Copy' }
+        If ($LogFile) { $RobocopyArguments += '/log:' + $LogFile }
         if ($Level) { $RobocopyArguments += '/lev:' + $Level }
         if ($BackupMode) { $RobocopyArguments += '/b' }
         if ($RestartMode) { $RobocopyArguments += '/z' }
@@ -440,21 +378,28 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
 
             # Testing PowerShell filter 
             filter isRc { if ($_ -ne "") { $_ } }
-            #$RoboArgs = " /bytes /mir /tee /np /ns /njh /nc /fp" -split " " # Space before /bytes so output object look correct
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
-            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /ns /njh /nc /fp" -split " "
+            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl" -split " "
 
+            #region All Logic for the robocopy process is handled here. Including what to do with the output 
             Robocopy.exe $RoboArgs | isRc | ForEach-Object {
 
                 If ($_ -match 'ERROR \d \(0x\d{1,11}\)') {
-                    # First rule is if we catch an error we will write a warning with the path and error text from Robocopy
-                    Write-Warning $_
+                    # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
+                    Write-Error $_
                 }
 
                 elseif ($_ -like "*$Source*") {
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
-                    Write-Verbose -Message ("Processing {1}" -f $PSitem.Trim().Split("`t"))
+                    $Line = $PSitem.Trim().Split("`t")
+
+                    If ($Line[0] -notmatch '[0-9]') {
+                        # This should capture all output
+                        Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}".' -f $action,$line[3],$line[0].Trim(),$line[2].Trim())
+                    } else {
+                        Write-Verbose -Message $PSitem 
+                    }
                 }
 
                 elseif ($_ -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
@@ -479,6 +424,7 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
                     Write-Verbose $PSitem
                 }
             }
+            #endregion
 
             $endtime = $(Get-Date) 
     
@@ -540,7 +486,7 @@ https://github.com/Ninjigen/PowerShell/tree/master/Robocopy
             }
 
             $Output.PSObject.TypeNames.Insert(0, 'RoboCopyView')
-            $Output
+            Write-Output $Output
         }
     }
 }
