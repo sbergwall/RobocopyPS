@@ -391,7 +391,7 @@ Function Start-RoboCopy {
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
             Robocopy.exe $RoboArgs | isRc | ForEach-Object {
 
-                If ($_ -match 'ERROR \d \(0x\d{1,11}\)') {
+                If ($_ -match 'ERROR \d \(0x\d{1,11}\)|ERROR : *') {
                     # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
                     Write-Error $_
                 }
