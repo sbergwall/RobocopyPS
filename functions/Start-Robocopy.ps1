@@ -6,8 +6,39 @@ Function Start-RoboCopy {
 
     .DESCRIPTION
     See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
+    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts
 
-    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl 
+    .EXAMPLE
+    PS > Start-RoboCopy -Source C:\temp\ -Destination C:\temp2\ -Mirror
+
+    Source              : C:\temp\
+    Destination         : C:\temp2\
+    Command             : Robocopy.exe "C:\temp" "C:\temp2" *.* /r:3 /w:3 /mir /bytes /TEE /np /njh /fp /v /ndl /ts
+    DirCount            : 11
+    FileCount           : 34
+    DirCopied           : 1
+    FileCopied          : 6
+    DirIgnored          : 10
+    FileIgnored         : 28
+    DirMismatched       : 0
+    FileMismatched      : 0
+    DirFailed           : 0
+    FileFailed          : 0
+    DirExtra            : 0
+    FileExtra           : 1
+    TotalTime           : 00:00:00
+    StartedTime         : 2019-04-13 18:14:20
+    EndedTime           : 2019-04-13 18:14:20
+    TotalSize           : 1,4 MB
+    TotalSizeCopied     : 1,2 MB
+    TotalSizeIgnored    : 155 KB
+    TotalSizeMismatched : 0 B
+    TotalSizeFailed     : 0 B
+    TotalSizeExtra      : 9 KB
+    Speed               : 72,5 MB/s
+    ExitCode            : 3
+    Success             : True
+    LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
 
     .NOTES
     Original script by Keith S. Garner (KeithGa@KeithGa.com) - 6/23/2014
