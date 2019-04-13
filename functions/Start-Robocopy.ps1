@@ -399,32 +399,35 @@ Function Start-RoboCopy {
                 "The semaphore timeout period has expired.",
                 "Scanning Source Directory:  An internal error occurred." ) -join '|'
 
+            # Regex filter to capture text about Retry or Waiting information
+            $RetryWaitFilter = @(
+                "Waiting $Wait seconds... Retrying...",
+                "ERROR: RETRY LIMIT EXCEEDED."
+            ) -join '|'
+
             $StartTime = $(Get-Date)
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
-            (Robocopy.exe $RoboArgs).Where({$PSItem -ne ""}).ForEach({
+            Robocopy.exe $RoboArgs | Where-Object {$PSItem -ne ""} | ForEach-Object {
 
                 # If statement is for catching error messages
                 If ($PSitem -match $ErrorFilter) {
-                    #$IsLastMessage = $false
-                    # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
 
+                    # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
                     If (!($IsLastMessage)) {
                         $ErrorMessage = [regex]::Split($PSitem,'ERROR \d \(0x\d{1,11}\)')[-1].trim()
                         $IsLastMessage = $true
                     } else {
                         $IsLastMessage = $false 
-                        #Write-Error -Exception $ErrorMessage -Message $PSitem.trim()
                         Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim()) 
-                        #$ErrorMessage 
                         $ErrorMessage = $null
                     }
                 }
 
-                # elseif catch all lines with information about 
+                # elseif catch all lines with information about copy/move/mir action
                 elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
@@ -440,9 +443,13 @@ Function Start-RoboCopy {
                     } # end else in ElseIf
                 }
 
+                elseif ($PSitem -match $RetryWaitFilter) {
+                    Write-Warning -Message $PSitem
+                }
+
+                # elseif capture the job summary 
                 elseif ($PSitem -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
 
-                    # Catch all the summary lines and transform it if no error was found and the passed text didnt contain text from the source.
                     # Some we will just assign to variables and dont use or dont do anything with
                     Switch -Regex ($PSitem) {
                         $JobSummaryEndLine { }
@@ -454,16 +461,15 @@ Function Start-RoboCopy {
                         $EndedLineRegex { }
                         $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $SpeedInMinutesRegex { }
-                    } # Switch end in ElseIf
+                    }
                 }
 
+                # catch everything we dont have any rules for
                 else {
-                    # Output all lines we dont have rules for to verbose stream
                     "Outside logic"
-                    # Write-Verbose $PSitem
                     $PSitem
                 }
-            })
+            }
             #endregion
 
             $endtime = $(Get-Date) 
