@@ -371,7 +371,7 @@ Function Start-RoboCopy {
         # Reason why ShouldProcess is this far down is because $action is not set before this part 
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
 
-            # Regex filter used for finding strings we want to handle in Robocopy output
+            # Regex filter used for finding strings we want to handle in Robocopy output. This is also used when we find specific strings in the output
             [regex] $HeaderRegex = '\s+Total\s*Copied\s+Skipped\s+Mismatch\s+FAILED\s+Extras'
             [regex] $DirLineRegex = 'Dirs\s*:\s*(?<DirCount>\d+)(?:\s+\d+){3}\s+(?<DirFailed>\d+)\s+\d+'
             [regex] $FileLineRegex = 'Files\s*:\s*(?<FileCount>\d+)(?:\s+\d+){3}\s+(?<FileFailed>\d+)\s+\d+'
@@ -382,6 +382,23 @@ Function Start-RoboCopy {
             [regex] $JobSummaryEndLineRegex = '[-]{78}'
             [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
 
+            # Regex filter for catching errors 
+            $ErrorFilter = @(
+                "ERROR \d \(0x\d{1,11}\)",
+                "ERROR : *",
+                "The system cannot find the file specified.",
+                "The system cannot find the path specified.",
+                "Access is denied.",
+                "The handle is invalid.",
+                "The process cannot access the file because it is being used by another process.",
+                "Scanning Destination Directory: Windows cannot find the network path. Verify that the network path is correct and the destination computer is not busy or turned off. If Windows still cannot find the network path, contact your network administrator.",
+                "The network path was not found.",
+                "Copying NTFS Security to Destination File:  The specified server cannot perform the requested operation",
+                "The specified network name is no longer available.",
+                "There is not enough space on the disk.",
+                "The semaphore timeout period has expired.",
+                "Scanning Source Directory:  An internal error occurred." ) -join '|'
+
             $StartTime = $(Get-Date)
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
@@ -390,11 +407,24 @@ Function Start-RoboCopy {
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
             (Robocopy.exe $RoboArgs).Where({$PSItem -ne ""}).ForEach({
 
-                If ($PSitem -match 'ERROR \d \(0x\d{1,11}\)|ERROR : *') {
+                # If statement is for catching error messages
+                If ($PSitem -match $ErrorFilter) {
+                    #$IsLastMessage = $false
                     # First rule is if we catch an error we will write to the error stream inc the path and error text from Robocopy
-                    Write-Error $PSitem.Trim()
+
+                    If (!($IsLastMessage)) {
+                        $ErrorMessage = [regex]::Split($PSitem,'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                        $IsLastMessage = $true
+                    } else {
+                        $IsLastMessage = $false 
+                        #Write-Error -Exception $ErrorMessage -Message $PSitem.trim()
+                        Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim()) 
+                        #$ErrorMessage 
+                        $ErrorMessage = $null
+                    }
                 }
 
+                # elseif catch all lines with information about 
                 elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
@@ -491,7 +521,7 @@ Function Start-RoboCopy {
                 'TotalSizeExtra'      = (Format-SpeedHumanReadable $TotalBytesExtra -Unit $Unit)
                 'Speed'               = (Format-SpeedHumanReadable $TotalSpeedBytes -Unit $Unit) + '/s'
                 'ExitCode'            = $LASTEXITCODE
-                'Success'             = If ($RoboRun.ExitCode -lt 8) { $true } else { $false }
+                'Success'             = If ($LASTEXITCODE -lt 8) { $true } else { $false }
                 'LastExitCodeMessage' = [string]$LastExitCodeMessage
             }
 
