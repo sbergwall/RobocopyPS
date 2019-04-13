@@ -1,6 +1,6 @@
 # RobocopyPS
 
-![Build Status](https://build.status.url.here)
+![Build Status](https://ci.appveyor.com/api/projects/status/2hpug3ow4yv1810a?svg=true)](https://ci.appveyor.com/project/WalleSx/robocopyps)
 
 ## Description
 
