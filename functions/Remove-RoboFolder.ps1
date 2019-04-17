@@ -6,9 +6,10 @@
    Removes the temp folder when done
 .EXAMPLE
    Remove-RoboFolder -Path "C:\temp"
-.NOTES
-   General notes
+.EXAMPLE
+   Get-Item G:\Temp | Remove-RoboFolder -WhatIf
 #>
+
 function Remove-RoboFolder {
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
@@ -25,26 +26,27 @@ function Remove-RoboFolder {
         $Path
     )
 
-    Begin {
-        Write-Verbose "Creating temporary folder"
-        $TempDirectory = New-Item -Name ([System.Guid]::NewGuid()) -Path $env:TEMP -ItemType Directory -Force -ErrorAction Stop
-    
-    }
+    Begin {}
+
     Process {
-        if ($pscmdlet.ShouldProcess('Target', 'Operation')) {
+        if ($pscmdlet.ShouldProcess("$Path", 'Remove')) {
             try {
+                Write-Verbose "Creating temporary folder"
+                $TempDirectory = New-Item -Name ([System.Guid]::NewGuid()) -Path $env:TEMP -ItemType Directory -Force -ErrorAction Stop
+
                 Write-Verbose "Invoke Start-Robocopy"
                 Start-Robocopy -Source $TempDirectory -Destination $Path -Mirror
                 Remove-Item $Path -Force   
-            
+
+                Write-Verbose "Remove Temporary Folder"
+                Remove-Item $TempDirectory
+        
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)
             }
         }
     }
-    End {
-        Write-Verbose "Remove Temporary Folder"
-        Remove-Item $TempDirectory
-    }
+
+    End {}
 }
