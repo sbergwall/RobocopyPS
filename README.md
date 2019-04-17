@@ -6,8 +6,6 @@
 
 Wrapper for Robocopy
 
-Authored by Simon Bergwall
-
 ## Installing
 
 The easiest way to get RobocopyPS is using the [PowerShell Gallery](https://powershellgallery.com/packages/RobocopyPS/)!
