@@ -22,25 +22,45 @@ function Remove-RoboFolder {
             Position = 0)]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [Alias('Target', 'Destination')]
-        $Path
+        [Alias('Destination', 'Path')]
+        $Target,
+
+        [switch]
+        $BackupMode
     )
 
     Begin {}
 
     Process {
-        if ($pscmdlet.ShouldProcess("$Path", 'Remove')) {
+        if ($pscmdlet.ShouldProcess("$Target", 'Remove')) {
             try {
                 Write-Verbose "Creating temporary folder"
-                $TempDirectory = New-Item -Name ([System.Guid]::NewGuid()) -Path $env:TEMP -ItemType Directory -Force -ErrorAction Stop
+                $TempDirectory = New-Item -Name ([System.Guid]::NewGuid()) -Path $env:TEMP -ItemType Directory -ErrorAction Stop
 
+                $PSBoundParameters.Add("Source", "$TempDirectory")
+                $PSBoundParameters.Add("Mirror", $true)
+                
                 Write-Verbose "Invoke Start-Robocopy"
-                Start-Robocopy -Source $TempDirectory -Destination $Path -Mirror
-                Remove-Item $Path -Force   
+                $Output = Start-Robocopy @PSBoundParameters
+                Remove-Item $Target -Force   
 
-                Write-Verbose "Remove Temporary Folder"
-                Remove-Item $TempDirectory
-        
+                $Result = [PSCustomObject]@{
+                    Command     = $Output.Command
+                    TotalDir    = $Output.DirExtra
+                    TotalFile   = $Output.FileExtra
+                    TotalSize   = $Output.TotalSizeExtra
+                    TotalTime   = $Output.TotalTime
+                    StartedTime = $Output.StartedTime
+                    EndedTime   = $Output.EndedTime
+                }
+
+                If (Test-Path $TempDirectory) {
+                    Write-Verbose "Remove Temporary Folder"
+                    Remove-Item $TempDirectory
+                }
+                
+                $Result
+
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)
