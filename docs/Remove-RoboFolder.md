@@ -13,7 +13,7 @@ Remove folder with help of Robocopy
 ## SYNTAX
 
 ```
-Remove-RoboFolder [-Path] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-RoboFolder [-Target] <Object> [-BackupMode] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,18 +29,33 @@ Remove-RoboFolder -Path "C:\temp"
 
 ## PARAMETERS
 
-### -Path
+### -Target
 Param1 help description
 
 ```yaml
 Type: Object
 Parameter Sets: (All)
-Aliases: Target, Destination
+Aliases: Destination, Path
 
 Required: True
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -BackupMode
+{{ Fill BackupMode Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

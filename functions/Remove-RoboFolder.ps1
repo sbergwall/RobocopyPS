@@ -41,25 +41,23 @@ function Remove-RoboFolder {
                 $PSBoundParameters.Add("Mirror", $true)
                 
                 Write-Verbose "Invoke Start-Robocopy"
-                $Output = Start-Robocopy @PSBoundParameters
+                $Result = Start-Robocopy @PSBoundParameters
                 Remove-Item $Target -Force   
-
-                $Result = [PSCustomObject]@{
-                    Command     = $Output.Command
-                    TotalDir    = $Output.DirExtra
-                    TotalFile   = $Output.FileExtra
-                    TotalSize   = $Output.TotalSizeExtra
-                    TotalTime   = $Output.TotalTime
-                    StartedTime = $Output.StartedTime
-                    EndedTime   = $Output.EndedTime
-                }
 
                 If (Test-Path $TempDirectory) {
                     Write-Verbose "Remove Temporary Folder"
                     Remove-Item $TempDirectory
                 }
-                
-                $Result
+
+                [PSCustomObject]@{
+                    Command     = $Result.Command
+                    TotalDir    = $Result.DirExtra
+                    TotalFile   = $Result.FileExtra
+                    TotalSize   = $Result.TotalSizeExtra
+                    TotalTime   = $Result.TotalTime
+                    StartedTime = $Result.StartedTime
+                    EndedTime   = $Result.EndedTime
+                }
 
             }
             catch {
