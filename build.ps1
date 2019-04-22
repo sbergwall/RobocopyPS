@@ -6,7 +6,8 @@ $Script:Modules = @(
     'InvokeBuild',
     'Pester',
     'platyPS',
-    'PSScriptAnalyzer'
+    'PSScriptAnalyzer',
+    'BuildHelpers'
 )
 
 $Script:ModuleInstallScope = 'CurrentUser'
@@ -17,3 +18,6 @@ $Script:ModuleInstallScope = 'CurrentUser'
 Get-PackageProvider -Name 'NuGet' -ForceBootstrap | Out-Null
 
 Install-Module -Name $Script:Modules -Scope $Script:ModuleInstallScope -Force
+
+Set-BuildEnvironment
+Get-ChildItem Env:BH*

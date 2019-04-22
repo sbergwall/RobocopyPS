@@ -29,21 +29,6 @@ Remove-RoboFolder -Path "C:\temp"
 
 ## PARAMETERS
 
-### -Target
-Param1 help description
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases: Destination, Path
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName, ByValue)
-Accept wildcard characters: False
-```
-
 ### -BackupMode
 {{ Fill BackupMode Description }}
 
@@ -59,14 +44,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: wi
+Aliases: cf
 
 Required: False
 Position: Named
@@ -75,13 +59,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -Target
+Param1 help description
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases: Destination, Path
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByPropertyName, ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: cf
+Aliases: wi
 
 Required: False
 Position: Named

@@ -300,7 +300,7 @@ Function Start-RoboCopy {
         [Alias('dst')]
         [switch]$CompensateDST,
 
-        # Specifies the number of retries on failed copies. Default is 3. 
+        # Specifies the number of retries on failed copies. Default is 3.
         [Alias('r')]
         [int]$Retry = 3,
 
@@ -399,7 +399,7 @@ Function Start-RoboCopy {
         if ($WaitForShareName) { $RobocopyArguments += '/tbd' }
         If ($List) { $RobocopyArguments += '/l' ; $action = 'List' }
 
-        # Reason why ShouldProcess is this far down is because $action is not set before this part 
+        # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
 
             # Regex filter used for finding strings we want to handle in Robocopy output. This is also used when we find specific strings in the output
@@ -413,7 +413,7 @@ Function Start-RoboCopy {
             [regex] $JobSummaryEndLineRegex = '[-]{78}'
             [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
 
-            # Regex filter for catching errors 
+            # Regex filter for catching errors
             $ErrorFilter = @(
                 "ERROR \d \(0x\d{1,11}\)",
                 "ERROR : *",
@@ -441,7 +441,7 @@ Function Start-RoboCopy {
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
-            #region All Logic for the robocopy process is handled here. Including what to do with the output etc. 
+            #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
             Robocopy.exe $RoboArgs | Where-Object {$PSItem -ne ""} | ForEach-Object {
 
                 # If statement is for catching error messages
@@ -452,8 +452,8 @@ Function Start-RoboCopy {
                         $ErrorMessage = [regex]::Split($PSitem,'ERROR \d \(0x\d{1,11}\)')[-1].trim()
                         $IsLastMessage = $true
                     } else {
-                        $IsLastMessage = $false 
-                        Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim()) 
+                        $IsLastMessage = $false
+                        Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
                         $ErrorMessage = $null
                     }
                 }
@@ -467,10 +467,10 @@ Function Start-RoboCopy {
                         # This should capture all output
                         $Size,[datetime]$TimeStamp = $line[2].Trim().Split(" ",2) # Trimming and splitting on this line instead of in Write-Verbose for readability
                         Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}". TimeStamp on Item "{4}"' -f $action, $line[3], $line[0].Trim(), $Size, $TimeStamp)
-                        
+
                     }
                     else {
-                        Write-Verbose -Message $PSitem 
+                        Write-Verbose -Message $PSitem
                     } # end else in ElseIf
                 }
 
@@ -478,7 +478,7 @@ Function Start-RoboCopy {
                     Write-Warning -Message $PSitem
                 }
 
-                # elseif capture the job summary 
+                # elseif capture the job summary
                 elseif ($PSitem -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
 
                     # Some we will just assign to variables and dont use or dont do anything with
@@ -503,8 +503,8 @@ Function Start-RoboCopy {
             }
             #endregion
 
-            $endtime = $(Get-Date) 
-    
+            $endtime = $(Get-Date)
+
             # Exit Code lookup "table"
             $LastExitCodeMessage = switch ($LASTEXITCODE) {
                 0 { '[SUCCESS]No files were copied. No failure was encountered. No files were mismatched. The files already exist in the destination directory; therefore, the copy operation was skipped.' }
@@ -515,15 +515,15 @@ Function Start-RoboCopy {
                 5 { '[WARNING]Some files were copied. Some files were mismatched. No failure was encountered.' }
                 6 { '[WARNING]Additional files and mismatched files exist. No files were copied and no failures were encountered. This means that the files already exist in the destination directory.' }
                 7 { '[WARNING]Files were copied, a file mismatch was present, and additional files were present.' }
-                8 { '[ERRROR]Several files did not copy.(copy errors occurred and the retry limit was exceeded). Check these errors further.' }
-                9 { '[ERRROR]Some files did copy, but copy errors occurred and the retry limit was exceeded. Check these errors further.' }
-                10 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
-                11 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
-                12 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
-                13 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
-                14 { '[ERRROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
-                15 { '[ERRROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
-                16 { '[ERRROR]Robocopy did not copy any files. Either a usage error or an error due to insufficient access privileges on the source or destination directories.' }
+                8 { '[ERROR]Several files did not copy.(copy errors occurred and the retry limit was exceeded). Check these errors further.' }
+                9 { '[ERROR]Some files did copy, but copy errors occurred and the retry limit was exceeded. Check these errors further.' }
+                10 { '[ERROR]Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
+                11 { '[ERROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
+                12 { '[ERROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
+                13 { '[ERROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected.' }
+                14 { '[ERROR]Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
+                15 { '[ERROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
+                16 { '[ERROR]Robocopy did not copy any files. Either a usage error or an error due to insufficient access privileges on the source or destination directories.' }
                 default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
             }
 

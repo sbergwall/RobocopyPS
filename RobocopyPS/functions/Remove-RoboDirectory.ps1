@@ -1,16 +1,4 @@
-<#
-.Synopsis
-   Remove folder with help of Robocopy
-.DESCRIPTION
-   Creates a temporary folder in users TEMP directory, mirror the temp folder to the Path specificed.
-   Removes the temp folder when done
-.EXAMPLE
-   Remove-RoboFolder -Path "C:\temp"
-.EXAMPLE
-   Get-Item G:\Temp | Remove-RoboFolder -WhatIf
-#>
-
-function Remove-RoboFolder {
+function Remove-RoboDirectory {
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
     Param
