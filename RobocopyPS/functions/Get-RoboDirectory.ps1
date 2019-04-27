@@ -10,6 +10,9 @@
 .NOTES
    General notes
 #>
+break 
+#! Wip and broke due to changes in Start-robocopy and -List
+ 
 function Get-RoboDirectory
 {
     [CmdletBinding(SupportsShouldProcess=$true,
@@ -43,7 +46,7 @@ function Get-RoboDirectory
                 $PSBoundParameters.Add("Mirror", $true)
                 $PSBoundParameters.Add("List",$true)
 
-                $RoboResult = Start-Robocopy @PSBoundParameters| Select-Object -Property Source,Command,DirCount,FileCount,DirFailed,FileFailed,
+                $RoboResult = Start-Robocopy @PSBoundParameters 4>&1 | Select-Object -Property Source,Command,DirCount,FileCount,DirFailed,FileFailed,
                     TotalTime, StartedTime, EndedTime, TotalSize,ExitCode,Success,LastExitCodeMessage
                 $GetItemResult = Get-Item $Source
 
