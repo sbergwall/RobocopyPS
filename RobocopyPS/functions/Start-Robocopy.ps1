@@ -442,16 +442,17 @@ Function Start-RoboCopy {
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            Robocopy.exe $RoboArgs | Where-Object {$PSItem -ne ""} | ForEach-Object {
+            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
                 If ($PSitem -match $ErrorFilter) {
 
                     # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
                     If (!($IsLastMessage)) {
-                        $ErrorMessage = [regex]::Split($PSitem,'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                        $ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
                         $IsLastMessage = $true
-                    } else {
+                    }
+                    else {
                         $IsLastMessage = $false
                         Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
                         $ErrorMessage = $null
@@ -464,10 +465,24 @@ Function Start-RoboCopy {
                     $Line = $PSitem.Trim().Split("`t")
 
                     If ($Line[0] -notmatch '[0-9]') {
-                        # This should capture all output
-                        $Size,[datetime]$TimeStamp = $line[2].Trim().Split(" ",2) # Trimming and splitting on this line instead of in Write-Verbose for readability
-                        Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}". TimeStamp on Item "{4}"' -f $action, $line[3], $line[0].Trim(), $Size, $TimeStamp)
 
+                        If ($PSBoundParameters.ContainsKey('List')) {
+                            $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
+
+                            [PSCustomObject]@{
+                                Extension = ($Line[3]).Split(".")[-1]
+                                Name = $line[3].Split("\")[-1]
+                                FullName = $line[3]
+                                Length = $Size
+                                TimeStamp = $TimeStamp
+                            }
+
+                        }
+                        else {
+                            # This should capture all output
+                            $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
+                            Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}". TimeStamp on Item "{4}"' -f $action, $line[3], $line[0].Trim(), $Size, $TimeStamp)
+                        }
                     }
                     else {
                         Write-Verbose -Message $PSitem
@@ -497,8 +512,7 @@ Function Start-RoboCopy {
 
                 # catch everything we dont have any rules for
                 else {
-                    "Outside logic"
-                    $PSitem
+                    Write-Warning "Outside logic" $PSitem
                 }
             }
             #endregion
@@ -525,6 +539,14 @@ Function Start-RoboCopy {
                 15 { '[ERROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Mismatched files or directories were detected. Some Extra files or directories were detected.' }
                 16 { '[ERROR]Robocopy did not copy any files. Either a usage error or an error due to insufficient access privileges on the source or destination directories.' }
                 default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
+            }
+
+            # If we got a warning or error, output warning/error message to correct stream
+            If ($LASTEXITCODE -gt 3 -and $LASTEXITCODE -lt 8) {
+                Write-Warning -Message $LastExitCodeMessage
+            }
+            If ($LASTEXITCODE -ge 8) {
+                Write-Error -Message $LastExitCodeMessage
             }
 
             $Output = [PSCustomObject]@{
@@ -562,7 +584,11 @@ Function Start-RoboCopy {
                 'LastExitCodeMessage' = [string]$LastExitCodeMessage
             }
 
-            $Output
+            If ($PSBoundParameters.ContainsKey('List')) {
+                Write-Verbose $Output
+            } else {
+                $Output
+            }
         }
     }
 }

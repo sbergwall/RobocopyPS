@@ -43,9 +43,9 @@ function Get-RoboDirectory
                 $PSBoundParameters.Add("Mirror", $true)
                 $PSBoundParameters.Add("List",$true)
 
-                $RoboResult = Start-Robocopy @PSBoundParameters -ErrorAction Stop | Select-Object -Property Source,Command,DirCount,FileCount,DirFailed,FileFailed,
+                $RoboResult = Start-Robocopy @PSBoundParameters| Select-Object -Property Source,Command,DirCount,FileCount,DirFailed,FileFailed,
                     TotalTime, StartedTime, EndedTime, TotalSize,ExitCode,Success,LastExitCodeMessage
-                $GetItemResult = Get-Item $Source -ErrorAction Stop
+                $GetItemResult = Get-Item $Source
 
                 Merge-Object -InputObject $RoboResult,$GetItemResult
             }
