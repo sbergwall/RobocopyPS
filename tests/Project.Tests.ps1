@@ -44,6 +44,6 @@ Describe "General project validation: $moduleName" -Tags Build {
         Get-Module $ModuleName | Remove-Module
     }
     It "Module '$moduleName' can import cleanly" {
-        {Import-Module $ModuleBase\$ModuleName.psd1 -force } | Should Not Throw
+        {Import-Module $ModuleBase\$ModuleName\$ModuleName.psd1 -force } | Should Not Throw
     }
 }

@@ -481,7 +481,7 @@ Function Start-RoboCopy {
                         else {
                             # This should capture all output
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
-                            Write-Verbose -Message ('"{0} File" on "Item {1}" Status on Item "{2}". Size on Item "{3}". TimeStamp on Item "{4}"' -f $action, $line[3], $line[0].Trim(), $Size, $TimeStamp)
+                            Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Size on Item "{4}". TimeStamp on Item "{5}"' -f $action, $line[3], $Destination,$line[0].Trim(), $Size, $TimeStamp)
                         }
                     }
                     else {

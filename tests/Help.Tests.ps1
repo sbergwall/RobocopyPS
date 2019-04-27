@@ -13,7 +13,7 @@ if ((Split-Path $ModuleBase -Leaf) -eq 'Tests') {
     $ModuleBase = Split-Path $ModuleBase -Parent
 }
 
-$Module = Import-Module $ModuleBase\$ModuleName.psd1 -PassThru -ErrorAction Stop
+$Module = Import-Module $ModuleBase\$ModuleName\$ModuleName.psd1 -PassThru -ErrorAction Stop
 $commands = Get-Command -Module $module -CommandType Cmdlet, Function, Workflow  # Not alias
 
 ## When testing help, remember that help is cached at the beginning of each session.

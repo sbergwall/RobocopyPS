@@ -10,7 +10,7 @@
 .NOTES
    General notes
 #>
-break 
+
 #! Wip and broke due to changes in Start-robocopy and -List
  
 function Get-RoboDirectory
@@ -39,6 +39,7 @@ function Get-RoboDirectory
 
     Process
     {
+        break
         if ($pscmdlet.ShouldProcess('$Source', 'Get info'))
         {
             try {

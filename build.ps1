@@ -21,3 +21,4 @@ Install-Module -Name $Script:Modules -Scope $Script:ModuleInstallScope -Force
 
 Set-BuildEnvironment
 Get-ChildItem Env:BH*
+

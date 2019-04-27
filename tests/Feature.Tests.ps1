@@ -13,7 +13,7 @@ if ((Split-Path $ModuleBase -Leaf) -eq 'Tests') {
 ## This variable is for the VSTS tasks and is to be used for referencing any mock artifacts
 $Env:ModuleBase = $ModuleBase
 
-Import-Module $ModuleBase\$ModuleName.psd1 -PassThru -ErrorAction Stop | Out-Null
+Import-Module $ModuleBase\$ModuleName\$ModuleName.psd1 -PassThru -ErrorAction Stop | Out-Null
 Describe "Basic function feature tests" -Tags Build {
 
 }

@@ -5,27 +5,28 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-RoboFolder
+# Remove-RoboDirectory
 
 ## SYNOPSIS
-Remove folder with help of Robocopy
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Remove-RoboFolder [-Target] <Object> [-BackupMode] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-RoboDirectory [-Target] <Object> [-BackupMode] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Creates a temporary folder in users TEMP directory, mirror the temp folder to the Path specificed.
-Removes the temp folder when done
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
+```powershell
+PS C:\> {{ Add example code here }}
 ```
-Remove-RoboFolder -Path "C:\temp"
-```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -39,7 +40,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -60,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -Target
-Param1 help description
+{{ Fill Target Description }}
 
 ```yaml
 Type: Object
@@ -95,9 +96,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.Object
+
 ## OUTPUTS
 
+### System.Object
 ## NOTES
-General notes
 
 ## RELATED LINKS
