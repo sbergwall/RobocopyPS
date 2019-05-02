@@ -9,7 +9,6 @@
    Another example of how to use this cmdlet
 .NOTES
    General notes
-    #! WIP
 #>
 function Copy-RoboItem {
     [CmdletBinding(SupportsShouldProcess = $true,

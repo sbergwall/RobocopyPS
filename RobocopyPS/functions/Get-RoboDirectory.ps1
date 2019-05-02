@@ -11,8 +11,6 @@
    General notes
 #>
 
-#! Wip and broke due to changes in Start-robocopy and -List
- 
 function Get-RoboDirectory
 {
     [CmdletBinding(SupportsShouldProcess=$true,
@@ -39,19 +37,17 @@ function Get-RoboDirectory
 
     Process
     {
-        break
         if ($pscmdlet.ShouldProcess('$Source', 'Get info'))
         {
             try {
                 $PSBoundParameters.Add("Destination", "NULL")
-                $PSBoundParameters.Add("Mirror", $true)
+                $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
                 $PSBoundParameters.Add("List",$true)
 
-                $RoboResult = Start-Robocopy @PSBoundParameters 4>&1 | Select-Object -Property Source,Command,DirCount,FileCount,DirFailed,FileFailed,
-                    TotalTime, StartedTime, EndedTime, TotalSize,ExitCode,Success,LastExitCodeMessage
-                $GetItemResult = Get-Item $Source
+                Start-Robocopy @PSBoundParameters 
+                #$GetItemResult = Get-Item $Source
 
-                Merge-Object -InputObject $RoboResult,$GetItemResult
+                #Merge-Object -InputObject $RoboResult,$GetItemResult
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)
