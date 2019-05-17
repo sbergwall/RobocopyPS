@@ -11,8 +11,8 @@
    General notes
 #>
 
-function Get-RoboDirectory
-{
+function Get-RoboDirectoryInfo {
+    
     [CmdletBinding(SupportsShouldProcess=$true,
                   ConfirmImpact='Low')]
 
@@ -40,14 +40,15 @@ function Get-RoboDirectory
         if ($pscmdlet.ShouldProcess('$Source', 'Get info'))
         {
             try {
+                <#
                 $PSBoundParameters.Add("Destination", "NULL")
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
                 $PSBoundParameters.Add("List",$true)
 
                 Start-Robocopy @PSBoundParameters 
                 #$GetItemResult = Get-Item $Source
-
                 #Merge-Object -InputObject $RoboResult,$GetItemResult
+                #>
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)

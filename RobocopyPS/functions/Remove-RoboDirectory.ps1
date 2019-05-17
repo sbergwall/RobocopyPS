@@ -1,4 +1,5 @@
 function Remove-RoboDirectory {
+    
     [CmdletBinding(SupportsShouldProcess = $true,
         ConfirmImpact = 'High')]
     Param
@@ -30,7 +31,11 @@ function Remove-RoboDirectory {
                 
                 Write-Verbose "Invoke Start-Robocopy"
                 $Result = Start-Robocopy @PSBoundParameters
-                Remove-Item $Target -Force   
+
+                If ($Result.Success -eq $true) { 
+                    # Only run Remove-Item if Robocopy was successful
+                    Remove-Item $Target -Force -Recurse
+                } 
 
                 If (Test-Path $TempDirectory) {
                     Write-Verbose "Remove Temporary Folder"
