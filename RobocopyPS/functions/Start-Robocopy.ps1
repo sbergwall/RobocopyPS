@@ -468,9 +468,10 @@ Function Start-RoboCopy {
 
                         If ($PSBoundParameters.ContainsKey('List')) {
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
+                            $ExtensionSplit = ($Line[3]).Split(".")
 
                             [PSCustomObject]@{
-                                Extension = ($Line[3]).Split(".")[-1]
+                                Extension = if ($ExtensionSplit.count -gt 1) {$ExtensionSplit[-1]} else {}
                                 Name = $line[3].Split("\")[-1]
                                 FullName = $line[3]
                                 Length = $Size
