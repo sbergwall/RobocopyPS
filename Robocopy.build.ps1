@@ -3,12 +3,14 @@
 	Build script (https://github.com/nightroman/Invoke-Build)
 #>
 PARAM (
-    $VersionType = 'Patch'
+    $VersionType = 'Patch',
+    $m
 )
 
 task UpdateHelp {
+    "Import Module $PSScriptRoot\RobocopyPS"
     Import-Module $PSScriptRoot\RobocopyPS -Force
-    Update-MarkdownHelp $PSScriptRoot\docs -Force
+    New-MarkdownHelp -Module RobocopyPS -OutputFolder .\docs -force
     New-ExternalHelp -Path $PSScriptRoot\docs -OutputPath .\en-US -Force
 }
 
@@ -30,6 +32,8 @@ task TestCompability {
 #endregion
 
 Task UpdateModuleVersion {
+    Set-BuildEnvironment -Force
+
     [version]$version = Get-Metadata -Path $env:BHPSModuleManifest -PropertyName 'ModuleVersion'
     $NewVersion = [version] (Step-Version -Version $version -Type $VersionType)
 
@@ -39,4 +43,10 @@ Task UpdateModuleVersion {
     (Get-Content -Path $env:BHPSModuleManifest -Raw -Encoding UTF8) |
     ForEach-Object { $_.TrimEnd() } |
     Set-Content -Path $env:BHPSModuleManifest -Encoding UTF8
+}
+
+Task push {
+    git add .
+    git commit -a -m $m
+    git push
 }

@@ -13,12 +13,17 @@ $Script:Modules = @(
 $Script:ModuleInstallScope = 'CurrentUser'
 
 'Starting build...'
-'Installing module dependencies...'
 
 Get-PackageProvider -Name 'NuGet' -ForceBootstrap | Out-Null
 
-Install-Module -Name $Script:Modules -Scope $Script:ModuleInstallScope -Force
+foreach ($Module in $Script:Modules) {
+    if (!(Get-Module $Module -ListAvailable)) {
+        "Installing module dependencies: $Module"
+        Install-Module -Name $Module -Scope $Script:ModuleInstallScope -Force
+    }
+}
 
-Set-BuildEnvironment
+'Setting Build Environment variables...'
+Set-BuildEnvironment -Force
 Get-ChildItem Env:BH*
 
