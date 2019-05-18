@@ -505,7 +505,7 @@ Function Start-RoboCopy {
                         $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $EndedLineRegex { }
-                        $SpeedLineRegex { $TotalSpeedBytes = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                        $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } } #$null is for some reason needed for PSScriptAnalyzer not to create a warning
                         $SpeedInMinutesRegex { }
                     }
                 }
