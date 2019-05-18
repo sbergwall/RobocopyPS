@@ -12,43 +12,41 @@
 #>
 
 function Get-RoboDirectoryInfo {
-    
-    [CmdletBinding(SupportsShouldProcess=$true,
-                  ConfirmImpact='Low')]
+
+    [CmdletBinding(SupportsShouldProcess = $true,
+        ConfirmImpact = 'Low')]
 
     Param
     (
         # Param1 help description
-        [Parameter(Mandatory=$true,
-                   ValueFromPipeline=$true,
-                   ValueFromPipelineByPropertyName=$true,
-                   Position=0)]
+        [Parameter(Mandatory = $true,
+            ValueFromPipeline = $true,
+            ValueFromPipelineByPropertyName = $true,
+            Position = 0)]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
         [String]$Source,
-        
+
         [switch]
         $BackupMode,
 
         $Unit
     )
 
-    Begin {}
+    Begin { }
 
-    Process
-    {
-        if ($pscmdlet.ShouldProcess('$Source', 'Get info'))
-        {
+    Process {
+        if ($pscmdlet.ShouldProcess('$Source', 'Get info')) {
             try {
-                <#
                 $PSBoundParameters.Add("Destination", "NULL")
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
-                $PSBoundParameters.Add("List",$true)
 
-                Start-Robocopy @PSBoundParameters 
-                #$GetItemResult = Get-Item $Source
-                #Merge-Object -InputObject $RoboResult,$GetItemResult
-                #>
+                $Result = Start-Robocopy @PSBoundParameters -ErrorVariable err
+                foreach ($e in $Err) {
+                    $pscmdlet.WriteError($e)
+                }
+                $Result
+
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)
@@ -56,5 +54,5 @@ function Get-RoboDirectoryInfo {
         }
     }
 
-    End {}
+    End { }
 }

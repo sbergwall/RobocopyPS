@@ -44,10 +44,18 @@ function Get-RoboChildItem {
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
                 $PSBoundParameters.Add("List",$true)
 
-                Start-Robocopy @PSBoundParameters 
-                #$GetItemResult = Get-Item $Source
+                If ($PSBoundParameters.ContainsKey('ErrorAction')) {
+                    Start-Robocopy @PSBoundParameters
+                }
+                else {
+                    $Result = Start-Robocopy @PSBoundParameters -errorvariable err -ErrorAction SilentlyContinue
 
-                #Merge-Object -InputObject $RoboResult,$GetItemResult
+                    foreach ($errorRecord in $err) {
+                        Write-Error $errorRecord
+                    }
+
+                    $Result
+                }
             }
             catch {
                 $PSCmdlet.ThrowTerminatingError($PSitem)
