@@ -69,7 +69,10 @@ function Copy-RoboItem {
                     $PSBoundParameters.Remove('Level') | Out-Null
                     $PSBoundParameters.Add('Level', [int]1)
                     $PSBoundParameters.Remove('Recurse') | Out-Null
-                } elseif (($Item).PSIsContainer -eq $false -and $PSBoundParameters.ContainsKey('Files')) {
+
+                }
+                elseif (($Item).PSIsContainer -eq $false -and $PSBoundParameters.ContainsKey('Files')) {
+
                     Write-Warning "Both -Files Parameter and a specific file was pointed to, we will override -Files parameter and only copy file"
                     $PSBoundParameters.Remove('Files') | Out-Null 
                     $PSBoundParameters.Add('Files', $Item.Name)
@@ -83,7 +86,7 @@ function Copy-RoboItem {
                     $PSBoundParameters.Add('Level', [int]1)
                     $PSBoundParameters.Remove('Recurse') | Out-Null
                 }
-                 else {
+                else {
                 }
 
                 If ($PSBoundParameters.ContainsKey('Recurse')) {

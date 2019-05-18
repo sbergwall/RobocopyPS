@@ -171,7 +171,7 @@ Function Start-RoboCopy {
         # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
         [Parameter(Mandatory = $False)]
         [Alias('MT')]
-        [Int]$Threads,
+        [string]$Threads,
 
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
