@@ -2,7 +2,8 @@ install:
     - ps: |
         Write-Host "PowerShell Version:" $PSVersionTable.PSVersion.tostring()
         Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-        Install-Module Pester -Force
+        #Install-Module Pester -Force
+        Install-Module Pester -Force -Scope CurrentUser -MinimumVersion 4.8.1 -SkipPublisherCheck -Verbose
         
 build: false
 
