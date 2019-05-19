@@ -296,7 +296,7 @@ function Copy-RoboItem {
                     $PSBoundParameters.Remove('Source') | Out-Null # Out-null so we supress True or false statement remove the remove method
 
                     # Add Source back with the directory name and now the file is specified in -Files parameter
-                    $PSBoundParameters.Add('Source', $Item.Directory)
+                    $PSBoundParameters.Add('Source', $Item.Directory.Fullname)
                     
                     # If level is specified but poiting to a file we ignore it
                     $PSBoundParameters.Remove('Level') | Out-Null
@@ -312,7 +312,7 @@ function Copy-RoboItem {
                     $PSBoundParameters.Remove('Source') | Out-Null # Out-null so we supress True or false statement remove the remove method
 
                     # Add Source back with the directory name and now the file is specified in -Files parameter
-                    $PSBoundParameters.Add('Source', $Item.Directory)
+                    $PSBoundParameters.Add('Source', $Item.Directory.Fullname)
                     
                     # If level is specified but poiting to a file we ignore it
                     $PSBoundParameters.Remove('Level') | Out-Null

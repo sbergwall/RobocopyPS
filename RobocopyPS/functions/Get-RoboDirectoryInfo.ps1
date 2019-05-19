@@ -28,9 +28,7 @@ function Get-RoboDirectoryInfo {
         [String]$Source,
 
         [switch]
-        $BackupMode,
-
-        $Unit
+        $BackupMode
     )
 
     Begin { }
@@ -41,15 +39,10 @@ function Get-RoboDirectoryInfo {
                 $PSBoundParameters.Add("Destination", "NULL")
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
 
-                $Result = Start-Robocopy @PSBoundParameters -ErrorVariable err
-                foreach ($e in $Err) {
-                    $pscmdlet.WriteError($e)
-                }
-                $Result
-
+                Start-Robocopy @PSBoundParameters
             }
             catch {
-                $PSCmdlet.ThrowTerminatingError($PSitem)
+                $PSCmdlet.WriteError($PSitem)
             }
         }
     }

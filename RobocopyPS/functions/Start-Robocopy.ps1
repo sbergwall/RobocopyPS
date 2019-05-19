@@ -402,6 +402,11 @@ Function Start-RoboCopy {
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
 
+            if (-not (Get-Command -Name robocopy -ErrorAction SilentlyContinue)) {
+                Write-Warning -Message "Action failed because robocopy.exe could not be found."
+                break
+            }
+
             # Regex filter used for finding strings we want to handle in Robocopy output. This is also used when we find specific strings in the output
             [regex] $HeaderRegex = '\s+Total\s*Copied\s+Skipped\s+Mismatch\s+FAILED\s+Extras'
             [regex] $DirLineRegex = 'Dirs\s*:\s*(?<DirCount>\d+)(?:\s+\d+){3}\s+(?<DirFailed>\d+)\s+\d+'
@@ -428,7 +433,8 @@ Function Start-RoboCopy {
                 "The specified network name is no longer available.",
                 "There is not enough space on the disk.",
                 "The semaphore timeout period has expired.",
-                "Scanning Source Directory:  An internal error occurred." ) -join '|'
+                "Scanning Source Directory:  An internal error occurred.",
+                "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).") -join '|'
 
             # Regex filter to capture text about Retry or Waiting information
             $RetryWaitFilter = @(
@@ -442,20 +448,34 @@ Function Start-RoboCopy {
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
+            & C:\Windows\System32\Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
                 If ($PSitem -match $ErrorFilter) {
 
-                    # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                    If (!($IsLastMessage)) {
-                        $ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                        $IsLastMessage = $true
+                    # Validate so we dont catch a file with error in its name
+                    If ($LastExitcode -eq 16) {
+                        try {
+                            # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
+                            # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
+                        
+                            If (!($IsLastMessage)) {
+                                #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                                $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
+                                $IsLastMessage = $true
+                            }
+                            else {
+                                $IsLastMessage = $false
+                                throw ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
+                                $ErrorMessage = $null
+                            } 
+                        }
+                        catch {
+                            $PSCmdlet.ThrowTerminatingError($psitem)
+                        }
                     }
                     else {
-                        $IsLastMessage = $false
-                        Write-Error -Message ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
-                        $ErrorMessage = $null
+                        continue
                     }
                 }
 
@@ -471,10 +491,10 @@ Function Start-RoboCopy {
                             $ExtensionSplit = ($Line[3]).Split(".")
 
                             [PSCustomObject]@{
-                                Extension = if ($ExtensionSplit.count -gt 1) {$ExtensionSplit[-1]} else {}
-                                Name = $line[3].Split("\")[-1]
-                                FullName = $line[3]
-                                Length = $Size
+                                Extension = if ($ExtensionSplit.count -gt 1) { $ExtensionSplit[-1] } else { }
+                                Name      = $line[3].Split("\")[-1]
+                                FullName  = $line[3]
+                                Length    = $Size
                                 TimeStamp = $TimeStamp
                             }
 
@@ -482,7 +502,7 @@ Function Start-RoboCopy {
                         else {
                             # This should capture all output
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
-                            Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Size on Item "{4}". TimeStamp on Item "{5}"' -f $action, $line[3], $Destination,$line[0].Trim(), $Size, $TimeStamp)
+                            Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Size on Item "{4}". TimeStamp on Item "{5}"' -f $action, $line[3], $Destination, $line[0].Trim(), $Size, $TimeStamp)
                         }
                     }
                     else {
@@ -513,7 +533,7 @@ Function Start-RoboCopy {
 
                 # catch everything we dont have any rules for
                 else {
-                    Write-Warning "Outside logic" $PSitem
+                    Write-Warning "Outside logic $PSitem"
                 }
             }
             #endregion
@@ -587,7 +607,8 @@ Function Start-RoboCopy {
 
             If ($PSBoundParameters.ContainsKey('List')) {
                 Write-Verbose $Output
-            } else {
+            }
+            else {
                 $Output
             }
         }
