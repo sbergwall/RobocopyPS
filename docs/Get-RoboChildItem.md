@@ -8,27 +8,39 @@ schema: 2.0.0
 # Get-RoboChildItem
 
 ## SYNOPSIS
-Short description
+Gets files and folders, similar to Get-ChildItem but with Robocopy.
 
 ## SYNTAX
 
 ```
-Get-RoboChildItem [-Source] <String> [-BackupMode] [-Unit <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Get-RoboChildItem [-Source] <String> [-BackupMode] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Long description
+Gets files and folders, similar to Get-ChildItem but with Robocopy.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Example of how to use this cmdlet
+Get-RoboChildItem -Source 'C:\temp\'
 ```
+
+Extension : html
+Name      : GPReport.html
+FullName  : C:\tmp 2\GPReport.html
+Length    : 200050
+TimeStamp : 2019-01-06 15:01:19
+
+Extension : txt
+Name      : log.txt
+FullName  : C:\tmp 2\log.txt
+Length    : 1220
+TimeStamp : 2018-08-12 18:13:15
 
 ### EXAMPLE 2
 ```
-Another example of how to use this cmdlet
+Get-RoboChildItem -Source 'C:\Windows' -BackupMode
 ```
 
 ## PARAMETERS
@@ -59,21 +71,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Unit
-{{ Fill Unit Description }}
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -117,6 +114,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-General notes
+Function need the full name to a path for it to work at this point in time.
+Example C:\Temp will work as Source but .\temp wont.
 
 ## RELATED LINKS

@@ -17,7 +17,7 @@ Start Robocopy with PowerShell
 Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
  [-IncludeSubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
- [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <Int32>]
+ [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
  [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-Archive]
  [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
  [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
@@ -34,7 +34,7 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
 Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
  [-IncludeEmptySubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
- [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <Int32>]
+ [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
  [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-Archive]
  [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
  [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
@@ -51,7 +51,7 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
 Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-Mirror] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
- [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <Int32>] [-RunTimes <String>]
+ [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
  [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-Archive] [-ResetArchiveAttribute]
  [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
  [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
@@ -68,7 +68,7 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
 Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-MoveFiles] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
- [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <Int32>] [-RunTimes <String>]
+ [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
  [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-Archive] [-ResetArchiveAttribute]
  [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
  [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
@@ -85,7 +85,7 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
 Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-MoveFilesAndDirectories] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <Int32>] [-RunTimes <String>]
+ [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
  [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-Archive] [-ResetArchiveAttribute]
  [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
  [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
@@ -536,13 +536,13 @@ Cannot be used with the InterPacketGap and EFSRAW parameters.
 The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
 
 ```yaml
-Type: Int32
+Type: String
 Parameter Sets: (All)
 Aliases: MT
 
 Required: False
 Position: Named
-Default value: 0
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
