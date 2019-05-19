@@ -57,7 +57,7 @@ function Get-RoboChildItem {
                 Start-Robocopy @PSBoundParameters
             }
             catch {
-                $PSCmdlet.WriteError($PSitem)
+                $PSCmdlet.ThrowTerminatingError($PSitem)
             }
         }
     }

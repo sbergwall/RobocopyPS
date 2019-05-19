@@ -325,7 +325,7 @@ Function Start-RoboCopy {
         [Switch]$List
     )
 
-    Begin { }
+    Begin {}
 
     Process {
 
@@ -448,14 +448,14 @@ Function Start-RoboCopy {
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            & C:\Windows\System32\Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
+            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
                 If ($PSitem -match $ErrorFilter) {
+                    try {
 
-                    # Validate so we dont catch a file with error in its name
-                    If ($LastExitcode -eq 16) {
-                        try {
+                        # Validate so we dont catch a file with error in its name
+                        If ($LastExitcode -eq 16 -or $LastExitCode -lt 0) {
                             # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
                             # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
                         
@@ -466,16 +466,13 @@ Function Start-RoboCopy {
                             }
                             else {
                                 $IsLastMessage = $false
-                                throw ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
+                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(),$LastExitCode)
                                 $ErrorMessage = $null
                             } 
                         }
-                        catch {
-                            $PSCmdlet.ThrowTerminatingError($psitem)
-                        }
                     }
-                    else {
-                        continue
+                    catch {
+                        $PSCmdlet.ThrowTerminatingError($psitem)
                     }
                 }
 
@@ -613,4 +610,6 @@ Function Start-RoboCopy {
             }
         }
     }
+
+    end {}
 }
