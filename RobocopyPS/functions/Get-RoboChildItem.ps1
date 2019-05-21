@@ -52,7 +52,7 @@ function Get-RoboChildItem {
             try {
                 $PSBoundParameters.Add("Destination", "NULL")
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
-                $PSBoundParameters.Add("List",$true)
+                $PSBoundParameters.Add("ListToDefaultStream",$true)
 
                 Start-Robocopy @PSBoundParameters
             }

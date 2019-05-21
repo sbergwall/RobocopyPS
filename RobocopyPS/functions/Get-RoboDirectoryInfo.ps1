@@ -31,18 +31,22 @@ function Get-RoboDirectoryInfo {
         $BackupMode
     )
 
-    Begin { }
+    Begin { 
+        #Write-Warning "Not working because of how ive implemented /l in start-robocopy. Breaking"
+        #break
+    }
 
     Process {
         if ($pscmdlet.ShouldProcess('$Source', 'Get info')) {
             try {
                 $PSBoundParameters.Add("Destination", "NULL")
                 $PSBoundParameters.Add("IncludeEmptySubDirectories", $true)
+                $PSBoundParameters.Add('List', $true)
 
                 Start-Robocopy @PSBoundParameters
             }
             catch {
-                $PSCmdlet.WriteError($PSitem)
+                $PSCmdlet.ThrowTerminatingError($PSitem)
             }
         }
     }

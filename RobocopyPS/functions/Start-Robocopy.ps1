@@ -322,10 +322,13 @@ Function Start-RoboCopy {
 
         # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
         [Alias('l')]
-        [Switch]$List
+        [Switch]$List,
+
+        # Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.
+        [Switch]$ListToDefaultStream
     )
 
-    Begin {}
+    Begin { }
 
     Process {
 
@@ -398,6 +401,7 @@ Function Start-RoboCopy {
         if ($SaveRetrySettings) { $RobocopyArguments += '/reg' }
         if ($WaitForShareName) { $RobocopyArguments += '/tbd' }
         If ($List) { $RobocopyArguments += '/l' ; $action = 'List' }
+        If ($ListToDefaultStream) { $RobocopyArguments += '/l' ; $action = 'List' }
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
@@ -466,7 +470,7 @@ Function Start-RoboCopy {
                             }
                             else {
                                 $IsLastMessage = $false
-                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(),$LastExitCode)
+                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(), $LastExitCode)
                                 $ErrorMessage = $null
                             } 
                         }
@@ -482,8 +486,9 @@ Function Start-RoboCopy {
                     $Line = $PSitem.Trim().Split("`t")
 
                     If ($Line[0] -notmatch '[0-9]') {
+                        # This should capture all output
 
-                        If ($PSBoundParameters.ContainsKey('List')) {
+                        If ($PSBoundParameters.ContainsKey('ListToDefaultStream')) {
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
                             $ExtensionSplit = ($Line[3]).Split(".")
 
@@ -497,10 +502,10 @@ Function Start-RoboCopy {
 
                         }
                         else {
-                            # This should capture all output
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
                             Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Size on Item "{4}". TimeStamp on Item "{5}"' -f $action, $line[3], $Destination, $line[0].Trim(), $Size, $TimeStamp)
                         }
+
                     }
                     else {
                         Write-Verbose -Message $PSitem
@@ -523,7 +528,7 @@ Function Start-RoboCopy {
                         $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $EndedLineRegex { }
-                        $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } } #$null is for some reason needed for PSScriptAnalyzer not to create a warning
+                        $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                         $SpeedInMinutesRegex { }
                     }
                 }
@@ -602,7 +607,8 @@ Function Start-RoboCopy {
                 'LastExitCodeMessage' = [string]$LastExitCodeMessage
             }
 
-            If ($PSBoundParameters.ContainsKey('List')) {
+
+            If ($PSBoundParameters.ContainsKey('ListToDefaultStream')) {
                 Write-Verbose $Output
             }
             else {
@@ -611,5 +617,5 @@ Function Start-RoboCopy {
         }
     }
 
-    end {}
+    end { }
 }
