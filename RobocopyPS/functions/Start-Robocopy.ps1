@@ -59,7 +59,7 @@ Function Start-RoboCopy {
         [Parameter( Mandatory = $True,
             ValueFromPipelineByPropertyName,
             ValueFromPipeline)]
-        [Alias('Path')]
+        [Alias('Path', 'FolderPath')]
         [String]$Source,
 
         # Specifies the path to the destination directory. Must be a folder.
@@ -455,24 +455,20 @@ Function Start-RoboCopy {
             Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
-                If ($PSitem -match $ErrorFilter) {
+                If ($PSitem -match $ErrorFilter ) {
                     try {
 
-                        # Validate so we dont catch a file with error in its name
-                        If ($LastExitcode -eq 16 -or $LastExitCode -lt 0) {
-                            # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                            # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
-                        
-                            If (!($IsLastMessage)) {
-                                #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                                $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
-                                $IsLastMessage = $true
-                            }
-                            else {
-                                $IsLastMessage = $false
-                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(), $LastExitCode)
-                                $ErrorMessage = $null
-                            } 
+                        # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
+                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
+                        If (!($IsLastMessage)) {
+                            #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
+                            $IsLastMessage = $true
+                        }
+                        else {
+                            $IsLastMessage = $false
+                            throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(), $LastExitCode)
+                            $ErrorMessage = $null
                         }
                     }
                     catch {

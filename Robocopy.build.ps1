@@ -22,11 +22,11 @@ task Test {
     }
 }
 
-task TestCompability {
+task TestComp {
     $result = Invoke-ScriptAnalyzer -Path .\RobocopyPS\* -Settings .\tests\CompabilitySettings.psd1 -Severity Warning
     If ($result.count -gt 0) {
         $result | ft -AutoSize
-        throw 'Pester tests failed'
+        throw 'Invoke-ScriptAnalyzer tests failed'
     }
 }
 #endregion
