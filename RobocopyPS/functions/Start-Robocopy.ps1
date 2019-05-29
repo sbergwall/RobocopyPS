@@ -328,7 +328,7 @@ Function Start-RoboCopy {
         [Switch]$ListToDefaultStream
     )
 
-    Begin { }
+    Begin {$script:LASTEXITCODE = $null }
 
     Process {
 
