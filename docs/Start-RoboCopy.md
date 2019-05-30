@@ -148,7 +148,7 @@ Must be a folder.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: Path
+Aliases: Path, FullPath
 
 Required: True
 Position: Named
@@ -1077,8 +1077,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+Shows what would happen if the function runs.
+The function is not run.
 
 ```yaml
 Type: SwitchParameter
@@ -1093,7 +1093,7 @@ Accept wildcard characters: False
 ```
 
 ### -Confirm
-Prompts you for confirmation before running the cmdlet.
+Prompts you for confirmation before running the function.
 
 ```yaml
 Type: SwitchParameter

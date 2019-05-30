@@ -16,7 +16,7 @@ task UpdateHelp {
 
 #region Task to run all Pester tests in folder .\tests
 task Test {
-    $Result = Invoke-Pester .\tests -PassThru
+    $Result = Invoke-Pester .\tests -PassThru -Show Fails,Failed
     if ($Result.FailedCount -gt 0) {
         throw 'Pester tests failed'
     }
@@ -25,7 +25,7 @@ task Test {
 task TestComp {
     $result = Invoke-ScriptAnalyzer -Path .\RobocopyPS\* -Settings .\tests\CompabilitySettings.psd1 -Severity Warning
     If ($result.count -gt 0) {
-        $result | ft -AutoSize
+        $result | Format-Table -AutoSize
         throw 'Invoke-ScriptAnalyzer tests failed'
     }
 }

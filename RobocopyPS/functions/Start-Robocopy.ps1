@@ -8,6 +8,12 @@ Function Start-RoboCopy {
     See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
     Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts
 
+    .PARAMETER Confirm
+    Prompts you for confirmation before running the function.
+
+    .PARAMETER WhatIf
+    Shows what would happen if the function runs. The function is not run.
+
     .EXAMPLE
     PS > Start-RoboCopy -Source C:\temp\ -Destination C:\temp2\ -Mirror
 
@@ -59,7 +65,7 @@ Function Start-RoboCopy {
         [Parameter( Mandatory = $True,
             ValueFromPipelineByPropertyName,
             ValueFromPipeline)]
-        [Alias('Path')]
+        [Alias('Path','FullPath')]
         [String]$Source,
 
         # Specifies the path to the destination directory. Must be a folder.
@@ -511,7 +517,7 @@ Function Start-RoboCopy {
 
                 # elseif catch all lines with information about copy/move/mir action
                 elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
-                    
+
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
 
