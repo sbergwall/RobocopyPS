@@ -323,7 +323,7 @@ function Copy-RoboItem {
                 }
 
                 $PSBoundParameters.Add('IncludeEmptySubDirectories', [bool]$true)
-                Start-RoboCopy @PSBoundParameters
+                Start-RoboCopy @PSBoundParameters 
             }
             catch {
                 $PSCmdlet.WriteError($PSitem)

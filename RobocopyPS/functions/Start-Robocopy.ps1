@@ -424,29 +424,33 @@ Function Start-RoboCopy {
 
             # Regex filter for catching errors
             $ErrorFilterNonTerminating = @(
-                "ERROR 5 (0x00000005) Accessing Destination Directory",
-                "Access is denied."
+                "ERROR 5 \(0x00000005\) Accessing Destination Directory",
+                "Access is denied.",
+                "ERROR 53 \(0x00000035\) Getting File System Type of Destination",
+                "ERROR 53 \(0x00000035\) Accessing Destination Directory",
+                "ERROR 53 \(0x00000035\) Creating Destination Directory",
+                "The network path was not found."
             ) -join '|'
             
             
 
             # Regex filter for catching errors
             $ErrorFilter = @(
-                "ERROR \d \(0x\d{1,11}\)",
-                "ERROR : *",
                 "The system cannot find the file specified.",
                 "The system cannot find the path specified.",
                 "Access is denied.",
                 "The handle is invalid.",
                 "The process cannot access the file because it is being used by another process.",
                 "Scanning Destination Directory: Windows cannot find the network path. Verify that the network path is correct and the destination computer is not busy or turned off. If Windows still cannot find the network path, contact your network administrator.",
-                "The network path was not found.",
                 "Copying NTFS Security to Destination File:  The specified server cannot perform the requested operation",
                 "The specified network name is no longer available.",
                 "There is not enough space on the disk.",
                 "The semaphore timeout period has expired.",
                 "Scanning Source Directory:  An internal error occurred.",
-                "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).") -join '|'
+                "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).",
+                "ERROR \d \(0x\d{1,11}\)",
+                "ERROR : *"
+            ) -join '|'
 
             # Regex filter to capture text about Retry or Waiting information
             $RetryWaitFilter = @(
@@ -461,16 +465,16 @@ Function Start-RoboCopy {
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
             Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
-
                 # If statement is for catching error messages
                 If ($PSitem -match $ErrorFilterNonTerminating) {
+                    
                     try {
                         # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
                         
                         If (!($IsLastMessage)) {
                             #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilterNonTerminating)[-1].trim()
+                            #$ErrorMessage = [regex]::Split($PSitem, $ErrorFilterNonTerminating)[1].trim()
+                            $errormessage =  $PSitem | Select-String -Pattern $ErrorFilterNonTerminating -AllMatches |  ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value }
                             $IsLastMessage = $true
                         }
                         else {
@@ -487,11 +491,11 @@ Function Start-RoboCopy {
                 elseIf ($PSitem -match $ErrorFilter) {
                     try {
                         # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
                         
                         If (!($IsLastMessage)) {
                             #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
                             $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
+                            #$errormessage =  $PSitem | Select-String -Pattern $ErrorFilter -AllMatches |  ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value }
                             $IsLastMessage = $true
                         }
                         else {
@@ -507,6 +511,7 @@ Function Start-RoboCopy {
 
                 # elseif catch all lines with information about copy/move/mir action
                 elseif ($PSitem -like "*$Source*" -or $PSitem -like "*$Destination*") {
+                    
                     # If no error is found we will output the file name. We are using split because when we use /bytes in the Robocopy args we also output each files size by default.
                     $Line = $PSitem.Trim().Split("`t")
 
@@ -588,7 +593,6 @@ Function Start-RoboCopy {
                 default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
             }
 
-            <#
             # If we got a warning or error, output warning/error message to correct stream
             If ($LASTEXITCODE -gt 3 -and $LASTEXITCODE -lt 8) {
                 Write-Warning -Message $LastExitCodeMessage
@@ -596,7 +600,6 @@ Function Start-RoboCopy {
             If ($LASTEXITCODE -ge 8) {
                 Write-Error -Message $LastExitCodeMessage
             }
-            #>
 
             $Output = [PSCustomObject]@{
                 'Source'              = [System.IO.DirectoryInfo]$Source
