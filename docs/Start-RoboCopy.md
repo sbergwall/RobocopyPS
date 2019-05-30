@@ -25,8 +25,8 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
+ [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### IncludeEmptySubDirectories
@@ -42,8 +42,8 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
+ [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Mirror
@@ -59,8 +59,8 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
+ [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFiles
@@ -76,8 +76,8 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
+ [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFilesAndDirectories
@@ -93,8 +93,8 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
+ [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1053,6 +1053,21 @@ Specifies that files are to be listed only (and not copied, deleted, or time sta
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: l
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ListToDefaultStream
+Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
