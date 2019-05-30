@@ -5,8 +5,8 @@ Function Start-RoboCopy {
     Start Robocopy with PowerShell
 
     .DESCRIPTION
-    See https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy for an extensive documentation on Robocopy switches
-    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts and wont be available for use
+    See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
+    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts
 
     .EXAMPLE
     PS > Start-RoboCopy -Source C:\temp\ -Destination C:\temp2\ -Mirror
@@ -59,7 +59,7 @@ Function Start-RoboCopy {
         [Parameter( Mandatory = $True,
             ValueFromPipelineByPropertyName,
             ValueFromPipeline)]
-        [Alias('Path', 'FolderPath')]
+        [Alias('Path')]
         [String]$Source,
 
         # Specifies the path to the destination directory. Must be a folder.
@@ -424,9 +424,11 @@ Function Start-RoboCopy {
 
             # Regex filter for catching errors
             $ErrorFilter = @(
+                "ERROR \d \(0x\d{1,11}\)",
+                "ERROR : *",
                 "The system cannot find the file specified.",
                 "The system cannot find the path specified.",
-                #"Access is denied.",
+                "Access is denied.",
                 "The handle is invalid.",
                 "The process cannot access the file because it is being used by another process.",
                 "Scanning Destination Directory: Windows cannot find the network path. Verify that the network path is correct and the destination computer is not busy or turned off. If Windows still cannot find the network path, contact your network administrator.",
@@ -436,14 +438,7 @@ Function Start-RoboCopy {
                 "There is not enough space on the disk.",
                 "The semaphore timeout period has expired.",
                 "Scanning Source Directory:  An internal error occurred.",
-                "ERROR \d \(0x\d{1,11}\)",
-                "ERROR : *",
                 "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).") -join '|'
-
-            $ErrorFilterNonTerminating = @(
-                "Accessing Destination Directory",
-                "Access is denied."
-            ) -join '|'
 
             # Regex filter to capture text about Retry or Waiting information
             $RetryWaitFilter = @(
@@ -460,37 +455,24 @@ Function Start-RoboCopy {
             Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
-                If ($PSitem -match $ErrorFilterNonTerminating ) {
-                    #try {
-                        If (!($IsLastMessage)) {
-                            #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilterNonTerminating)[-1].trim()
-                            $IsLastMessage = $true
-                        }
-                        else {
-                            $IsLastMessage = $false
-                            $message = ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
-                            Write-Warning $message
-                            $ErrorMessage = $null
-                        }
-                    #} catch {
-                        
-                    #}
-                }
-
-                elseif ($psitem -match $ErrorFilter) {
+                If ($PSitem -match $ErrorFilter) {
                     try {
-                        # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
-                        If (!($IsLastMessage)) {
-                            #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
-                            $IsLastMessage = $true
-                        }
-                        else {
-                            $IsLastMessage = $false
-                            throw ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
-                            $ErrorMessage = $null
+
+                        # Validate so we dont catch a file with error in its name
+                        If ($LastExitcode -eq 16 -or $LastExitCode -lt 0) {
+                            # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
+                            # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
+                        
+                            If (!($IsLastMessage)) {
+                                #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                                $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
+                                $IsLastMessage = $true
+                            }
+                            else {
+                                $IsLastMessage = $false
+                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(), $LastExitCode)
+                                $ErrorMessage = $null
+                            } 
                         }
                     }
                     catch {
@@ -570,7 +552,7 @@ Function Start-RoboCopy {
                 5 { '[WARNING]Some files were copied. Some files were mismatched. No failure was encountered.' }
                 6 { '[WARNING]Additional files and mismatched files exist. No files were copied and no failures were encountered. This means that the files already exist in the destination directory.' }
                 7 { '[WARNING]Files were copied, a file mismatch was present, and additional files were present.' }
-                8 { '[ERROR]Several files did not copy.' }
+                8 { '[ERROR]Several files did not copy.(copy errors occurred and the retry limit was exceeded). Check these errors further.' }
                 9 { '[ERROR]Some files did copy, but copy errors occurred and the retry limit was exceeded. Check these errors further.' }
                 10 { '[ERROR]Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
                 11 { '[ERROR]Some files were copied. Copy errors occurred and the retry limit was exceeded. Some Extra files or directories were detected.' }
@@ -582,14 +564,13 @@ Function Start-RoboCopy {
                 default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
             }
 
-            <# If we got a warning or error, output warning/error message to correct stream
+            # If we got a warning or error, output warning/error message to correct stream
             If ($LASTEXITCODE -gt 3 -and $LASTEXITCODE -lt 8) {
                 Write-Warning -Message $LastExitCodeMessage
             }
             If ($LASTEXITCODE -ge 8) {
                 Write-Error -Message $LastExitCodeMessage
             }
-            #>
 
             $Output = [PSCustomObject]@{
                 'Source'              = [System.IO.DirectoryInfo]$Source

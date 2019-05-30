@@ -326,7 +326,7 @@ function Copy-RoboItem {
                 Start-RoboCopy @PSBoundParameters
             }
             catch {
-                $PSCmdlet.WriteWarning($PSitem)
+                $PSCmdlet.WriteError($PSitem)
             }
         }
     }
