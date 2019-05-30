@@ -139,6 +139,57 @@ LastExitCodeMessage : \[SUCCESS\]Some files were copied.
 Additional files were present.
 No failure was encountered.
 
+### EXAMPLE 2
+```
+Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -list
+```
+
+Source              : C:\tmp 2\
+Destination         : NULL
+Command             : Robocopy.exe "C:\tmp 2" "NULL" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts
+DirCount            : 2929
+FileCount           : 53272
+DirCopied           : 2928
+FileCopied          : 36370
+DirIgnored          : 1
+FileIgnored         : 16902
+DirMismatched       : 0
+FileMismatched      : 0
+DirFailed           : 0
+FileFailed          : 0
+DirExtra            : 0
+FileExtra           : 0
+TotalTime           : 00:00:13
+StartedTime         : 2019-05-30 17:57:57
+EndedTime           : 2019-05-30 17:58:11
+TotalSize           : 21,8 MB
+TotalSizeCopied     : 21,3 MB
+TotalSizeIgnored    : 547 KB
+TotalSizeMismatched : 0 B
+TotalSizeFailed     : 0 B
+TotalSizeExtra      : 0 B
+Speed               : 0 B/s
+ExitCode            : 1
+Success             : True
+LastExitCodeMessage : \[SUCCESS\]All files were copied successfully.
+
+### EXAMPLE 3
+```
+Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -ListToDefaultStream
+```
+
+Extension : txt
+Name      : file1.txt
+FullName  : C:\tmp 2\file1.txt
+Length    : 24
+TimeStamp : 2019-05-30 15:35:32
+
+Extension : txt
+Name      : file10.txt
+FullName  : C:\tmp 2\file10.txt
+Length    : 28
+TimeStamp : 2019-05-30 15:35:32
+
 ## PARAMETERS
 
 ### -Source
