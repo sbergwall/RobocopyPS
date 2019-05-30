@@ -423,6 +423,14 @@ Function Start-RoboCopy {
             [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
 
             # Regex filter for catching errors
+            $ErrorFilterNonTerminating = @(
+                "ERROR 5 (0x00000005) Accessing Destination Directory",
+                "Access is denied."
+            ) -join '|'
+            
+            
+
+            # Regex filter for catching errors
             $ErrorFilter = @(
                 "ERROR \d \(0x\d{1,11}\)",
                 "ERROR : *",
@@ -455,24 +463,41 @@ Function Start-RoboCopy {
             Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | ForEach-Object {
 
                 # If statement is for catching error messages
-                If ($PSitem -match $ErrorFilter) {
+                If ($PSitem -match $ErrorFilterNonTerminating) {
                     try {
-
-                        # Validate so we dont catch a file with error in its name
-                        If ($LastExitcode -eq 16 -or $LastExitCode -lt 0) {
-                            # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
-                            # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
+                        # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
+                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
                         
-                            If (!($IsLastMessage)) {
-                                #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
-                                $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
-                                $IsLastMessage = $true
-                            }
-                            else {
-                                $IsLastMessage = $false
-                                throw ("{0}: {1}. LastExitCode {2}" -f $ErrorMessage, $PSitem.trim(), $LastExitCode)
-                                $ErrorMessage = $null
-                            } 
+                        If (!($IsLastMessage)) {
+                            #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilterNonTerminating)[-1].trim()
+                            $IsLastMessage = $true
+                        }
+                        else {
+                            $IsLastMessage = $false
+                            throw ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
+                            $ErrorMessage = $null
+                        }
+                    }
+                    catch {
+                        $PSCmdlet.WriteError($psitem)
+                    }
+                }
+
+                elseIf ($PSitem -match $ErrorFilter) {
+                    try {
+                        # Robocopy will in some cases send two lines of text with information about an error. We catch both before output
+                        # Some functions using this function will throw on first error message, example "Get-RoboChildItem : Accessing Source Directory C:\123\: The system cannot find the file specified."
+                        
+                        If (!($IsLastMessage)) {
+                            #$ErrorMessage = [regex]::Split($PSitem, 'ERROR \d \(0x\d{1,11}\)')[-1].trim()
+                            $ErrorMessage = [regex]::Split($PSitem, $ErrorFilter)[-1].trim()
+                            $IsLastMessage = $true
+                        }
+                        else {
+                            $IsLastMessage = $false
+                            throw ("{0}: {1}" -f $ErrorMessage, $PSitem.trim())
+                            $ErrorMessage = $null
                         }
                     }
                     catch {
@@ -499,7 +524,6 @@ Function Start-RoboCopy {
                                 Length    = $Size
                                 TimeStamp = $TimeStamp
                             }
-
                         }
                         else {
                             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
@@ -535,7 +559,7 @@ Function Start-RoboCopy {
 
                 # catch everything we dont have any rules for
                 else {
-                    Write-Warning "Outside logic $PSitem"
+                    Write-Warning "No rule for following line was defined: $PSitem"
                 }
             }
             #endregion
@@ -564,6 +588,7 @@ Function Start-RoboCopy {
                 default { '[WARNING]No message associated with this exit code. ExitCode: {0}' -f $LASTEXITCODE }
             }
 
+            <#
             # If we got a warning or error, output warning/error message to correct stream
             If ($LASTEXITCODE -gt 3 -and $LASTEXITCODE -lt 8) {
                 Write-Warning -Message $LastExitCodeMessage
@@ -571,6 +596,7 @@ Function Start-RoboCopy {
             If ($LASTEXITCODE -ge 8) {
                 Write-Error -Message $LastExitCodeMessage
             }
+            #>
 
             $Output = [PSCustomObject]@{
                 'Source'              = [System.IO.DirectoryInfo]$Source
