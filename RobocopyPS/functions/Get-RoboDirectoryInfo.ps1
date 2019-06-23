@@ -25,7 +25,8 @@ function Get-RoboDirectoryInfo {
             Position = 0)]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
-        [String]$Source,
+        [Alias('Source')]
+        [String]$Path,
 
         [switch]
         $BackupMode
