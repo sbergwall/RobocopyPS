@@ -37,8 +37,9 @@ function Get-RoboChildItem {
                    Position=0)]
         [ValidateNotNull()]
         [ValidateNotNullOrEmpty()]
+        [Alias('Path')]
         [String]$Source,
-        
+                
         [switch]
         $BackupMode
     )
