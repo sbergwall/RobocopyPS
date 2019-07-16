@@ -2,158 +2,19 @@
 <helpItems schema="maml" xmlns="http://msh">
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Remove-RoboDirectory</command:name>
-      <command:verb>Remove</command:verb>
-      <command:noun>RoboDirectory</command:noun>
-      <maml:description>
-        <maml:para>Removes a directory using Robocopy.</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>Removes a directory by creating an empty temp directory in $env:Temp and using Robocopy with /mir on your Target folder. Function will then remove the temp folder and the Target folder (Robocopy only removes the content).</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Remove-RoboDirectory</maml:name>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="Destination, Path">
-          <maml:name>Target</maml:name>
-          <maml:Description>
-            <maml:para>Param1 help description</maml:para>
-          </maml:Description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>BackupMode</maml:name>
-          <maml:Description>
-            <maml:para>{{ Fill BackupMode Description }}</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:Description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:Description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="Destination, Path">
-        <maml:name>Target</maml:name>
-        <maml:Description>
-          <maml:para>Param1 help description</maml:para>
-        </maml:Description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-        <dev:type>
-          <maml:name>Object</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>BackupMode</maml:name>
-        <maml:Description>
-          <maml:para>{{ Fill BackupMode Description }}</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:Description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:Description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para>This function was created because using mirror over a folder you want to remove is fast and we dont need to worry about long path names. We also can use backup mode.</maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-RoboDirectory -Target G:\temp\ -WhatIf</dev:code>
-        <dev:remarks>
-          <maml:para>What if: Performing the operation "Remove" on target "G:\temp\".</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Remove-RoboDirectory -Target G:\temp\</dev:code>
-        <dev:remarks>
-          <maml:para>Confirm Are you sure you want to perform this action? Performing the operation "Remove" on target "G:\temp\". [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"): a</maml:para>
-          <maml:para></maml:para>
-          <maml:para>Command     : Robocopy.exe "C:\Users\admin\AppData\Local\Temp\21bf9f45-f87b-44e5-b8c2-319c4c012fd1" "G:\temp" . /r:3 /w:3 /mir /bytes /TEE /np /njh /fp /v /ndl /ts TotalDir    : 357 TotalFile   : 128 TotalSize   : 5,6 GB TotalTime   : 00:00:00 StartedTime : 2019-05-19 11:37:08 EndedTime   : 2019-05-19 11:37:08</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks />
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>Start-RoboCopy</command:name>
-      <command:verb>Start</command:verb>
+      <command:name>Invoke-RoboCopy</command:name>
+      <command:verb>Invoke</command:verb>
       <command:noun>RoboCopy</command:noun>
       <maml:description>
-        <maml:para>Start Robocopy with PowerShell</maml:para>
+        <maml:para>Invoke Robocopy with PowerShell</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts</maml:para>
+      <maml:para>See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches. Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Start-RoboCopy</maml:name>
+        <maml:name>Invoke-RoboCopy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Path, FullPath">
           <maml:name>Source</maml:name>
           <maml:Description>
@@ -796,17 +657,6 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ListToDefaultStream</maml:name>
-          <maml:Description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -831,7 +681,7 @@
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Start-RoboCopy</maml:name>
+        <maml:name>Invoke-RoboCopy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Path, FullPath">
           <maml:name>Source</maml:name>
           <maml:Description>
@@ -1474,17 +1324,6 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ListToDefaultStream</maml:name>
-          <maml:Description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -1509,7 +1348,7 @@
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Start-RoboCopy</maml:name>
+        <maml:name>Invoke-RoboCopy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Path, FullPath">
           <maml:name>Source</maml:name>
           <maml:Description>
@@ -2152,17 +1991,6 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ListToDefaultStream</maml:name>
-          <maml:Description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -2187,7 +2015,7 @@
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Start-RoboCopy</maml:name>
+        <maml:name>Invoke-RoboCopy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Path, FullPath">
           <maml:name>Source</maml:name>
           <maml:Description>
@@ -2830,17 +2658,6 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ListToDefaultStream</maml:name>
-          <maml:Description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
           <maml:Description>
@@ -2865,7 +2682,7 @@
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Start-RoboCopy</maml:name>
+        <maml:name>Invoke-RoboCopy</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="named" aliases="Path, FullPath">
           <maml:name>Source</maml:name>
           <maml:Description>
@@ -3501,17 +3318,6 @@
           <maml:name>List</maml:name>
           <maml:Description>
             <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:Description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>ListToDefaultStream</maml:name>
-          <maml:Description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
           </maml:Description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -4264,18 +4070,6 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>ListToDefaultStream</maml:name>
-        <maml:Description>
-          <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.</maml:para>
-        </maml:Description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
         <maml:Description>
@@ -4313,24 +4107,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Start-RoboCopy -Source C:\temp\ -Destination C:\temp2\ -Mirror</dev:code>
+        <dev:code>Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes</dev:code>
         <dev:remarks>
-          <maml:para>Source              : C:\temp\ Destination         : C:\temp2\ Command             : Robocopy.exe "C:\temp" "C:\temp2" . /r:3 /w:3 /mir /bytes /TEE /np /njh /fp /v /ndl /ts DirCount            : 11 FileCount           : 34 DirCopied           : 1 FileCopied          : 6 DirIgnored          : 10 FileIgnored         : 28 DirMismatched       : 0 FileMismatched      : 0 DirFailed           : 0 FileFailed          : 0 DirExtra            : 0 FileExtra           : 1 TotalTime           : 00:00:00 StartedTime         : 2019-04-13 18:14:20 EndedTime           : 2019-04-13 18:14:20 TotalSize           : 1,4 MB TotalSizeCopied     : 1,2 MB TotalSizeIgnored    : 155 KB TotalSizeMismatched : 0 B TotalSizeFailed     : 0 B TotalSizeExtra      : 9 KB Speed               : 72,5 MB/s ExitCode            : 3 Success             : True LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -list</dev:code>
-        <dev:remarks>
-          <maml:para>Source              : C:\tmp 2\ Destination         : NULL Command             : Robocopy.exe "C:\tmp 2" "NULL" . /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts DirCount            : 2929 FileCount           : 53272 DirCopied           : 2928 FileCopied          : 36370 DirIgnored          : 1 FileIgnored         : 16902 DirMismatched       : 0 FileMismatched      : 0 DirFailed           : 0 FileFailed          : 0 DirExtra            : 0 FileExtra           : 0 TotalTime           : 00:00:13 StartedTime         : 2019-05-30 17:57:57 EndedTime           : 2019-05-30 17:58:11 TotalSize           : 21,8 MB TotalSizeCopied     : 21,3 MB TotalSizeIgnored    : 547 KB TotalSizeMismatched : 0 B TotalSizeFailed     : 0 B TotalSizeExtra      : 0 B Speed               : 0 B/s ExitCode            : 1 Success             : True LastExitCodeMessage : [SUCCESS]All files were copied successfully.</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -ListToDefaultStream</dev:code>
-        <dev:remarks>
-          <maml:para>Extension : txt Name      : file1.txt FullName  : C:\tmp 2\file1.txt Length    : 24 TimeStamp : 2019-05-30 15:35:32</maml:para>
-          <maml:para>Extension : txt Name      : file10.txt FullName  : C:\tmp 2\file10.txt Length    : 28 TimeStamp : 2019-05-30 15:35:32</maml:para>
+          <maml:para>Source              : E:\Google Drive\Script Library Destination         : G:\Temp\ Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" . /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts DirCount            : 589 FileCount           : 1220 DirCopied           : 588 FileCopied          : 1220 DirIgnored          : 1 FileIgnored         : 0 DirMismatched       : 0 FileMismatched      : 0 DirFailed           : 0 FileFailed          : 0 DirExtra            : 0 FileExtra           : 1 TotalTime           : 00:00:02 StartedTime         : 7/16/2019 10:03:28 PM EndedTime           : 7/16/2019 10:03:30 PM TotalSize           : 18839977 B TotalSizeCopied     : 18839977 B TotalSizeIgnored    : 0 B TotalSizeMismatched : 0 B TotalSizeFailed     : 0 B TotalSizeExtra      : 557048280 B Speed               : 12957343 B/s ExitCode            : 3 Success             : True LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

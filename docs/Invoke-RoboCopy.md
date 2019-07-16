@@ -5,16 +5,16 @@ online version:
 schema: 2.0.0
 ---
 
-# Start-RoboCopy
+# Invoke-RoboCopy
 
 ## SYNOPSIS
-Start Robocopy with PowerShell
+Invoke Robocopy with PowerShell
 
 ## SYNTAX
 
 ### IncludeSubDirectories
 ```
-Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
  [-IncludeSubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
@@ -25,13 +25,13 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
- [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### IncludeEmptySubDirectories
 ```
-Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
  [-IncludeEmptySubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
@@ -42,13 +42,13 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
- [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Mirror
 ```
-Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-Mirror] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
  [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
@@ -59,13 +59,13 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
- [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFiles
 ```
-Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-MoveFiles] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
  [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
@@ -76,13 +76,13 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
- [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFilesAndDirectories
 ```
-Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
  [-BackupMode] [-RestartMode] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
  [-MoveFilesAndDirectories] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
  [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
@@ -93,102 +93,51 @@ Start-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogF
  [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List]
- [-ListToDefaultStream] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-Unit <String>] [-List] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches
-Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts
+See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches.
+Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```
-Start-RoboCopy -Source C:\temp\ -Destination C:\temp2\ -Mirror
+Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
 ```
 
-Source              : C:\temp\
-Destination         : C:\temp2\
-Command             : Robocopy.exe "C:\temp" "C:\temp2" *.* /r:3 /w:3 /mir /bytes /TEE /np /njh /fp /v /ndl /ts
-DirCount            : 11
-FileCount           : 34
-DirCopied           : 1
-FileCopied          : 6
-DirIgnored          : 10
-FileIgnored         : 28
+Source              : E:\Google Drive\Script Library
+Destination         : G:\Temp\
+Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts
+DirCount            : 589
+FileCount           : 1220
+DirCopied           : 588
+FileCopied          : 1220
+DirIgnored          : 1
+FileIgnored         : 0
 DirMismatched       : 0
 FileMismatched      : 0
 DirFailed           : 0
 FileFailed          : 0
 DirExtra            : 0
 FileExtra           : 1
-TotalTime           : 00:00:00
-StartedTime         : 2019-04-13 18:14:20
-EndedTime           : 2019-04-13 18:14:20
-TotalSize           : 1,4 MB
-TotalSizeCopied     : 1,2 MB
-TotalSizeIgnored    : 155 KB
+TotalTime           : 00:00:02
+StartedTime         : 7/16/2019 10:03:28 PM
+EndedTime           : 7/16/2019 10:03:30 PM
+TotalSize           : 18839977 B
+TotalSizeCopied     : 18839977 B
+TotalSizeIgnored    : 0 B
 TotalSizeMismatched : 0 B
 TotalSizeFailed     : 0 B
-TotalSizeExtra      : 9 KB
-Speed               : 72,5 MB/s
+TotalSizeExtra      : 557048280 B
+Speed               : 12957343 B/s
 ExitCode            : 3
 Success             : True
 LastExitCodeMessage : \[SUCCESS\]Some files were copied.
 Additional files were present.
 No failure was encountered.
-
-### EXAMPLE 2
-```
-Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -list
-```
-
-Source              : C:\tmp 2\
-Destination         : NULL
-Command             : Robocopy.exe "C:\tmp 2" "NULL" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts
-DirCount            : 2929
-FileCount           : 53272
-DirCopied           : 2928
-FileCopied          : 36370
-DirIgnored          : 1
-FileIgnored         : 16902
-DirMismatched       : 0
-FileMismatched      : 0
-DirFailed           : 0
-FileFailed          : 0
-DirExtra            : 0
-FileExtra           : 0
-TotalTime           : 00:00:13
-StartedTime         : 2019-05-30 17:57:57
-EndedTime           : 2019-05-30 17:58:11
-TotalSize           : 21,8 MB
-TotalSizeCopied     : 21,3 MB
-TotalSizeIgnored    : 547 KB
-TotalSizeMismatched : 0 B
-TotalSizeFailed     : 0 B
-TotalSizeExtra      : 0 B
-Speed               : 0 B/s
-ExitCode            : 1
-Success             : True
-LastExitCodeMessage : \[SUCCESS\]All files were copied successfully.
-
-### EXAMPLE 3
-```
-Start-RoboCopy -Source 'C:\tmp 2\' -Destination NULL -IncludeEmptySubDirectories -ListToDefaultStream
-```
-
-Extension : txt
-Name      : file1.txt
-FullName  : C:\tmp 2\file1.txt
-Length    : 24
-TimeStamp : 2019-05-30 15:35:32
-
-Extension : txt
-Name      : file10.txt
-FullName  : C:\tmp 2\file10.txt
-Length    : 28
-TimeStamp : 2019-05-30 15:35:32
 
 ## PARAMETERS
 
@@ -1104,21 +1053,6 @@ Specifies that files are to be listed only (and not copied, deleted, or time sta
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: l
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ListToDefaultStream
-Specifies that files are to be listed only (and not copied, deleted, or time stamped) and output to default stream.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named
