@@ -1,5 +1,16 @@
 # RobocopyPS Release History
 
+## 0.2.2 - 2019-07-18
+
+### Fixed
+
+* Fixed problem with parameter ExcludeFileName and ExcludeDirectory where you could not specify multiple files/directories.
+
+### Added
+
+* Added functionality to Exclude/IncludeAttribute and Remove/AddAttribute
+
+
 ## 0.2.0 - 2019-07-16
 
 ### Changed

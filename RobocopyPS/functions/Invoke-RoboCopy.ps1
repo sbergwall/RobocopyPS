@@ -146,12 +146,12 @@ Function Invoke-RoboCopy {
 
         # Adds the specified attributes to copied files.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T')]
+        [ValidateSet('R', 'A', 'S', 'H','C', 'N', 'E', 'T')]
         [String[]]$AddAttribute,
 
         # Removes the specified attributes from copied files.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T')]
+        [ValidateSet('R', 'A', 'S', 'H','C', 'N', 'E', 'T')]
         [String[]]$RemoveAttribute,
 
         # Creates a directory tree and zero-length files only.
@@ -209,12 +209,12 @@ Function Invoke-RoboCopy {
         # Includes only files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
         [Alias('ia')]
-        [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T', 'O')]
+        [ValidateSet('R', 'A', 'S','C' ,'H', 'N', 'E', 'T', 'O')]
         [String[]]$IncludeAttribute,
 
         # Excludes files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S', 'H', 'N', 'E', 'T', 'O')]
+        [ValidateSet('R', 'A', 'S','C' ,'H', 'N', 'E', 'T', 'O')]
         [Alias('xa')]
         [String[]]$ExcludeAttribute,
 
@@ -362,8 +362,8 @@ Function Invoke-RoboCopy {
         if ($Mirror) { $RobocopyArguments += '/mir'; $action = 'Mirror' }
         if ($MoveFiles) { $RobocopyArguments += '/mov'; $action = 'Move' }
         if ($MoveFilesAndDirectories) { $RobocopyArguments += '/move' ; $action = 'Move' }
-        if ($AddAttribute) { $RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object-Unique) -join '') }
-        if ($RemoveAttribute) { $RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object-Unique) -join '') }
+        if ($AddAttribute) { $RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object -Unique) -join '') }
+        if ($RemoveAttribute) { $RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object -Unique) -join '') }
         if ($Create) { $RobocopyArguments += '/create' }
         if ($fat) { $RobocopyArguments += '/fat' }
         if ($IgnoreLongPath) { $RobocopyArguments += '/256' }
@@ -376,10 +376,10 @@ Function Invoke-RoboCopy {
         if ($SymbolicLink) { $RobocopyArguments += '/sl' }
         if ($Archive) { $RobocopyArguments += '/a' }
         if ($ResetArchiveAttribute) { $RobocopyArguments += '/m' }
-        if ($IncludeAttribute) { $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object-Unique) -join '' }
-        if ($ExcludeAttribute) { $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object-Unique) -join '' }
-        if ($ExcludeFileName) { $RobocopyArguments += '/xf ' + $ExcludeFileName -join ' ' }
-        if ($ExcludeDirectory) { $RobocopyArguments += '/xd ' + $ExcludeDirectory -join ' ' }
+        if ($IncludeAttribute) { $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join '' }
+        if ($ExcludeAttribute) { $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join '' }
+        if ($ExcludeFileName) { $RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '}
+        if ($ExcludeDirectory) { $RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '}
         if ($ExcludeChangedFiles) { $RobocopyArguments += '/xct' }
         if ($ExcludeNewerFiles) { $RobocopyArguments += '/xn' }
         if ($ExcludeOlderFiles) { $RobocopyArguments += '/xo' }

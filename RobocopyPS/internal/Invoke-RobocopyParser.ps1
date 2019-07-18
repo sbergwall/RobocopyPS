@@ -27,7 +27,7 @@ Function Invoke-RobocopyParser {
         # Regex for catching all text that will be sent to Error Stream
         $ErrorFilter = @(
             "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).",
-            "ERROR \d \(0x\d{1,11}\)",
+            "ERROR \d{1,3} \(0x\d{1,11}\)",
             "ERROR : *"
         ) -join '|'
 
