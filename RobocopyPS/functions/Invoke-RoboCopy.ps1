@@ -444,7 +444,7 @@ Function Invoke-RoboCopy {
                     }
 
                     ElseIf ($psitem.stream -eq "Information") {
-                        Write-Information $psitem
+                        Write-Information $psitem.Value
                     }
 
                     Else {
