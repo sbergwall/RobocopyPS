@@ -83,6 +83,8 @@ Function Invoke-RoboCopy {
         [Parameter(Mandatory = $False)]
         [String]$LogFile,
 
+        <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
+
         # Copies subdirectories. Note that this option excludes empty directories.
         [Parameter(ParameterSetName = 'IncludeSubDirectories')]
         [Alias('s')]
@@ -105,6 +107,10 @@ Function Invoke-RoboCopy {
         # Copies files in restartable mode.
         [Alias('z')]
         [switch]$RestartMode,
+
+        # Copies using unbuffered I/O (recommended for large files).
+        [Alias('j')]
+        [Switch]$UnbufferedIO,
 
         # Copies all encrypted files in EFS RAW mode.
         [switch]$EFSRaw,
@@ -198,6 +204,14 @@ Function Invoke-RoboCopy {
         [Alias('sl')]
         [switch]$SymbolicLink,
 
+        # Copies files without using the Windows Copy Offload mechanism.
+        [Switch]$NoOffload,
+
+        # Requests network compression during file transfer, if applicable.
+        [Switch]$Compress,
+
+        <# File selection options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#file-selection-options #>
+
         # Copies only files for which the Archive attribute is set.
         [Alias('a')]
         [switch]$Archive,
@@ -247,6 +261,10 @@ Function Invoke-RoboCopy {
         # Excludes "lonely" files and directories.
         [Alias('xl')]
         [switch]$ExcludeLonelyFiles,
+
+        # Include modified files (differing change times).
+        [Alias('im')]
+        [switch]$IncludeModifiedFile,
 
         # Includes the same files.
         [Alias('is')]
@@ -306,6 +324,8 @@ Function Invoke-RoboCopy {
         [Alias('dst')]
         [switch]$CompensateDST,
 
+        <#Retry Options#>
+
         # Specifies the number of retries on failed copies. Default is 3.
         [Alias('r')]
         [int]$Retry = 3,
@@ -321,6 +341,16 @@ Function Invoke-RoboCopy {
         # Specifies that the system will wait for share names to be defined (retry error 67).
         [Alias('tbd')]
         [switch]$WaitForShareName,
+
+        # Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below ten percent of the destination volume's size.
+        [Alias('lfsm')]
+        [switch]$LowFreeSpaceMode,
+
+        # Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n[KMG] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.
+        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [String]$LowFreeSpaceModeValue,
+
+        <# Other #>
 
         # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
@@ -347,12 +377,14 @@ Function Invoke-RoboCopy {
         $RobocopyArguments += '/r:' + $Retry
         $RobocopyArguments += '/w:' + $Wait
 
+        # Copy options
         if ($IncludeSubDirectories) { $RobocopyArguments += '/s'; $action = 'Copy' }
         if ($IncludeEmptySubDirectories) { $RobocopyArguments += '/e'; $action = 'Copy' }
         If ($LogFile) { $RobocopyArguments += '/log:' + $LogFile }
         if ($Level) { $RobocopyArguments += '/lev:' + $Level }
         if ($BackupMode) { $RobocopyArguments += '/b' }
         if ($RestartMode) { $RobocopyArguments += '/z' }
+        if ($UnbufferedIO) { $RobocopyArguments += '/j'}
         if ($EFSRaw) { $RobocopyArguments += '/efsraw' }
         if ($CopyFlags) { $RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '') }
         if ($NoCopy) { $RobocopyArguments += '/nocopy' }
@@ -374,6 +406,10 @@ Function Invoke-RoboCopy {
         if ($UsePerFileRunTimes) { $RobocopyArguments += '/pf' }
         if ($InterPacketGap) { $RobocopyArguments += '/ipg:' + $InterPacketGap }
         if ($SymbolicLink) { $RobocopyArguments += '/sl' }
+        if ($NoOffload) { $RobocopyArguments += '/nooffload' }
+        if ($Compress) { $RobocopyArguments += '/compress' }
+
+        # File selection options
         if ($Archive) { $RobocopyArguments += '/a' }
         if ($ResetArchiveAttribute) { $RobocopyArguments += '/m' }
         if ($IncludeAttribute) { $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join '' }
@@ -385,6 +421,7 @@ Function Invoke-RoboCopy {
         if ($ExcludeOlderFiles) { $RobocopyArguments += '/xo' }
         if ($ExcludeExtraFiles) { $RobocopyArguments += '/xx' }
         if ($ExcludeLonelyFiles) { $RobocopyArguments += '/xl' }
+        if ($IncludeModifiedFile) { $RobocopyArguments += '/im' }
         if ($IncludeSameFiles) { $RobocopyArguments += '/is' }
         if ($IncludeTweakedFiles) { $RobocopyArguments += '/it' }
         if ($MaximumFileSize) { $RobocopyArguments += '/max:' + $MaximumFileSize }
@@ -401,6 +438,8 @@ Function Invoke-RoboCopy {
         if ($SaveRetrySettings) { $RobocopyArguments += '/reg' }
         if ($WaitForShareName) { $RobocopyArguments += '/tbd' }
         If ($List) { $RobocopyArguments += '/l' ; $action = 'List' }
+        If ($LowFreeSpaceMode) { $RobocopyArguments += '/LFSM'}
+        If ($LowFreeSpaceModeValue) { $RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue}
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
@@ -409,7 +448,6 @@ Function Invoke-RoboCopy {
                 Write-Warning -Message "Action failed because robocopy.exe could not be found."
                 break
             }
-
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "

@@ -28,12 +28,14 @@ Function Invoke-RobocopyParser {
         $ErrorFilter = @(
             "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).",
             "ERROR \d{1,3} \(0x\d{1,11}\)",
-            "ERROR : *"
+            "ERROR : *",
+            "ERROR: RETRY LIMIT EXCEEDED."
         ) -join '|'
 
         # Regex for catching all text that will be sent to Warning Stream
         $WarningFilter = @(
             "Waiting $Wait seconds... Retrying..."
+            "Pausing to wait for free space"
         ) -join '|'
 
         # Regex filter used for finding strings we want to handle in Robocopy output. This is also used when we find specific strings in the output
@@ -100,7 +102,6 @@ Function Invoke-RobocopyParser {
         }
 
         elseif ($InputObject -match $WarningFilter) {
-            Write-Warning $inputobject
             [PSCustomObject]@{
                 Value  = $InputObject
                 Stream = "Warning"
