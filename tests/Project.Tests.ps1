@@ -31,7 +31,7 @@ Describe "PSScriptAnalyzer rule-sets" -Tag Build , ScriptAnalyzer {
                 if ($PesterTestExceptions -contains $rule.RuleName) { continue }
                 It "Rule [$rule]" {
 
-                    (Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+                    (Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should -Be 0
                 }
             }
         }
@@ -44,6 +44,6 @@ Describe "General project validation: $moduleName" -Tags Build {
         Get-Module $ModuleName | Remove-Module
     }
     It "Module '$moduleName' can import cleanly" {
-        {Import-Module $ModuleBase\$ModuleName\$ModuleName.psd1 -force } | Should Not Throw
+        {Import-Module $ModuleBase\$ModuleName\$ModuleName.psd1 -force } | Should -Not -Throw
     }
 }
