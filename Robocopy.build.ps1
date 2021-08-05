@@ -16,7 +16,7 @@ task UpdateHelp {
 
 #region Task to run all Pester tests in folder .\tests
 task Test {
-    $Result = Invoke-Pester .\tests -PassThru -Show Fails,Failed
+    $Result = Invoke-Pester .\tests -PassThru -Output Normal
     if ($Result.FailedCount -gt 0) {
         throw 'Pester tests failed'
     }
