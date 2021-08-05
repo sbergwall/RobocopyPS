@@ -45,7 +45,7 @@ Task UpdateModuleVersion {
     Set-Content -Path $env:BHPSModuleManifest -Encoding UTF8
 }
 
-Task push {
+Task push UpdateHelp, {
     git add .
     git commit -a -m $m
     git push
