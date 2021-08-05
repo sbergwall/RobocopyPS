@@ -4,7 +4,6 @@
 
 $Script:Modules = @(
     'InvokeBuild',
-    'Pester',
     'platyPS',
     'PSScriptAnalyzer',
     'BuildHelpers'
@@ -21,6 +20,10 @@ foreach ($Module in $Script:Modules) {
         "Installing module dependencies: $Module"
         Install-Module -Name $Module -Scope $Script:ModuleInstallScope -Force
     }
+}
+
+if ((Get-Module pester -ListAvailable | Sort-Object version | Select-Object -Last 1).Version -lt 5.2){
+    Install-Module 'Pester' -MinimumVersion 5.2 -Scope CurrentUser -Force
 }
 
 'Setting Build Environment variables...'
