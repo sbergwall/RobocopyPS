@@ -17,7 +17,11 @@ Function Invoke-RobocopyParser {
         # Robocopy text
         [Parameter(ValueFromPipeline = $true)]
         [String]
-        $InputObject
+        $InputObject,
+
+        # What unit the sizes are shown as
+        [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
+        [String]$Unit = 'Auto'
     )
 
     begin {

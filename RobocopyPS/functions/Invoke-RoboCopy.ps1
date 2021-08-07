@@ -453,7 +453,7 @@ Function Invoke-RoboCopy {
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser | & {
+            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit | & {
                 process {
                     If ($psitem.stream -eq "Verbose") {
                         Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Length on Item "{4}". TimeStamp on Item "{5}"' -f $action, $psitem.FullName , $Destination, $psitem.status, $psitem.length, $psitem.TimeStamp)
