@@ -1,5 +1,8 @@
 # RobocopyPS
 
+[![Build status](https://ci.appveyor.com/api/projects/status/2hpug3ow4yv1810a/branch/master?svg=true)](https://ci.appveyor.com/project/sbergwall/robocopyps/branch/master)
+
+
 ## Description
 
 RobocopyPS is a PowerShell module with the intention to be a wrapper for Robocopy.exe and output Robocopys information to PowerShell streams (Verbose, Error etc).
