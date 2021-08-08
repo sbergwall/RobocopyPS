@@ -11,8 +11,8 @@ BeforeDiscovery {
 
     # Get all Robocopy options without slash
     $RobocopyHelp = Robocopy.exe /?
-    $RobocopyOptions = $RobocopyHelp | ForEach-Object { $_ -split("`r`n") -split(" ") -split ("\[") -split (" :: ") -split (":") -replace ("\s","")  } | ForEach-Object { $_ | Where-Object { $_ -match "^/[A-Z]{1,}\b$|^/[0-9]{1,}\b$"} } | Sort-Object -Unique | ForEach-Object {$_ -replace ("/","")}
-
+    $RobocopyOptionsIgnore = "/BYTES"
+    $RobocopyOptions = $RobocopyHelp | ForEach-Object { $_ -split ("`r`n") -split (" ") -split ("\[") -split (" :: ") -split (":") -replace ("\s", "") } | ForEach-Object { $_ | Where-Object { $_ -match "^/[A-Z]{1,}\b$|^/[0-9]{1,}\b$" -and $_ -notin $RobocopyOptionsIgnore } } | Sort-Object -Unique | ForEach-Object { $_ -replace ("/", "") }
 }
 
 Describe "<command>" -ForEach $commands {
@@ -23,31 +23,8 @@ Describe "<command>" -ForEach $commands {
         $Common = 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'OutBuffer', 'OutVariable',
         'PipelineVariable', 'Verbose', 'WarningAction', 'WarningVariable'
 
-        $parameters = $_.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
+        $parameters = $command.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
 
-    }
-
-    Context '<command> Parameters' -Foreach $parameters {
-        BeforeEach {
-            $parameter = $_
-            $parameterName = $parameter.Name
-            $parameterHelp = $Help.parameters.parameter | Where-Object Name -EQ $parameterName
-            $HelpParameterNames = $Help.Parameters.Parameter.Name | Sort-Object -Unique
-        }
-        It '<parameter> Help Description should exist' {
-            $parameterHelpDescription = $($parameterHelp.Description.Text)
-            $parameterHelpDescription | Should -Not -BeNullOrEmpty
-        }
-        It 'help for <parameter> has correct Mandatory value' {
-            $codeMandatory = $parameter.IsMandatory.toString()
-            $parameterHelp.Required | Should -Be $codeMandatory
-        }
-        It 'help for <command> has correct parameter type for <parameterName>' {
-            $codeType = $parameter.ParameterType.Name
-            # To avoid calling Trim method on a null object.
-            $helpType = if ($parameterHelp.parameterValue) {$parameterHelp.parameterValue.Trim()}
-            $helpType | Should -be $codeType
-        }
     }
 
     Context '<command> parameters and aliases' -Foreach $RobocopyOptions {
@@ -74,6 +51,28 @@ Describe "<command>" -ForEach $commands {
         }
         It '<command> Help Example Remarks is not null' {
             ($Help.Examples.Example.Remarks | Select-Object -First 1).Text | Should -Not -BeNullOrEmpty
+        }
+    }
+    Context '<command> Parameters' -foreach $parameters {
+        BeforeEach {
+            $parameter = $_
+            $parameterName = $parameter.Name
+            $parameterHelp = $Help.parameters.parameter | Where-Object Name -EQ $parameterName
+            $HelpParameterNames = $Help.Parameters.Parameter.Name | Sort-Object -Unique
+        }
+        It '<parameter> Help Description should exist' {
+            $parameterHelpDescription = $($parameterHelp.Description.Text)
+            $parameterHelpDescription | Should -Not -BeNullOrEmpty
+        }
+        It 'help for <parameter> has correct Mandatory value' {
+            $codeMandatory = $parameter.IsMandatory.toString()
+            $parameterHelp.Required | Should -Be $codeMandatory
+        }
+        It 'help for <command> has correct parameter type for <parameterName>' {
+            $codeType = $parameter.ParameterType.Name
+            # To avoid calling Trim method on a null object.
+            $helpType = if ($parameterHelp.parameterValue) {$parameterHelp.parameterValue.Trim()}
+            $helpType | Should -be $codeType
         }
     }
 
