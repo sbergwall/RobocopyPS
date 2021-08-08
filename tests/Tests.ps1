@@ -8,6 +8,11 @@ BeforeDiscovery {
 
     $Module = Import-Module $ModulePath -PassThru -ErrorAction Stop
     $commands = Get-Command -Module $module -CommandType Cmdlet, Function  # Not alias
+
+    # Get all Robocopy options without slash
+    $RobocopyHelp = Robocopy.exe /?
+    $RobocopyOptions = $RobocopyHelp | ForEach-Object { $_ -split("`r`n") -split(" ") -split ("\[") -split (" :: ") -split (":") -replace ("\s","")  } | ForEach-Object { $_ | Where-Object { $_ -match "^/[A-Z]{1,}\b$|^/[0-9]{1,}\b$"} } | Sort-Object -Unique | ForEach-Object {$_ -replace ("/","")}
+
 }
 
 Describe "<command>" -ForEach $commands {
@@ -18,22 +23,8 @@ Describe "<command>" -ForEach $commands {
         $Common = 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'OutBuffer', 'OutVariable',
         'PipelineVariable', 'Verbose', 'WarningAction', 'WarningVariable'
 
-        $parameters = $command.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
-    }
+        $parameters = $_.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
 
-    Context '<command> Help' {
-        It '<command> Help Synopsis is not null' {
-            $help.Synopsis | Should -Not -BeNullOrEmpty
-        }
-        It '<command> Help Description is not null' {
-            $help.Description.Text | Should -Not -BeNullOrEmpty
-        }
-        It '<command> Help Example is not null' {
-            ($Help.Examples.Example | Select-Object -First 1).Code | Should -Not -BeNullOrEmpty
-        }
-        It '<command> Help Example Remarks is not null' {
-            ($Help.Examples.Example.Remarks | Select-Object -First 1).Text | Should -Not -BeNullOrEmpty
-        }
     }
 
     Context '<command> Parameters' -Foreach $parameters {
@@ -58,4 +49,32 @@ Describe "<command>" -ForEach $commands {
             $helpType | Should -be $codeType
         }
     }
+
+    Context '<command> parameters and aliases' -Foreach $RobocopyOptions {
+        BeforeEach {
+        $RobocopyOption = $_
+        $allParameterNameAndAlias = $parameters.Name + $parameters.aliases
+        $RobocopyOption | Should -BeIn $allParameterNameAndAlias
+        }
+
+        It '<RobocopyOption> Shold have a parameter name or alias' {
+            $RobocopyOption | Should -BeIn $allParameterNameAndAlias
+        }
+    }
+
+    Context '<command> Help' {
+        It '<command> Help Synopsis is not null' {
+            $help.Synopsis | Should -Not -BeNullOrEmpty
+        }
+        It '<command> Help Description is not null' {
+            $help.Description.Text | Should -Not -BeNullOrEmpty
+        }
+        It '<command> Help Example is not null' {
+            ($Help.Examples.Example | Select-Object -First 1).Code | Should -Not -BeNullOrEmpty
+        }
+        It '<command> Help Example Remarks is not null' {
+            ($Help.Examples.Example.Remarks | Select-Object -First 1).Text | Should -Not -BeNullOrEmpty
+        }
+    }
+
 }
