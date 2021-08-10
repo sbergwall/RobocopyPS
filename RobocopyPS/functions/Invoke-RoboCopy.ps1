@@ -379,6 +379,10 @@ Function Invoke-RoboCopy {
         [Alias('NODD')]
         [switch]$NoDestinationDirectory,
 
+        # Include the following Files.
+        [Alias('IF')]
+        [string]$IncludeFollowingFile,
+
         <# Other #>
 
         # What unit the sizes are shown as
@@ -474,6 +478,8 @@ Function Invoke-RoboCopy {
         If ($Quit) { $RobocopyArguments += '/quit'}
         If ($NoSourceDirectory) { $RobocopyArguments += '/NOSD'}
         If ($NoDestinationDirectory) { $RobocopyArguments += '/NODD'}
+        If ($NoDestinationDirectory) { $RobocopyArguments += '/IF' + }
+
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
