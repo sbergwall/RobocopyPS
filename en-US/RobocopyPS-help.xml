@@ -51,18 +51,6 @@
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="s">
           <maml:name>IncludeSubDirectories</maml:name>
           <maml:description>
@@ -86,6 +74,17 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+          <maml:name>RestartMode</maml:name>
+          <maml:description>
+            <maml:para>Copies files in restartable mode.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
@@ -97,10 +96,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-          <maml:name>RestartMode</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+          <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>Copies files in restartable mode.</maml:para>
+            <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -141,6 +140,40 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+          <maml:name>DirectoryCopyFlags</maml:name>
+          <maml:description>
+            <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+          <maml:name>CopyWithSecurity</maml:name>
+          <maml:description>
+            <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+          <maml:name>CopyAllFileInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoCopy</maml:name>
@@ -267,7 +300,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
           <maml:name>Threads</maml:name>
           <maml:description>
             <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -318,6 +351,17 @@
           <maml:name>SymbolicLink</maml:name>
           <maml:description>
             <maml:para>Follows the symbolic link and copies the target.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+          <maml:name>NoDirectoryInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -417,7 +461,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
           <maml:name>ExcludeChangedFiles</maml:name>
           <maml:description>
             <maml:para>Excludes changed files.</maml:para>
@@ -588,10 +632,21 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-          <maml:name>ExcludeFileJunctionPoints</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+          <maml:name>AssumeFATFileTime</maml:name>
           <maml:description>
-            <maml:para>Excludes junction points for files.</maml:para>
+            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+          <maml:name>CompensateDST</maml:name>
+          <maml:description>
+            <maml:para>Compensates for one-hour DST time differences.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -610,21 +665,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-          <maml:name>AssumeFATFileTime</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+          <maml:name>ExcludeFileJunctionPoints</maml:name>
           <maml:description>
-            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-          <maml:name>CompensateDST</maml:name>
-          <maml:description>
-            <maml:para>Compensates for one-hour DST time differences.</maml:para>
+            <maml:para>Excludes junction points for files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -701,6 +745,166 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
+          <maml:name>List</maml:name>
+          <maml:description>
+            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+          <maml:name>ReportExtraFile</maml:name>
+          <maml:description>
+            <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+          <maml:name>NoSizeToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+          <maml:name>NoClassToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Unicode</maml:name>
+          <maml:description>
+            <maml:para>Displays the status output as Unicode text.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+          <maml:name>UnicodeLog</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+          <maml:name>SaveJob</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Quit</maml:name>
+          <maml:description>
+            <maml:para>Quits after processing command line to view parameters.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+          <maml:name>NoSourceDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Source Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+          <maml:name>NoDestinationDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Destination Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+          <maml:name>IncludeFollowingFile</maml:name>
+          <maml:description>
+            <maml:para>Include the following Files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
@@ -712,17 +916,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
-          <maml:name>List</maml:name>
-          <maml:description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -784,18 +977,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="e, Recurse">
           <maml:name>IncludeEmptySubDirectories</maml:name>
@@ -820,6 +1001,17 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+          <maml:name>RestartMode</maml:name>
+          <maml:description>
+            <maml:para>Copies files in restartable mode.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
@@ -831,10 +1023,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-          <maml:name>RestartMode</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+          <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>Copies files in restartable mode.</maml:para>
+            <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -875,6 +1067,40 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+          <maml:name>DirectoryCopyFlags</maml:name>
+          <maml:description>
+            <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+          <maml:name>CopyWithSecurity</maml:name>
+          <maml:description>
+            <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+          <maml:name>CopyAllFileInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoCopy</maml:name>
@@ -1001,7 +1227,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
           <maml:name>Threads</maml:name>
           <maml:description>
             <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -1052,6 +1278,17 @@
           <maml:name>SymbolicLink</maml:name>
           <maml:description>
             <maml:para>Follows the symbolic link and copies the target.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+          <maml:name>NoDirectoryInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1151,7 +1388,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
           <maml:name>ExcludeChangedFiles</maml:name>
           <maml:description>
             <maml:para>Excludes changed files.</maml:para>
@@ -1322,10 +1559,21 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-          <maml:name>ExcludeFileJunctionPoints</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+          <maml:name>AssumeFATFileTime</maml:name>
           <maml:description>
-            <maml:para>Excludes junction points for files.</maml:para>
+            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+          <maml:name>CompensateDST</maml:name>
+          <maml:description>
+            <maml:para>Compensates for one-hour DST time differences.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1344,21 +1592,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-          <maml:name>AssumeFATFileTime</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+          <maml:name>ExcludeFileJunctionPoints</maml:name>
           <maml:description>
-            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-          <maml:name>CompensateDST</maml:name>
-          <maml:description>
-            <maml:para>Compensates for one-hour DST time differences.</maml:para>
+            <maml:para>Excludes junction points for files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1435,6 +1672,166 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
+          <maml:name>List</maml:name>
+          <maml:description>
+            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+          <maml:name>ReportExtraFile</maml:name>
+          <maml:description>
+            <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+          <maml:name>NoSizeToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+          <maml:name>NoClassToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Unicode</maml:name>
+          <maml:description>
+            <maml:para>Displays the status output as Unicode text.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+          <maml:name>UnicodeLog</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+          <maml:name>SaveJob</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Quit</maml:name>
+          <maml:description>
+            <maml:para>Quits after processing command line to view parameters.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+          <maml:name>NoSourceDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Source Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+          <maml:name>NoDestinationDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Destination Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+          <maml:name>IncludeFollowingFile</maml:name>
+          <maml:description>
+            <maml:para>Include the following Files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
@@ -1446,17 +1843,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
-          <maml:name>List</maml:name>
-          <maml:description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -1519,18 +1905,6 @@
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="lev, Depth">
           <maml:name>Level</maml:name>
           <maml:description>
@@ -1543,6 +1917,17 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+          <maml:name>RestartMode</maml:name>
+          <maml:description>
+            <maml:para>Copies files in restartable mode.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
@@ -1554,10 +1939,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-          <maml:name>RestartMode</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+          <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>Copies files in restartable mode.</maml:para>
+            <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1598,6 +1983,40 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+          <maml:name>DirectoryCopyFlags</maml:name>
+          <maml:description>
+            <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+          <maml:name>CopyWithSecurity</maml:name>
+          <maml:description>
+            <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+          <maml:name>CopyAllFileInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoCopy</maml:name>
@@ -1735,7 +2154,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
           <maml:name>Threads</maml:name>
           <maml:description>
             <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -1786,6 +2205,17 @@
           <maml:name>SymbolicLink</maml:name>
           <maml:description>
             <maml:para>Follows the symbolic link and copies the target.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+          <maml:name>NoDirectoryInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -1885,7 +2315,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
           <maml:name>ExcludeChangedFiles</maml:name>
           <maml:description>
             <maml:para>Excludes changed files.</maml:para>
@@ -2056,10 +2486,21 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-          <maml:name>ExcludeFileJunctionPoints</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+          <maml:name>AssumeFATFileTime</maml:name>
           <maml:description>
-            <maml:para>Excludes junction points for files.</maml:para>
+            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+          <maml:name>CompensateDST</maml:name>
+          <maml:description>
+            <maml:para>Compensates for one-hour DST time differences.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2078,21 +2519,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-          <maml:name>AssumeFATFileTime</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+          <maml:name>ExcludeFileJunctionPoints</maml:name>
           <maml:description>
-            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-          <maml:name>CompensateDST</maml:name>
-          <maml:description>
-            <maml:para>Compensates for one-hour DST time differences.</maml:para>
+            <maml:para>Excludes junction points for files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2169,6 +2599,166 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
+          <maml:name>List</maml:name>
+          <maml:description>
+            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+          <maml:name>ReportExtraFile</maml:name>
+          <maml:description>
+            <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+          <maml:name>NoSizeToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+          <maml:name>NoClassToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Unicode</maml:name>
+          <maml:description>
+            <maml:para>Displays the status output as Unicode text.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+          <maml:name>UnicodeLog</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+          <maml:name>SaveJob</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Quit</maml:name>
+          <maml:description>
+            <maml:para>Quits after processing command line to view parameters.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+          <maml:name>NoSourceDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Source Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+          <maml:name>NoDestinationDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Destination Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+          <maml:name>IncludeFollowingFile</maml:name>
+          <maml:description>
+            <maml:para>Include the following Files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
@@ -2180,17 +2770,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
-          <maml:name>List</maml:name>
-          <maml:description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -2253,18 +2832,6 @@
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="lev, Depth">
           <maml:name>Level</maml:name>
           <maml:description>
@@ -2277,6 +2844,17 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+          <maml:name>RestartMode</maml:name>
+          <maml:description>
+            <maml:para>Copies files in restartable mode.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
@@ -2288,10 +2866,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-          <maml:name>RestartMode</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+          <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>Copies files in restartable mode.</maml:para>
+            <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2332,6 +2910,40 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+          <maml:name>DirectoryCopyFlags</maml:name>
+          <maml:description>
+            <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+          <maml:name>CopyWithSecurity</maml:name>
+          <maml:description>
+            <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+          <maml:name>CopyAllFileInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoCopy</maml:name>
@@ -2469,7 +3081,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
           <maml:name>Threads</maml:name>
           <maml:description>
             <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -2520,6 +3132,17 @@
           <maml:name>SymbolicLink</maml:name>
           <maml:description>
             <maml:para>Follows the symbolic link and copies the target.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+          <maml:name>NoDirectoryInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2619,7 +3242,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
           <maml:name>ExcludeChangedFiles</maml:name>
           <maml:description>
             <maml:para>Excludes changed files.</maml:para>
@@ -2790,10 +3413,21 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-          <maml:name>ExcludeFileJunctionPoints</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+          <maml:name>AssumeFATFileTime</maml:name>
           <maml:description>
-            <maml:para>Excludes junction points for files.</maml:para>
+            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+          <maml:name>CompensateDST</maml:name>
+          <maml:description>
+            <maml:para>Compensates for one-hour DST time differences.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2812,21 +3446,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-          <maml:name>AssumeFATFileTime</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+          <maml:name>ExcludeFileJunctionPoints</maml:name>
           <maml:description>
-            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-          <maml:name>CompensateDST</maml:name>
-          <maml:description>
-            <maml:para>Compensates for one-hour DST time differences.</maml:para>
+            <maml:para>Excludes junction points for files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -2903,6 +3526,166 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
+          <maml:name>List</maml:name>
+          <maml:description>
+            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+          <maml:name>ReportExtraFile</maml:name>
+          <maml:description>
+            <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+          <maml:name>NoSizeToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+          <maml:name>NoClassToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Unicode</maml:name>
+          <maml:description>
+            <maml:para>Displays the status output as Unicode text.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+          <maml:name>UnicodeLog</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+          <maml:name>SaveJob</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Quit</maml:name>
+          <maml:description>
+            <maml:para>Quits after processing command line to view parameters.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+          <maml:name>NoSourceDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Source Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+          <maml:name>NoDestinationDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Destination Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+          <maml:name>IncludeFollowingFile</maml:name>
+          <maml:description>
+            <maml:para>Include the following Files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
@@ -2914,17 +3697,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
-          <maml:name>List</maml:name>
-          <maml:description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -2987,18 +3759,6 @@
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="lev, Depth">
           <maml:name>Level</maml:name>
           <maml:description>
@@ -3011,6 +3771,17 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+          <maml:name>RestartMode</maml:name>
+          <maml:description>
+            <maml:para>Copies files in restartable mode.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
@@ -3022,10 +3793,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-          <maml:name>RestartMode</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+          <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>Copies files in restartable mode.</maml:para>
+            <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3066,6 +3837,40 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+          <maml:name>DirectoryCopyFlags</maml:name>
+          <maml:description>
+            <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+          <maml:name>CopyWithSecurity</maml:name>
+          <maml:description>
+            <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+          <maml:name>CopyAllFileInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>NoCopy</maml:name>
@@ -3203,7 +4008,7 @@
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
           <maml:name>Threads</maml:name>
           <maml:description>
             <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -3254,6 +4059,17 @@
           <maml:name>SymbolicLink</maml:name>
           <maml:description>
             <maml:para>Follows the symbolic link and copies the target.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+          <maml:name>NoDirectoryInformation</maml:name>
+          <maml:description>
+            <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3353,7 +4169,7 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
           <maml:name>ExcludeChangedFiles</maml:name>
           <maml:description>
             <maml:para>Excludes changed files.</maml:para>
@@ -3524,10 +4340,21 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-          <maml:name>ExcludeFileJunctionPoints</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+          <maml:name>AssumeFATFileTime</maml:name>
           <maml:description>
-            <maml:para>Excludes junction points for files.</maml:para>
+            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+          <maml:name>CompensateDST</maml:name>
+          <maml:description>
+            <maml:para>Compensates for one-hour DST time differences.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3546,21 +4373,10 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-          <maml:name>AssumeFATFileTime</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+          <maml:name>ExcludeFileJunctionPoints</maml:name>
           <maml:description>
-            <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-          <maml:name>CompensateDST</maml:name>
-          <maml:description>
-            <maml:para>Compensates for one-hour DST time differences.</maml:para>
+            <maml:para>Excludes junction points for files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -3637,6 +4453,166 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
+          <maml:name>List</maml:name>
+          <maml:description>
+            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+          <maml:name>ReportExtraFile</maml:name>
+          <maml:description>
+            <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+          <maml:name>NoSizeToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+          <maml:name>NoClassToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Unicode</maml:name>
+          <maml:description>
+            <maml:para>Displays the status output as Unicode text.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+          <maml:name>UnicodeLog</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+          <maml:name>JobName</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+          <maml:name>SaveJob</maml:name>
+          <maml:description>
+            <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Quit</maml:name>
+          <maml:description>
+            <maml:para>Quits after processing command line to view parameters.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+          <maml:name>NoSourceDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Source Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+          <maml:name>NoDestinationDirectory</maml:name>
+          <maml:description>
+            <maml:para>NO Destination Directory is specified.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+          <maml:name>IncludeFollowingFile</maml:name>
+          <maml:description>
+            <maml:para>Include the following Files.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
@@ -3648,17 +4624,6 @@
             <maml:uri />
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
-          <maml:name>List</maml:name>
-          <maml:description>
-            <maml:para>Specifies that files are to be listed only (and not copied, deleted, or time stamped).</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -3721,18 +4686,6 @@
         </dev:type>
         <dev:defaultValue>*.*</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>LogFile</maml:name>
-        <maml:description>
-          <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="s">
         <maml:name>IncludeSubDirectories</maml:name>
         <maml:description>
@@ -3769,6 +4722,18 @@
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
+        <maml:name>RestartMode</maml:name>
+        <maml:description>
+          <maml:para>Copies files in restartable mode.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
         <maml:name>BackupMode</maml:name>
         <maml:description>
@@ -3781,10 +4746,10 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
-        <maml:name>RestartMode</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
+        <maml:name>RestartAndBackupMode</maml:name>
         <maml:description>
-          <maml:para>Copies files in restartable mode.</maml:para>
+          <maml:para>Copies files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -3828,6 +4793,42 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dcopy">
+        <maml:name>DirectoryCopyFlags</maml:name>
+        <maml:description>
+          <maml:para>Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="sec">
+        <maml:name>CopyWithSecurity</maml:name>
+        <maml:description>
+          <maml:para>Copies files with security (equivalent to /copy:DATS).</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="copyall">
+        <maml:name>CopyAllFileInformation</maml:name>
+        <maml:description>
+          <maml:para>Copies all file information (equivalent to /copy:DATSOU).</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>NoCopy</maml:name>
@@ -3997,7 +4998,7 @@
         </dev:type>
         <dev:defaultValue>0</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
         <maml:name>Threads</maml:name>
         <maml:description>
           <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.</maml:para>
@@ -4049,6 +5050,18 @@
         <maml:name>SymbolicLink</maml:name>
         <maml:description>
           <maml:para>Follows the symbolic link and copies the target.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nodcopy">
+        <maml:name>NoDirectoryInformation</maml:name>
+        <maml:description>
+          <maml:para>Copies no directory info (the default /dcopy:DA is done).</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4153,7 +5166,7 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xct">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xc">
         <maml:name>ExcludeChangedFiles</maml:name>
         <maml:description>
           <maml:para>Excludes changed files.</maml:para>
@@ -4333,10 +5346,22 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
-        <maml:name>ExcludeFileJunctionPoints</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
+        <maml:name>AssumeFATFileTime</maml:name>
         <maml:description>
-          <maml:para>Excludes junction points for files.</maml:para>
+          <maml:para>Assumes FAT file times (two-second precision).</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
+        <maml:name>CompensateDST</maml:name>
+        <maml:description>
+          <maml:para>Compensates for one-hour DST time differences.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4357,22 +5382,10 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="fft">
-        <maml:name>AssumeFATFileTime</maml:name>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="xjf">
+        <maml:name>ExcludeFileJunctionPoints</maml:name>
         <maml:description>
-          <maml:para>Assumes FAT file times (two-second precision).</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="dst">
-        <maml:name>CompensateDST</maml:name>
-        <maml:description>
-          <maml:para>Compensates for one-hour DST time differences.</maml:para>
+          <maml:para>Excludes junction points for files.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -4453,18 +5466,6 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>Unit</maml:name>
-        <maml:description>
-          <maml:para>What unit the sizes are shown as</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>Auto</dev:defaultValue>
-      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="l">
         <maml:name>List</maml:name>
         <maml:description>
@@ -4476,6 +5477,174 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="x">
+        <maml:name>ReportExtraFile</maml:name>
+        <maml:description>
+          <maml:para>Report all eXtra files, not just those selected &amp; copied.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ns">
+        <maml:name>NoSizeToLog</maml:name>
+        <maml:description>
+          <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nc">
+        <maml:name>NoClassToLog</maml:name>
+        <maml:description>
+          <maml:para>Specifies that file sizes are not to be logged.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="nfl">
+        <maml:name>NoFileNameToLog</maml:name>
+        <maml:description>
+          <maml:para>Specifies that file names are not to be logged.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="log">
+        <maml:name>LogFile</maml:name>
+        <maml:description>
+          <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Unicode</maml:name>
+        <maml:description>
+          <maml:para>Displays the status output as Unicode text.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="unilog">
+        <maml:name>UnicodeLog</maml:name>
+        <maml:description>
+          <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Job">
+        <maml:name>JobName</maml:name>
+        <maml:description>
+          <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Save">
+        <maml:name>SaveJob</maml:name>
+        <maml:description>
+          <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Quit</maml:name>
+        <maml:description>
+          <maml:para>Quits after processing command line to view parameters.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NOSD">
+        <maml:name>NoSourceDirectory</maml:name>
+        <maml:description>
+          <maml:para>NO Source Directory is specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="NODD">
+        <maml:name>NoDestinationDirectory</maml:name>
+        <maml:description>
+          <maml:para>NO Destination Directory is specified.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="IF">
+        <maml:name>IncludeFollowingFile</maml:name>
+        <maml:description>
+          <maml:para>Include the following Files.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Unit</maml:name>
+        <maml:description>
+          <maml:para>What unit the sizes are shown as</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Auto</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>
@@ -4517,6 +5686,13 @@
         <dev:code>Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes</dev:code>
         <dev:remarks>
           <maml:para>Source              : E:\Google Drive\Script Library Destination         : G:\Temp\ Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" . /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts DirCount            : 589 FileCount           : 1220 DirCopied           : 588 FileCopied          : 1220 DirIgnored          : 1 FileIgnored         : 0 DirMismatched       : 0 FileMismatched      : 0 DirFailed           : 0 FileFailed          : 0 DirExtra            : 0 FileExtra           : 1 TotalTime           : 00:00:02 StartedTime         : 7/16/2019 10:03:28 PM EndedTime           : 7/16/2019 10:03:30 PM TotalSize           : 18839977 B TotalSizeCopied     : 18839977 B TotalSizeIgnored    : 0 B TotalSizeMismatched : 0 B TotalSizeFailed     : 0 B TotalSizeExtra      : 557048280 B Speed               : 12957343 B/s ExitCode            : 3 Success             : True LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Invoke-RoboCopy -Source C:\temp\from -Destination C:\temp\to -Mirror -SaveJob C:\temp\job</dev:code>
+        <dev:remarks>
+          <maml:para></maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

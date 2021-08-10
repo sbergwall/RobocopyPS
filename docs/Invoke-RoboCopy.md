@@ -14,89 +14,110 @@ Invoke Robocopy with PowerShell
 
 ### IncludeSubDirectories
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
- [-IncludeSubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-UnbufferedIO] [-EFSRaw]
- [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>]
- [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>]
- [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>] [-UsePerFileRunTimes]
- [-InterPacketGap <Int32>] [-SymbolicLink] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
- [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-IncludeSubDirectories]
+ [-Level <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw]
+ [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
+ [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
+ [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
+ [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
+ [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-Unit <String>] [-List] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
+ [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
+ [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### IncludeEmptySubDirectories
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>]
- [-IncludeEmptySubDirectories] [-Level <Int32>] [-BackupMode] [-RestartMode] [-UnbufferedIO] [-EFSRaw]
- [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>]
- [-RemoveAttribute <String[]>] [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>]
- [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>] [-UsePerFileRunTimes]
- [-InterPacketGap <Int32>] [-SymbolicLink] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
- [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-IncludeEmptySubDirectories]
+ [-Level <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw]
+ [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
+ [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
+ [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
+ [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
+ [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-Unit <String>] [-List] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
+ [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
+ [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Mirror
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
- [-BackupMode] [-RestartMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
+ [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
+ [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-Mirror] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
  [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoOffload] [-Compress] [-Archive]
- [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
+ [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload]
+ [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
  [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
  [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
  [-IncludeTweakedFiles] [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>]
  [-MinimumFileAge <String>] [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>]
- [-ExcludeJunctionPoints] [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime]
- [-CompensateDST] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-Unit <String>] [-List] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
+ [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
+ [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
+ [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>]
+ [-JobName <String>] [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
+ [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFiles
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
- [-BackupMode] [-RestartMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
+ [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
+ [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-MoveFiles] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
  [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoOffload] [-Compress] [-Archive]
- [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
+ [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload]
+ [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
  [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
  [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
  [-IncludeTweakedFiles] [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>]
  [-MinimumFileAge <String>] [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>]
- [-ExcludeJunctionPoints] [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime]
- [-CompensateDST] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-Unit <String>] [-List] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
+ [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
+ [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
+ [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>]
+ [-JobName <String>] [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
+ [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFilesAndDirectories
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-LogFile <String>] [-Level <Int32>]
- [-BackupMode] [-RestartMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>] [-NoCopy] [-SecurityFix]
+Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
+ [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
+ [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-MoveFilesAndDirectories] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoOffload] [-Compress]
- [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
- [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
- [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
- [-IncludeTweakedFiles] [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>]
- [-MinimumFileAge <String>] [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>]
- [-ExcludeJunctionPoints] [-ExcludeFileJunctionPoints] [-ExcludeDirectoryJunctionPoints] [-AssumeFATFileTime]
- [-CompensateDST] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-Unit <String>] [-List] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
+ [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
+ [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
+ [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
+ [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
+ [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -140,6 +161,11 @@ Success             : True
 LastExitCodeMessage : \[SUCCESS\]Some files were copied.
 Additional files were present.
 No failure was encountered.
+
+### EXAMPLE 2
+```
+Invoke-RoboCopy -Source C:\temp\from -Destination C:\temp\to -Mirror -SaveJob C:\temp\job
+```
 
 ## PARAMETERS
 
@@ -192,21 +218,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -LogFile
-Writes the status output to the log file (overwrites the existing log file).
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -IncludeSubDirectories
 Copies subdirectories.
 Note that this option excludes empty directories.
@@ -254,6 +265,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RestartMode
+Copies files in restartable mode.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: z
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -BackupMode
 Copies files in Backup mode.
 
@@ -269,13 +295,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RestartMode
+### -RestartAndBackupMode
 Copies files in restartable mode.
+If file access is denied, switches to backup mode.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: z
+Aliases: zb
 
 Required: False
 Position: Named
@@ -331,6 +358,53 @@ Aliases: copy
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DirectoryCopyFlags
+Specifies what to copy in directories.
+The valid values for this option are:D - Data, A - Attributes, T - Time stamps.
+The default value for this option is DA (data and attributes).
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases: dcopy
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CopyWithSecurity
+Copies files with security (equivalent to /copy:DATS).
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: sec
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CopyAllFileInformation
+Copies all file information (equivalent to /copy:DATSOU).
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: copyall
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -555,7 +629,7 @@ The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: MT
+Aliases: MT, MultiThread
 
 Required: False
 Position: Named
@@ -616,6 +690,21 @@ Follows the symbolic link and copies the target.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: sl
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoDirectoryInformation
+Copies no directory info (the default /dcopy:DA is done).
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: nodcopy
 
 Required: False
 Position: Named
@@ -751,7 +840,7 @@ Excludes changed files.
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: xct
+Aliases: xc
 
 Required: False
 Position: Named
@@ -971,13 +1060,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ExcludeFileJunctionPoints
-Excludes junction points for files.
+### -AssumeFATFileTime
+Assumes FAT file times (two-second precision).
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: xjf
+Aliases: fft
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CompensateDST
+Compensates for one-hour DST time differences.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: dst
 
 Required: False
 Position: Named
@@ -1001,28 +1105,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AssumeFATFileTime
-Assumes FAT file times (two-second precision).
+### -ExcludeFileJunctionPoints
+Excludes junction points for files.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: fft
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CompensateDST
-Compensates for one-hour DST time differences.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: dst
+Aliases: xjf
 
 Required: False
 Position: Named
@@ -1125,21 +1214,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Unit
-What unit the sizes are shown as
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: Auto
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -List
 Specifies that files are to be listed only (and not copied, deleted, or time stamped).
 
@@ -1151,6 +1225,216 @@ Aliases: l
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReportExtraFile
+Report all eXtra files, not just those selected & copied.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: x
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoSizeToLog
+Specifies that file sizes are not to be logged.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ns
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoClassToLog
+Specifies that file sizes are not to be logged.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: nc
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoFileNameToLog
+Specifies that file names are not to be logged.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases: nfl
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogFile
+Writes the status output to the log file (overwrites the existing log file).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: log
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Unicode
+Displays the status output as Unicode text.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UnicodeLog
+Writes the status output to the log file as Unicode text (overwrites the existing log file).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: unilog
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -JobName
+Specifies that parameters are to be derived from the named job file.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Job
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SaveJob
+Specifies that parameters are to be saved to the named job file.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: Save
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Quit
+Quits after processing command line to view parameters.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoSourceDirectory
+NO Source Directory is specified.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: NOSD
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoDestinationDirectory
+NO Destination Directory is specified.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: NODD
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeFollowingFile
+Include the following Files.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: IF
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Unit
+What unit the sizes are shown as
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: Auto
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

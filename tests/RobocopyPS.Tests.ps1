@@ -11,7 +11,7 @@ BeforeDiscovery {
 
     # Get all Robocopy options without slash
     $RobocopyHelp = Robocopy.exe /?
-    $RobocopyOptionsIgnore = "/bytes", "/TEE", "/np", "/njh", "/fp", "/v", "/ndl", "/ts", "/NJS", "ETA"
+    $RobocopyOptionsIgnore = "/bytes", "/TEE", "/np", "/njh", "/fp", "/v", "/ndl", "/ts", "/NJS", "/ETA"
     $RobocopyOptions = $RobocopyHelp | ForEach-Object { $_ -split ("`r`n") -split (" ") -split ("\[") -split (" :: ") -split (":") -replace ("\s", "") } | ForEach-Object { $_ | Where-Object { $_ -match "^/[A-Z]{1,}\b$|^/[0-9]{1,}\b$" -and $_ -notin $RobocopyOptionsIgnore } } | Sort-Object -Unique | ForEach-Object { $_ -replace ("/", "") }
 }
 
