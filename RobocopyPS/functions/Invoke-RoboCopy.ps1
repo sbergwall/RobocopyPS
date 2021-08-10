@@ -100,13 +100,13 @@ Function Invoke-RoboCopy {
         [Alias('lev', 'Depth')]
         [Int]$Level,
 
-        # Copies files in Backup mode.
-        [Alias('b')]
-        [switch]$BackupMode,
-
         # Copies files in restartable mode.
         [Alias('z')]
         [switch]$RestartMode,
+
+        # Copies files in Backup mode.
+        [Alias('b')]
+        [switch]$BackupMode,
 
         # Copies using unbuffered I/O (recommended for large files).
         [Alias('j')]
@@ -180,11 +180,6 @@ Function Invoke-RoboCopy {
         [Alias('mot')]
         [Int]$MonitorMinutes,
 
-        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
-        [Parameter(Mandatory = $False)]
-        [Alias('MT')]
-        [string]$Threads,
-
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
         [Alias('rh')]
@@ -203,6 +198,11 @@ Function Invoke-RoboCopy {
         # Follows the symbolic link and copies the target.
         [Alias('sl')]
         [switch]$SymbolicLink,
+
+        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        [Parameter(Mandatory = $False)]
+        [Alias('MT','MultiThread')]
+        [string]$Threads,
 
         # Copies files without using the Windows Copy Offload mechanism.
         [Switch]$NoOffload,
@@ -243,7 +243,7 @@ Function Invoke-RoboCopy {
         [String[]]$ExcludeDirectory,
 
         # Excludes changed files.
-        [Alias('xct')]
+        [Alias('xc')]
         [switch]$ExcludeChangedFiles,
 
         # Excludes newer files.
@@ -308,14 +308,6 @@ Function Invoke-RoboCopy {
         [Alias('xj')]
         [switch]$ExcludeJunctionPoints,
 
-        # Excludes junction points for files.
-        [Alias('xjf')]
-        [switch]$ExcludeFileJunctionPoints,
-
-        # Excludes junction points for directories.
-        [Alias('xjd')]
-        [switch]$ExcludeDirectoryJunctionPoints,
-
         # Assumes FAT file times (two-second precision).
         [Alias('fft')]
         [switch]$AssumeFATFileTime,
@@ -323,6 +315,14 @@ Function Invoke-RoboCopy {
         # Compensates for one-hour DST time differences.
         [Alias('dst')]
         [switch]$CompensateDST,
+
+        # Excludes junction points for directories.
+        [Alias('xjd')]
+        [switch]$ExcludeDirectoryJunctionPoints,
+
+        # Excludes junction points for files.
+        [Alias('xjf')]
+        [switch]$ExcludeFileJunctionPoints,
 
         <#Retry Options#>
 
@@ -350,15 +350,18 @@ Function Invoke-RoboCopy {
         [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
         [String]$LowFreeSpaceModeValue,
 
+        <# Logging #>
+        # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
+        [Alias('l')]
+        [Switch]$List,
+
+
+
         <# Other #>
 
         # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
-        [String]$Unit = 'Auto',
-
-        # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
-        [Alias('l')]
-        [Switch]$List
+        [String]$Unit = 'Auto'
     )
 
     Process {
@@ -416,7 +419,7 @@ Function Invoke-RoboCopy {
         if ($ExcludeAttribute) { $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join '' }
         if ($ExcludeFileName) { $RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '}
         if ($ExcludeDirectory) { $RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '}
-        if ($ExcludeChangedFiles) { $RobocopyArguments += '/xct' }
+        if ($ExcludeChangedFiles) { $RobocopyArguments += '/xc' }
         if ($ExcludeNewerFiles) { $RobocopyArguments += '/xn' }
         if ($ExcludeOlderFiles) { $RobocopyArguments += '/xo' }
         if ($ExcludeExtraFiles) { $RobocopyArguments += '/xx' }
