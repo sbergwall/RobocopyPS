@@ -82,10 +82,6 @@ Function Invoke-RoboCopy {
         [Parameter(Mandatory = $False)]
         [String[]] $Files = '*.*',
 
-        # Writes the status output to the log file (overwrites the existing log file).
-        [Parameter(Mandatory = $False)]
-        [String]$LogFile,
-
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
         # Copies subdirectories. Note that this option excludes empty directories.
@@ -111,6 +107,11 @@ Function Invoke-RoboCopy {
         [Alias('b')]
         [switch]$BackupMode,
 
+        # Copies files in restartable mode. If file access is denied, switches to backup mode.
+        [Alias('zb')]
+        [switch]$RestartAndBackupMode,
+
+
         # Copies using unbuffered I/O (recommended for large files).
         [Alias('j')]
         [Switch]$UnbufferedIO,
@@ -123,6 +124,20 @@ Function Invoke-RoboCopy {
         [Alias('copy')]
         [ValidateSet('D', 'A', 'T', 'S', 'O', 'U')]
         [String[]]$CopyFlags,
+
+        # Specifies what to copy in directories. The valid values for this option are:D - Data, A - Attributes, T - Time stamps. The default value for this option is DA (data and attributes).
+        [Parameter(Mandatory = $False)]
+        [Alias('dcopy')]
+        [ValidateSet('D', 'A', 'T')]
+        [String[]]$DirectoryCopyFlags,
+
+        # Copies files with security (equivalent to /copy:DATS).
+        [Alias('sec')]
+        [switch]$CopyWithSecurity,
+
+        # Copies all file information (equivalent to /copy:DATSOU).
+        [Alias('copyall')]
+        [switch]$CopyAllFileInformation,
 
         # Copies no file information.
         [switch]$NoCopy,
@@ -155,12 +170,12 @@ Function Invoke-RoboCopy {
 
         # Adds the specified attributes to copied files.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S', 'H','C', 'N', 'E', 'T')]
+        [ValidateSet('R', 'A', 'S', 'H', 'C', 'N', 'E', 'T')]
         [String[]]$AddAttribute,
 
         # Removes the specified attributes from copied files.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S', 'H','C', 'N', 'E', 'T')]
+        [ValidateSet('R', 'A', 'S', 'H', 'C', 'N', 'E', 'T')]
         [String[]]$RemoveAttribute,
 
         # Creates a directory tree and zero-length files only.
@@ -183,6 +198,11 @@ Function Invoke-RoboCopy {
         [Alias('mot')]
         [Int]$MonitorMinutes,
 
+        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        [Parameter(Mandatory = $False)]
+        [Alias('MT', 'MultiThread')]
+        [string]$Threads,
+
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
         [Alias('rh')]
@@ -202,10 +222,9 @@ Function Invoke-RoboCopy {
         [Alias('sl')]
         [switch]$SymbolicLink,
 
-        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
-        [Parameter(Mandatory = $False)]
-        [Alias('MT','MultiThread')]
-        [string]$Threads,
+        # Copies no directory info (the default /dcopy:DA is done).
+        [Alias('nodcopy')]
+        [switch]$NoDirectoryInformation,
 
         # Copies files without using the Windows Copy Offload mechanism.
         [Switch]$NoOffload,
@@ -226,12 +245,12 @@ Function Invoke-RoboCopy {
         # Includes only files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
         [Alias('ia')]
-        [ValidateSet('R', 'A', 'S','C' ,'H', 'N', 'E', 'T', 'O')]
+        [ValidateSet('R', 'A', 'S', 'C' , 'H', 'N', 'E', 'T', 'O')]
         [String[]]$IncludeAttribute,
 
         # Excludes files for which any of the specified attributes are set.
         [Parameter(Mandatory = $False)]
-        [ValidateSet('R', 'A', 'S','C' ,'H', 'N', 'E', 'T', 'O')]
+        [ValidateSet('R', 'A', 'S', 'C' , 'H', 'N', 'E', 'T', 'O')]
         [Alias('xa')]
         [String[]]$ExcludeAttribute,
 
@@ -354,9 +373,38 @@ Function Invoke-RoboCopy {
         [String]$LowFreeSpaceModeValue,
 
         <# Logging #>
+
         # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
         [Alias('l')]
         [Switch]$List,
+
+        # Report all eXtra files, not just those selected & copied.
+        [Alias('x')]
+        [Switch]$ReportExtraFile,
+
+        # Specifies that file sizes are not to be logged.
+        [Alias('ns')]
+        [switch]$NoSizeToLog,
+
+        # Specifies that file sizes are not to be logged.
+        [Alias('nc')]
+        [switch]$NoClassToLog,
+
+        # Specifies that file names are not to be logged.
+        [Alias('nfl')]
+        $NoFileNameToLog,
+
+        # Writes the status output to the log file (overwrites the existing log file).
+        [Alias('log')]
+        [Parameter(Mandatory = $False)]
+        [String]$LogFile,
+
+        # Displays the status output as Unicode text.
+        [switch]$Unicode,
+
+        # Writes the status output to the log file as Unicode text (overwrites the existing log file).
+        [Alias('unilog')]
+        [string]$UnicodeLog,
 
         <#Job options#>
 
@@ -407,79 +455,90 @@ Function Invoke-RoboCopy {
         $RobocopyArguments += '/w:' + $Wait
 
         # Copy options
-        if ($IncludeSubDirectories) { $RobocopyArguments += '/s'; $action = 'Copy' }
-        if ($IncludeEmptySubDirectories) { $RobocopyArguments += '/e'; $action = 'Copy' }
-        If ($LogFile) { $RobocopyArguments += '/log:' + $LogFile }
-        if ($Level) { $RobocopyArguments += '/lev:' + $Level }
-        if ($BackupMode) { $RobocopyArguments += '/b' }
-        if ($RestartMode) { $RobocopyArguments += '/z' }
-        if ($UnbufferedIO) { $RobocopyArguments += '/j'}
-        if ($EFSRaw) { $RobocopyArguments += '/efsraw' }
-        if ($CopyFlags) { $RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '') }
-        if ($NoCopy) { $RobocopyArguments += '/nocopy' }
-        if ($SecurityFix) { $RobocopyArguments += '/secfix' }
-        if ($Timefix) { $RobocopyArguments += '/timfix' }
-        if ($Purge) { $RobocopyArguments += '/purge' ; $action = 'Purge' }
-        if ($Mirror) { $RobocopyArguments += '/mir'; $action = 'Mirror' }
-        if ($MoveFiles) { $RobocopyArguments += '/mov'; $action = 'Move' }
-        if ($MoveFilesAndDirectories) { $RobocopyArguments += '/move' ; $action = 'Move' }
-        if ($AddAttribute) { $RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object -Unique) -join '') }
-        if ($RemoveAttribute) { $RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object -Unique) -join '') }
-        if ($Create) { $RobocopyArguments += '/create' }
-        if ($fat) { $RobocopyArguments += '/fat' }
-        if ($IgnoreLongPath) { $RobocopyArguments += '/256' }
-        if ($MonitorChanges) { $RobocopyArguments += '/mon:' + $MonitorChanges }
-        if ($MonitorMinutes) { $RobocopyArguments += '/mot:' + $MonitorMinutes }
-        if ($Threads) { $RobocopyArguments += '/MT:' + $Threads }
-        if ($RunTimes) { $RobocopyArguments += '/rh:' + $RunTimes }
-        if ($UsePerFileRunTimes) { $RobocopyArguments += '/pf' }
-        if ($InterPacketGap) { $RobocopyArguments += '/ipg:' + $InterPacketGap }
-        if ($SymbolicLink) { $RobocopyArguments += '/sl' }
-        if ($NoOffload) { $RobocopyArguments += '/nooffload' }
-        if ($Compress) { $RobocopyArguments += '/compress' }
+        if ($IncludeSubDirectories) {$RobocopyArguments += '/s'; $action = 'Copy'}
+        if ($IncludeEmptySubDirectories) {$RobocopyArguments += '/e'; $action = 'Copy'}
+        if ($Level) {$RobocopyArguments += '/lev:' + $Level}
+        if ($BackupMode) {$RobocopyArguments += '/b'}
+        if ($RestartMode) {$RobocopyArguments += '/z'}
+        if ($RestartAndBackupMode) {$RobocopyArguments += '/zb'}
+        if ($UnbufferedIO) {$RobocopyArguments += '/j'}
+        if ($EFSRaw) {$RobocopyArguments += '/efsraw'}
+        if ($CopyFlags) {$RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '')}
+        If ($DirectoryCopyFlags) {$RobocopyArguments += '/dcopy:' + (($DirectoryCopyFlags | Sort-Object -Unique) -join '')}
+        if ($CopyWithSecurity) {$RobocopyArguments += '/sec'}
+        If ($CopyAllFileInformation) {$RobocopyArguments += '/copyall'}
+        if ($NoCopy) {$RobocopyArguments += '/nocopy'}
+        if ($SecurityFix) {$RobocopyArguments += '/secfix'}
+        if ($Timefix) {$RobocopyArguments += '/timfix'}
+        if ($Purge) {$RobocopyArguments += '/purge' ; $action = 'Purge'}
+        if ($Mirror) {$RobocopyArguments += '/mir'; $action = 'Mirror'}
+        if ($MoveFiles) {$RobocopyArguments += '/mov'; $action = 'Move'}
+        if ($MoveFilesAndDirectories) {$RobocopyArguments += '/move' ; $action = 'Move'}
+        if ($AddAttribute) {$RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object -Unique) -join '')}
+        if ($RemoveAttribute) {$RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object -Unique) -join '')}
+        if ($Create) {$RobocopyArguments += '/create'}
+        if ($fat) {$RobocopyArguments += '/fat'}
+        if ($IgnoreLongPath) {$RobocopyArguments += '/256'}
+        if ($MonitorChanges) {$RobocopyArguments += '/mon:' + $MonitorChanges}
+        if ($MonitorMinutes) {$RobocopyArguments += '/mot:' + $MonitorMinutes}
+        if ($Threads) {$RobocopyArguments += '/MT:' + $Threads}
+        if ($RunTimes) {$RobocopyArguments += '/rh:' + $RunTimes}
+        if ($UsePerFileRunTimes) {$RobocopyArguments += '/pf'}
+        if ($InterPacketGap) {$RobocopyArguments += '/ipg:' + $InterPacketGap}
+        if ($SymbolicLink) {$RobocopyArguments += '/sl'}
+        if ($NoDirectoryInformation) {$RobocopyArguments += '/nodcopy'}
+        if ($NoOffload) {$RobocopyArguments += '/nooffload'}
+        if ($Compress) {$RobocopyArguments += '/compress'}
 
         # File selection options
-        if ($Archive) { $RobocopyArguments += '/a' }
-        if ($ResetArchiveAttribute) { $RobocopyArguments += '/m' }
-        if ($IncludeAttribute) { $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join '' }
-        if ($ExcludeAttribute) { $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join '' }
-        if ($ExcludeFileName) { $RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '}
-        if ($ExcludeDirectory) { $RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '}
-        if ($ExcludeChangedFiles) { $RobocopyArguments += '/xc' }
-        if ($ExcludeNewerFiles) { $RobocopyArguments += '/xn' }
-        if ($ExcludeOlderFiles) { $RobocopyArguments += '/xo' }
-        if ($ExcludeExtraFiles) { $RobocopyArguments += '/xx' }
-        if ($ExcludeLonelyFiles) { $RobocopyArguments += '/xl' }
-        if ($IncludeModifiedFile) { $RobocopyArguments += '/im' }
-        if ($IncludeSameFiles) { $RobocopyArguments += '/is' }
-        if ($IncludeTweakedFiles) { $RobocopyArguments += '/it' }
-        if ($MaximumFileSize) { $RobocopyArguments += '/max:' + $MaximumFileSize }
-        if ($MinimumFileSize) { $RobocopyArguments += '/min:' + $MinimumFileSize }
-        if ($MaximumFileAge) { $RobocopyArguments += '/maxage:' + $MaximumFileAge }
-        if ($MinimumFileAge) { $RobocopyArguments += '/minage:' + $MinimumFileAge }
-        if ($MaximumFileLastAccessDate) { $RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate }
-        if ($MinimumFileLastAccessDate) { $RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate }
-        if ($ExcludeJunctionPoints) { $RobocopyArguments += '/xj' }
-        if ($ExcludeFileJunctionPoints) { $RobocopyArguments += '/xjf' }
-        if ($ExcludeDirectoryJunctionPoints) { $RobocopyArguments += '/xjd' }
-        if ($AssumeFATFileTime) { $RobocopyArguments += '/fft' }
-        if ($CompensateDST) { $RobocopyArguments += '/dst' }
-        if ($SaveRetrySettings) { $RobocopyArguments += '/reg' }
-        if ($WaitForShareName) { $RobocopyArguments += '/tbd' }
-        If ($List) { $RobocopyArguments += '/l' ; $action = 'List' }
-        If ($LowFreeSpaceMode) { $RobocopyArguments += '/LFSM'}
-        If ($LowFreeSpaceModeValue) { $RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue}
+        if ($Archive) {$RobocopyArguments += '/a'}
+        if ($ResetArchiveAttribute) {$RobocopyArguments += '/m'}
+        if ($IncludeAttribute) {$RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join ''}
+        if ($ExcludeAttribute) {$RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join ''}
+        if ($ExcludeFileName) {$RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '}
+        if ($ExcludeDirectory) {$RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '}
+        if ($ExcludeChangedFiles) {$RobocopyArguments += '/xc'}
+        if ($ExcludeNewerFiles) {$RobocopyArguments += '/xn'}
+        if ($ExcludeOlderFiles) {$RobocopyArguments += '/xo'}
+        if ($ExcludeExtraFiles) {$RobocopyArguments += '/xx'}
+        if ($ExcludeLonelyFiles) {$RobocopyArguments += '/xl'}
+        if ($IncludeModifiedFile) {$RobocopyArguments += '/im'}
+        if ($IncludeSameFiles) {$RobocopyArguments += '/is'}
+        if ($IncludeTweakedFiles) {$RobocopyArguments += '/it'}
+        if ($MaximumFileSize) {$RobocopyArguments += '/max:' + $MaximumFileSize}
+        if ($MinimumFileSize) {$RobocopyArguments += '/min:' + $MinimumFileSize}
+        if ($MaximumFileAge) {$RobocopyArguments += '/maxage:' + $MaximumFileAge}
+        if ($MinimumFileAge) {$RobocopyArguments += '/minage:' + $MinimumFileAge}
+        if ($MaximumFileLastAccessDate) {$RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate}
+        if ($MinimumFileLastAccessDate) {$RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate}
+        if ($ExcludeJunctionPoints) {$RobocopyArguments += '/xj'}
+        if ($ExcludeFileJunctionPoints) {$RobocopyArguments += '/xjf'}
+        if ($ExcludeDirectoryJunctionPoints) {$RobocopyArguments += '/xjd'}
+        if ($AssumeFATFileTime) {$RobocopyArguments += '/fft'}
+        if ($CompensateDST) {$RobocopyArguments += '/dst'}
+        if ($SaveRetrySettings) {$RobocopyArguments += '/reg'}
+        if ($WaitForShareName) {$RobocopyArguments += '/tbd'}
+        If ($LowFreeSpaceMode) {$RobocopyArguments += '/LFSM'}
+        If ($LowFreeSpaceModeValue) {$RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue}
 
         # Logging Options
+        If ($List) {$RobocopyArguments += '/l' ; $action = 'List'}
+        If ($ReportExtraFile) {$RobocopyArguments += '/x'}
+        If ($NoSizeToLog) {$RobocopyArguments += '/ns'}
+        If ($NoClassToLog) {$RobocopyArguments += '/nc'}
+        If ($NoFileNameToLog) {$RobocopyArguments += '/nfl'}
+        If ($LogFile) {$RobocopyArguments += '/log:' + $LogFile}
+        If ($Unicode) {$RobocopyArguments += '/unicode'}
+        If ($UnicodeLog) {$RobocopyArguments += '/unilog:' + $UnicodeLog}
+
 
         # Job Options
-        If ($JobName) { $RobocopyArguments += '/job:' + $JobName}
-        If ($SaveJob) { $RobocopyArguments += '/save:' + $SaveJob}
-        If ($Quit) { $RobocopyArguments += '/quit'}
-        If ($NoSourceDirectory) { $RobocopyArguments += '/NOSD'}
-        If ($NoDestinationDirectory) { $RobocopyArguments += '/NODD'}
-        If ($NoDestinationDirectory) { $RobocopyArguments += '/IF' + }
-
+        If ($JobName) {$RobocopyArguments += '/job:' + $JobName}
+        If ($SaveJob) {$RobocopyArguments += '/save:' + $SaveJob}
+        If ($Quit) {$RobocopyArguments += '/quit'}
+        If ($NoSourceDirectory) {$RobocopyArguments += '/NOSD'}
+        If ($NoDestinationDirectory) {$RobocopyArguments += '/NODD'}
+        If ($IncludeFollowingFile) {$RobocopyArguments += '/IF' + " $IncludeFollowingFile"}
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
