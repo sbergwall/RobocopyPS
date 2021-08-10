@@ -14,7 +14,7 @@ Function Invoke-RoboCopy {
     Shows what would happen if the function runs. The function is not run.
 
     .EXAMPLE
-    PS$ > Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
+    Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
 
     Source              : E:\Google Drive\Script Library
     Destination         : G:\Temp\
@@ -44,6 +44,9 @@ Function Invoke-RoboCopy {
     ExitCode            : 3
     Success             : True
     LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+
+    .EXAMPLE
+    Invoke-RoboCopy -Source C:\temp\from -Destination C:\temp\to -Mirror -SaveJob C:\temp\job
 
     .NOTES
     Original script by Keith S. Garner (KeithGa@KeithGa.com) - 6/23/2014
@@ -355,7 +358,26 @@ Function Invoke-RoboCopy {
         [Alias('l')]
         [Switch]$List,
 
+        <#Job options#>
 
+        # Specifies that parameters are to be derived from the named job file.
+        [Alias('Job')]
+        [string]$JobName,
+
+        # Specifies that parameters are to be saved to the named job file.
+        [Alias('Save')]
+        [string]$SaveJob,
+
+        # Quits after processing command line to view parameters.
+        [switch]$Quit,
+
+        # NO Source Directory is specified.
+        [Alias('NOSD')]
+        [switch]$NoSourceDirectory,
+
+        # NO Destination Directory is specified.
+        [Alias('NODD')]
+        [switch]$NoDestinationDirectory,
 
         <# Other #>
 
@@ -444,6 +466,15 @@ Function Invoke-RoboCopy {
         If ($LowFreeSpaceMode) { $RobocopyArguments += '/LFSM'}
         If ($LowFreeSpaceModeValue) { $RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue}
 
+        # Logging Options
+
+        # Job Options
+        If ($JobName) { $RobocopyArguments += '/job:' + $JobName}
+        If ($SaveJob) { $RobocopyArguments += '/save:' + $SaveJob}
+        If ($Quit) { $RobocopyArguments += '/quit'}
+        If ($NoSourceDirectory) { $RobocopyArguments += '/NOSD'}
+        If ($NoDestinationDirectory) { $RobocopyArguments += '/NODD'}
+
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
 
@@ -454,6 +485,12 @@ Function Invoke-RoboCopy {
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
             $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
+
+            If ($Quit) {
+                # If Quit is used output parameters and break
+                Robocopy.exe $RoboArgs
+                break
+            }
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
             Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit | & {
