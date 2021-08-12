@@ -29,9 +29,10 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Inc
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
  [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
- [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
- [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
+ [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### IncludeEmptySubDirectories
@@ -51,9 +52,10 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Inc
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
  [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
- [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
- [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
+ [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Mirror
@@ -72,9 +74,10 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
  [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
  [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>]
- [-JobName <String>] [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
- [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
+ [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFiles
@@ -93,9 +96,10 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
  [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
  [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>]
- [-JobName <String>] [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
- [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
+ [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### MoveFilesAndDirectories
@@ -115,14 +119,15 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
  [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-Unicode] [-UnicodeLog <String>] [-JobName <String>]
- [-SaveJob <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>]
- [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
+ [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches.
-Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts.
+Some parameters are in use by the function: /bytes /TEE /np /njh /fp /ndl /ts.
 
 ## EXAMPLES
 
@@ -133,7 +138,7 @@ Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -
 
 Source              : E:\Google Drive\Script Library
 Destination         : G:\Temp\
-Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts
+Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /ndl /ts
 DirCount            : 589
 FileCount           : 1220
 DirCopied           : 588
@@ -1304,6 +1309,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -LogFileWithAppend
+Writes the status output to the log file (appends the output to the existing log file).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Unicode
 Displays the status output as Unicode text.
 
@@ -1326,6 +1346,21 @@ Writes the status output to the log file as Unicode text (overwrites the existin
 Type: String
 Parameter Sets: (All)
 Aliases: unilog
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UnicodeLogWithAppend
+Writes the status output to the log file as Unicode text (appends the output to the existing log file).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named
