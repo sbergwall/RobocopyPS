@@ -524,6 +524,7 @@ Function Invoke-RoboCopy {
         # Logging Options
         If ($List) {$RobocopyArguments += '/l' ; $action = 'List'}
         If ($ReportExtraFile) {$RobocopyArguments += '/x'}
+        If ($Verbose -eq $True) {$RobocopyArguments += '/v'}
         If ($NoSizeToLog) {$RobocopyArguments += '/ns'}
         If ($NoClassToLog) {$RobocopyArguments += '/nc'}
         If ($NoFileNameToLog) {$RobocopyArguments += '/nfl'}
@@ -549,7 +550,7 @@ Function Invoke-RoboCopy {
             }
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
-            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /v /ndl /ts" -split " "
+            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /ndl /ts" -split " "
 
             If ($Quit) {
                 # If Quit is used output parameters and break
