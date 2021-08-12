@@ -5,7 +5,7 @@ Function Invoke-RoboCopy {
 
     .DESCRIPTION
     See https://technet.microsoft.com/en-us/library/cc733145(v=ws.11).aspx for an extensive documentation on Robocopy switches.
-    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /v /ndl /ts.
+    Some parameters are in use by the function: /bytes /TEE /np /njh /fp /ndl /ts.
 
     .PARAMETER Confirm
     Prompts you for confirmation before running the function.
@@ -18,7 +18,7 @@ Function Invoke-RoboCopy {
 
     Source              : E:\Google Drive\Script Library
     Destination         : G:\Temp\
-    Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts
+    Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /ndl /ts
     DirCount            : 589
     FileCount           : 1220
     DirCopied           : 588
