@@ -1,5 +1,22 @@
 # RobocopyPS Release History
 
+## 0.2.5 - 2021-08-12
+
+### Added
+
+* Added parameters so the module is in phase with native Robocopy, tested on Windows 10 21H1
+
+### Changed
+
+* Removed some of the forced parameters we use (example /v is not used if -Verbose is not specified)
+* Changed some tests to be compatible with Pester version 5
+* Changed documentation
+
+### Removed
+
+* Removed some tests
+
+
 ## 0.2.2 - 2019-07-18
 
 ### Fixed

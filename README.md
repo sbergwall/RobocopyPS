@@ -59,51 +59,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
 
 ````
 
-### Example: List
-
-This will only list all your files to verbose and output information. No copy, delete or mirror will be done.
-
-```` PowerShell
-PS$ > Invoke-RoboCopy -Source "C:\Users\Simon\Downloads\" -Destination NULL -List -Recurse -Verbose
-VERBOSE: Performing the operation "List" on target "NULL from C:\Users\Simon\Downloads\".
-VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\desktop.ini" to target "NULL" Status on Item "New File". Length on Item "282". TimeStamp on Item "6/22/2019 2:28:00 PM"
-VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\SteamSetup.exe" to target "NULL" Status on Item "New File". Length on Item "1573568". TimeStamp on Item "6/27/2019 9:20:02 AM"
-VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\VeeamBackup&Replication_9.5.4.2753.Update4a.iso" to target "NULL" Status on Item "New File". Length on Item "5208592384". TimeStamp on Item
-"7/11/2019 8:54:34 PM"
-VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\Windows10Upgrade9252.exe" to target "NULL" Status on Item "New File". Length on Item "6254480". TimeStamp on Item "6/22/2019 11:15:55 AM"
-
-
-Source              : C:\Users\Simon\Downloads\
-Destination         : NULL
-Command             : Robocopy.exe "C:\Users\Simon\Downloads" "NULL" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts
-DirCount            : 1
-FileCount           : 4
-DirCopied           : 1
-FileCopied          : 4
-DirIgnored          : 0
-FileIgnored         : 0
-DirMismatched       : 0
-FileMismatched      : 0
-DirFailed           : 0
-FileFailed          : 0
-DirExtra            : 0
-FileExtra           : 0
-TotalTime           : 00:00:00
-StartedTime         : 7/16/2019 10:16:39 PM
-EndedTime           : 7/16/2019 10:16:39 PM
-TotalSize           : 4.9 GB
-TotalSizeCopied     : 4.9 GB
-TotalSizeIgnored    : 0 B
-TotalSizeMismatched : 0 B
-TotalSizeFailed     : 0 B
-TotalSizeExtra      : 0 B
-Speed               : 0 B/s
-ExitCode            : 1
-Success             : True
-LastExitCodeMessage : [SUCCESS]All files were copied successfully.
-````
-
-### Example: How RobocopyPS handle native Robocopy errors
+### How RobocopyPS handle native Robocopy errors
 
 In this example we try to use the -Backup parameter (/B) without having permission to do so. Invoke-Robocopy, at the moment, do not know if it should be a terminating or a non terminating error in PowerShell, so it will throw all errors it can find as non terminating and continue.
 
@@ -160,7 +116,6 @@ ExitCode            : 16
 Success             : False
 LastExitCodeMessage : [ERROR]Robocopy did not copy any files. Either a usage error or an error due to insufficient access privileges on the source or destination directories.
 ````
-
 
 ## Release History
 

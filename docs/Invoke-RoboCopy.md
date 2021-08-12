@@ -19,12 +19,12 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Inc
  [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
- [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
- [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
+ [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
+ [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
+ [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
+ [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
+ [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
@@ -42,12 +42,12 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Inc
  [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
  [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
- [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
- [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
+ [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
+ [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
+ [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
+ [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
+ [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
@@ -65,16 +65,17 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-Mirror] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
  [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload]
- [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
- [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
- [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
- [-IncludeTweakedFiles] [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>]
- [-MinimumFileAge <String>] [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>]
- [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
- [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
- [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
+ [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
+ [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
+ [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
  [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
  [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
@@ -87,16 +88,17 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-MoveFiles] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
  [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload]
- [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>]
- [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
- [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
- [-IncludeTweakedFiles] [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>]
- [-MinimumFileAge <String>] [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>]
- [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
- [-ExcludeFileJunctionPoints] [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName]
- [-LowFreeSpaceMode] [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
+ [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
+ [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
+ [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
+ [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
+ [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
  [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
  [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
@@ -109,12 +111,12 @@ Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Lev
  [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
  [-Timefix] [-Purge] [-MoveFilesAndDirectories] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
  [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
- [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
- [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
+ [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
+ [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
+ [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
+ [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
+ [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
+ [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
  [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
  [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
  [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
@@ -133,8 +135,10 @@ Some parameters are in use by the function: /bytes /TEE /np /njh /fp /ndl /ts.
 
 ### EXAMPLE 1
 ```
-Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
+Copy with Recurse
 ```
+
+Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
 
 Source              : E:\Google Drive\Script Library
 Destination         : G:\Temp\
@@ -168,6 +172,58 @@ Additional files were present.
 No failure was encountered.
 
 ### EXAMPLE 2
+```
+This will only list all your files to verbose and output information. No copy, delete or mirror will be done.
+```
+
+Invoke-RoboCopy -Source "C:\Users\Simon\Downloads\" -Destination NULL -List -Recurse -Verbose
+
+VERBOSE: Performing the operation "List" on target "NULL from C:\Users\Simon\Downloads\".
+VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\desktop.ini" to target "NULL" Status on Item "New File".
+Length on Item "282".
+TimeStamp on Item "6/22/2019 2:28:00 PM"
+VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\SteamSetup.exe" to target "NULL" Status on Item "New File".
+Length on Item "1573568".
+TimeStamp on Item "6/27/2019 9:20:02 AM"
+VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\VeeamBackup&Replication_9.5.4.2753.Update4a.iso" to target "NULL" Status on Item "New File".
+Length on Item "5208592384".
+TimeStamp on Item
+"7/11/2019 8:54:34 PM"
+VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\Windows10Upgrade9252.exe" to target "NULL" Status on Item "New File".
+Length on Item "6254480".
+TimeStamp on Item "6/22/2019 11:15:55 AM"
+
+
+Source              : C:\Users\Simon\Downloads\
+Destination         : NULL
+Command             : Robocopy.exe "C:\Users\Simon\Downloads" "NULL" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts
+DirCount            : 1
+FileCount           : 4
+DirCopied           : 1
+FileCopied          : 4
+DirIgnored          : 0
+FileIgnored         : 0
+DirMismatched       : 0
+FileMismatched      : 0
+DirFailed           : 0
+FileFailed          : 0
+DirExtra            : 0
+FileExtra           : 0
+TotalTime           : 00:00:00
+StartedTime         : 7/16/2019 10:16:39 PM
+EndedTime           : 7/16/2019 10:16:39 PM
+TotalSize           : 4.9 GB
+TotalSizeCopied     : 4.9 GB
+TotalSizeIgnored    : 0 B
+TotalSizeMismatched : 0 B
+TotalSizeFailed     : 0 B
+TotalSizeExtra      : 0 B
+Speed               : 0 B/s
+ExitCode            : 1
+Success             : True
+LastExitCodeMessage : \[SUCCESS\]All files were copied successfully.
+
+### EXAMPLE 3
 ```
 Invoke-RoboCopy -Source C:\temp\from -Destination C:\temp\to -Mirror -SaveJob C:\temp\job
 ```
@@ -688,8 +744,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CopyJunction
+Copy Junctions as junctions instead of as the junction targets.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: sj
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SymbolicLink
-Follows the symbolic link and copies the target.
+Copy Symbolic Links as links instead of as the link targets.
 
 ```yaml
 Type: SwitchParameter

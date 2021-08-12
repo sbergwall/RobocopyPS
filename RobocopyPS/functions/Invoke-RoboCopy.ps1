@@ -14,6 +14,8 @@ Function Invoke-RoboCopy {
     Shows what would happen if the function runs. The function is not run.
 
     .EXAMPLE
+    Copy with Recurse
+
     Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
 
     Source              : E:\Google Drive\Script Library
@@ -44,6 +46,48 @@ Function Invoke-RoboCopy {
     ExitCode            : 3
     Success             : True
     LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+
+    .EXAMPLE
+    This will only list all your files to verbose and output information. No copy, delete or mirror will be done.
+
+    Invoke-RoboCopy -Source "C:\Users\Simon\Downloads\" -Destination NULL -List -Recurse -Verbose
+
+    VERBOSE: Performing the operation "List" on target "NULL from C:\Users\Simon\Downloads\".
+    VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\desktop.ini" to target "NULL" Status on Item "New File". Length on Item "282". TimeStamp on Item "6/22/2019 2:28:00 PM"
+    VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\SteamSetup.exe" to target "NULL" Status on Item "New File". Length on Item "1573568". TimeStamp on Item "6/27/2019 9:20:02 AM"
+    VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\VeeamBackup&Replication_9.5.4.2753.Update4a.iso" to target "NULL" Status on Item "New File". Length on Item "5208592384". TimeStamp on Item
+    "7/11/2019 8:54:34 PM"
+    VERBOSE: "List File" on "Item C:\Users\Simon\Downloads\Windows10Upgrade9252.exe" to target "NULL" Status on Item "New File". Length on Item "6254480". TimeStamp on Item "6/22/2019 11:15:55 AM"
+
+
+    Source              : C:\Users\Simon\Downloads\
+    Destination         : NULL
+    Command             : Robocopy.exe "C:\Users\Simon\Downloads" "NULL" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /v /ndl /ts
+    DirCount            : 1
+    FileCount           : 4
+    DirCopied           : 1
+    FileCopied          : 4
+    DirIgnored          : 0
+    FileIgnored         : 0
+    DirMismatched       : 0
+    FileMismatched      : 0
+    DirFailed           : 0
+    FileFailed          : 0
+    DirExtra            : 0
+    FileExtra           : 0
+    TotalTime           : 00:00:00
+    StartedTime         : 7/16/2019 10:16:39 PM
+    EndedTime           : 7/16/2019 10:16:39 PM
+    TotalSize           : 4.9 GB
+    TotalSizeCopied     : 4.9 GB
+    TotalSizeIgnored    : 0 B
+    TotalSizeMismatched : 0 B
+    TotalSizeFailed     : 0 B
+    TotalSizeExtra      : 0 B
+    Speed               : 0 B/s
+    ExitCode            : 1
+    Success             : True
+    LastExitCodeMessage : [SUCCESS]All files were copied successfully.
 
     .EXAMPLE
     Invoke-RoboCopy -Source C:\temp\from -Destination C:\temp\to -Mirror -SaveJob C:\temp\job
@@ -218,7 +262,11 @@ Function Invoke-RoboCopy {
         [Alias('ipg')]
         [Int]$InterPacketGap,
 
-        # Follows the symbolic link and copies the target.
+        # Copy Junctions as junctions instead of as the junction targets.
+        [Alias('sj')]
+        [switch]$CopyJunction,
+
+        # Copy Symbolic Links as links instead of as the link targets.
         [Alias('sl')]
         [switch]$SymbolicLink,
 
@@ -492,6 +540,7 @@ Function Invoke-RoboCopy {
         if ($RunTimes) {$RobocopyArguments += '/rh:' + $RunTimes}
         if ($UsePerFileRunTimes) {$RobocopyArguments += '/pf'}
         if ($InterPacketGap) {$RobocopyArguments += '/ipg:' + $InterPacketGap}
+        if ($CopyJunction) {$RobocopyArguments += '/sj'}
         if ($SymbolicLink) {$RobocopyArguments += '/sl'}
         if ($NoDirectoryInformation) {$RobocopyArguments += '/nodcopy'}
         if ($NoOffload) {$RobocopyArguments += '/nooffload'}
@@ -540,8 +589,6 @@ Function Invoke-RoboCopy {
         If ($Unicode) {$RobocopyArguments += '/unicode'}
         If ($UnicodeLog) {$RobocopyArguments += '/unilog:' + $UnicodeLog}
         If ($UnicodeLogWithAppend) {$RobocopyArguments += '/unilog+:' + $UnicodeLogWithAppend}
-
-
 
         # Job Options
         If ($JobName) {$RobocopyArguments += '/job:' + $JobName}
