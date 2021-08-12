@@ -399,12 +399,19 @@ Function Invoke-RoboCopy {
         [Parameter(Mandatory = $False)]
         [String]$LogFile,
 
+        # Writes the status output to the log file (appends the output to the existing log file).
+        [Parameter(Mandatory = $False)]
+        [String]$LogFileWithAppend,
+
         # Displays the status output as Unicode text.
         [switch]$Unicode,
 
         # Writes the status output to the log file as Unicode text (overwrites the existing log file).
         [Alias('unilog')]
         [string]$UnicodeLog,
+
+        # Writes the status output to the log file as Unicode text (appends the output to the existing log file).
+        [string]$UnicodeLogWithAppend,
 
         <#Job options#>
 
@@ -529,8 +536,11 @@ Function Invoke-RoboCopy {
         If ($NoClassToLog) {$RobocopyArguments += '/nc'}
         If ($NoFileNameToLog) {$RobocopyArguments += '/nfl'}
         If ($LogFile) {$RobocopyArguments += '/log:' + $LogFile}
+        If ($LogFileWithAppend){$RobocopyArguments += '/log+:' + $LogFileWithAppend}
         If ($Unicode) {$RobocopyArguments += '/unicode'}
         If ($UnicodeLog) {$RobocopyArguments += '/unilog:' + $UnicodeLog}
+        If ($UnicodeLogWithAppend) {$RobocopyArguments += '/unilog+:' + $UnicodeLogWithAppend}
+
 
 
         # Job Options
