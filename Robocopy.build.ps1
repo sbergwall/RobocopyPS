@@ -10,7 +10,7 @@ PARAM (
 task UpdateHelp {
     "Import Module $PSScriptRoot\RobocopyPS"
     Import-Module $PSScriptRoot\RobocopyPS -Force
-    New-MarkdownHelp -Module RobocopyPS -OutputFolder .\docs -force
+    Update-MarkdownHelp -Path $PSScriptRoot\docs
     New-ExternalHelp -Path $PSScriptRoot\docs -OutputPath .\en-US -Force
 }
 

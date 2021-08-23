@@ -27,32 +27,21 @@ Describe "<command>" -ForEach $commands {
 
     }
 
-    Context '<command> parameters and aliases' -Foreach $RobocopyOptions {
-        BeforeEach {
-        $RobocopyOption = $_
-        $allParameterNameAndAlias = $parameters.Name + $parameters.aliases
-        $RobocopyOption | Should -BeIn $allParameterNameAndAlias
-        }
-
-        It '<RobocopyOption> Shold have a parameter name or alias' {
-            $RobocopyOption | Should -BeIn $allParameterNameAndAlias
-        }
-    }
-
     Context '<command> Help' {
-        It '<command> Help Synopsis is not null' {
+        It '<command> Help Synopsis' {
             $help.Synopsis | Should -Not -BeNullOrEmpty
         }
-        It '<command> Help Description is not null' {
+        It '<command> Help Description' {
             $help.Description.Text | Should -Not -BeNullOrEmpty
         }
-        It '<command> Help Example is not null' {
+        It '<command> Help Example' {
             ($Help.Examples.Example | Select-Object -First 1).Code | Should -Not -BeNullOrEmpty
         }
-        It '<command> Help Example Remarks is not null' {
+        It '<command> Help Example Remarks' {
             ($Help.Examples.Example.Remarks | Select-Object -First 1).Text | Should -Not -BeNullOrEmpty
         }
     }
+
     Context '<command> Parameters' -foreach $parameters {
         BeforeEach {
             $parameter = $_
@@ -76,4 +65,28 @@ Describe "<command>" -ForEach $commands {
         }
     }
 
+}
+
+Describe "Invoke-Robocopy Aliases" {
+    BeforeAll {
+        $command = 'Invoke-Robocopy'
+
+        $Common = 'Debug', 'ErrorAction', 'ErrorVariable', 'InformationAction', 'InformationVariable', 'OutBuffer', 'OutVariable',
+        'PipelineVariable', 'Verbose', 'WarningAction', 'WarningVariable'
+
+        $parameters = $command.ParameterSets.Parameters | Sort-Object -Property Name -Unique | Where-Object Name -notin $common
+
+        Context '<_> parameters and aliases' -Foreach $RobocopyOptions {
+
+            BeforeEach {
+            $RobocopyOption = $_
+            $allParameterNameAndAlias = $parameters.Name + $parameters.aliases
+            $RobocopyOption | Should -BeIn $allParameterNameAndAlias
+            }
+
+            It '<RobocopyOption> Shold have a parameter name or alias' {
+                $RobocopyOption | Should -BeIn $allParameterNameAndAlias
+            }
+        }
+    }
 }
