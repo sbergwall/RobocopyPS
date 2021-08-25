@@ -31,7 +31,6 @@ Describe "<command>" -ForEach $commands {
         BeforeEach {
         $RobocopyOption = $_
         $allParameterNameAndAlias = $parameters.Name + $parameters.aliases
-        $RobocopyOption | Should -BeIn $allParameterNameAndAlias
         }
 
         It '<RobocopyOption> Shold have a parameter name or alias' {
