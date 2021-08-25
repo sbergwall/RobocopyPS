@@ -6,11 +6,11 @@
       <command:verb>Get</command:verb>
       <command:noun>RoboItem</command:noun>
       <maml:description>
-        <maml:para>{{ Fill in the Synopsis }}</maml:para>
+        <maml:para>Get information about file or directories with Robocopy.</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>{{ Fill in the Description }}</maml:para>
+      <maml:para>Get information like directory size or number of directories in any give location with the help of Robocopy.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -18,11 +18,11 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="FullPath">
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Path Description }}</maml:para>
+            <maml:para>Path to directory.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
-            <maml:name>Object</maml:name>
+            <maml:name>String[]</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -30,7 +30,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>Files</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Files Description }}</maml:para>
+            <maml:para>Specifies the file or files. You can use wildcard characters ( or ?), if you want. If the File parameter is not specified, .* is used as the default value.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
@@ -42,7 +42,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="lev, Depth">
           <maml:name>Level</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Level Description }}</maml:para>
+            <maml:para>Get only the top N levels of the source directory tree.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
           <dev:type>
@@ -54,7 +54,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
           <maml:name>BackupMode</maml:name>
           <maml:description>
-            <maml:para>{{ Fill BackupMode Description }}</maml:para>
+            <maml:para>Get files in Backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -65,7 +65,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>Recurse</maml:name>
           <maml:description>
-            <maml:para>{{ Fill Recurse Description }}</maml:para>
+            <maml:para>Includes subdirectories and files.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -76,7 +76,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
           <maml:name>RestartAndBackupMode</maml:name>
           <maml:description>
-            <maml:para>{{ Fill RestartAndBackupMode Description }}</maml:para>
+            <maml:para>Get files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -87,7 +87,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
           <maml:name>RestartMode</maml:name>
           <maml:description>
-            <maml:para>{{ Fill RestartMode Description }}</maml:para>
+            <maml:para>Get files in restartable mode.</maml:para>
           </maml:description>
           <dev:type>
             <maml:name>SwitchParameter</maml:name>
@@ -101,7 +101,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="b">
         <maml:name>BackupMode</maml:name>
         <maml:description>
-          <maml:para>{{ Fill BackupMode Description }}</maml:para>
+          <maml:para>Get files in Backup mode.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -113,7 +113,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>Files</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Files Description }}</maml:para>
+          <maml:para>Specifies the file or files. You can use wildcard characters ( or ?), if you want. If the File parameter is not specified, .* is used as the default value.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
@@ -125,7 +125,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="lev, Depth">
         <maml:name>Level</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Level Description }}</maml:para>
+          <maml:para>Get only the top N levels of the source directory tree.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
@@ -137,11 +137,11 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="0" aliases="FullPath">
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Path Description }}</maml:para>
+          <maml:para>Path to directory.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
         <dev:type>
-          <maml:name>Object</maml:name>
+          <maml:name>String[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -149,7 +149,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
         <maml:name>Recurse</maml:name>
         <maml:description>
-          <maml:para>{{ Fill Recurse Description }}</maml:para>
+          <maml:para>Includes subdirectories and files.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -161,7 +161,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="zb">
         <maml:name>RestartAndBackupMode</maml:name>
         <maml:description>
-          <maml:para>{{ Fill RestartAndBackupMode Description }}</maml:para>
+          <maml:para>Get files in restartable mode. If file access is denied, switches to backup mode.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -173,7 +173,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="z">
         <maml:name>RestartMode</maml:name>
         <maml:description>
-          <maml:para>{{ Fill RestartMode Description }}</maml:para>
+          <maml:para>Get files in restartable mode.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -211,9 +211,110 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- Example 1 --------------------------</maml:title>
-        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:code>PS C:\&gt; Get-RoboItem -Path "E:\Anno 1800\" -Recurse
+
+Source              : E:\Anno 1800\
+Destination         : C:\Users\simon\AppData\Local\Temp
+Command             : Robocopy.exe "E:\Anno 1800" "C:\Users\simon\AppData\Local\Temp" *.* /r:3 /w:3 /e /l /bytes /TEE /np /njh /fp /ndl /ts
+DirCount            : 18
+FileCount           : 230
+DirCopied           : 17
+FileCopied          : 230
+DirIgnored          : 1
+FileIgnored         : 0
+DirMismatched       : 0
+FileMismatched      : 0
+DirFailed           : 0
+FileFailed          : 0
+DirExtra            : 20
+FileExtra           : 42
+TotalTime           : 00:00:00
+StartedTime         : 2021-08-20 16:30:07
+EndedTime           : 2021-08-20 16:30:07
+TotalSize           : 60 GB
+TotalSizeCopied     : 60 GB
+TotalSizeIgnored    : 0 B
+TotalSizeMismatched : 0 B
+TotalSizeFailed     : 0 B
+TotalSizeExtra      : 3,2 MB
+Speed               : 0 B/s
+ExitCode            : 3
+Success             : True
+LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.</dev:code>
         <dev:remarks>
-          <maml:para>{{ Add example description here }}</maml:para>
+          <maml:para>Get the number and size of files and subdirectories on location "E:\Anno 1800"</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>--------------- Example 2: Multiple directories ---------------</maml:title>
+        <dev:code>Get-RoboItem -Path "E:\Anno 1800\","D:\tmp\"
+
+Source              : E:\Anno 1800\
+Destination         : C:\Users\simon\AppData\Local\Temp
+Command             : Robocopy.exe "E:\Anno 1800" "C:\Users\simon\AppData\Local\Temp" *.* /r:3 /w:3 /l /bytes /TEE /np /njh /fp /ndl /ts
+DirCount            : 1
+FileCount           : 2
+DirCopied           : 0
+FileCopied          : 2
+DirIgnored          : 1
+FileIgnored         : 0
+DirMismatched       : 0
+FileMismatched      : 0
+DirFailed           : 0
+FileFailed          : 0
+DirExtra            : 22
+FileExtra           : 45
+TotalTime           : 00:00:00
+StartedTime         : 2021-08-21 08:37:05
+EndedTime           : 2021-08-21 08:37:05
+TotalSize           : 1 MB
+TotalSizeCopied     : 1 MB
+TotalSizeIgnored    : 0 B
+TotalSizeMismatched : 0 B
+TotalSizeFailed     : 0 B
+TotalSizeExtra      : 1,1 MB
+Speed               : 0 B/s
+ExitCode            : 3
+Success             : True
+LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+
+Source              : D:\tmp\
+Destination         : C:\Users\simon\AppData\Local\Temp
+Command             : Robocopy.exe "D:\tmp" "C:\Users\simon\AppData\Local\Temp" *.* /r:3 /w:3 /l /bytes /TEE /np /njh /fp /ndl /ts
+DirCount            : 1
+FileCount           : 5
+DirCopied           : 0
+FileCopied          : 5
+DirIgnored          : 1
+FileIgnored         : 0
+DirMismatched       : 0
+FileMismatched      : 0
+DirFailed           : 0
+FileFailed          : 0
+DirExtra            : 21
+FileExtra           : 45
+TotalTime           : 00:00:00
+StartedTime         : 2021-08-21 08:37:05
+EndedTime           : 2021-08-21 08:37:05
+TotalSize           : 17 KB
+TotalSizeCopied     : 17 KB
+TotalSizeIgnored    : 0 B
+TotalSizeMismatched : 0 B
+TotalSizeFailed     : 0 B
+TotalSizeExtra      : 1,1 MB
+Speed               : 0 B/s
+ExitCode            : 3
+Success             : True
+LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.</dev:code>
+        <dev:remarks>
+          <maml:para>Get Robocopy information about multiple directories.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------- Example 3: Pipe from Get-Childitem --------------</maml:title>
+        <dev:code>PS C:\&gt; Get-ChildItem -Path 'E:\Anno 1800\' -Recurse -Directory | Get-RoboItem -Unit MB | Out-GridView</dev:code>
+        <dev:remarks>
+          <maml:para>Get information including directorys size of all subfolders for a folder in MB.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

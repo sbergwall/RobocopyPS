@@ -58,9 +58,9 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
 
 Get the number and size of files and subdirectories on location "E:\Anno 1800"
 
-### Example 2
+### Example 2: Multiple directories
 ```powershell
-PS C:\> Get-RoboItem -Path "E:\Anno 1800\","D:\tmp\"
+Get-RoboItem -Path "E:\Anno 1800\","D:\tmp\"
 
 Source              : E:\Anno 1800\
 Destination         : C:\Users\simon\AppData\Local\Temp
@@ -123,7 +123,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
 
 Get Robocopy information about multiple directories.
 
-### Example 3
+### Example 3: Pipe from Get-Childitem
 ```powershell
 PS C:\> Get-ChildItem -Path 'E:\Anno 1800\' -Recurse -Directory | Get-RoboItem -Unit MB | Out-GridView
 ```
