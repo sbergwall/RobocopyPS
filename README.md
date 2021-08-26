@@ -11,7 +11,7 @@ RobocopyPS only works if the language is set to en-US. This is because we look a
 
 If we do not know what stream to output to we use the Information stream, so if you are missing output try and run with -InformationAction Continue
 
-You can use all Robocopys native parameters like -e, -mir etc but we try and translate them to easier parameter names as -Recurse and -Mirror instead. Some parameters cannot be ran with eachother, example -Mirror and -Recurse.
+You can use all Robocopys native parameters like -e, -mir etc but we try and translate them to easier parameter names as -Recurse and -Mirror instead.
 
 ## Getting started
 
