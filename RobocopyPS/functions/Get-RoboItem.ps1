@@ -38,15 +38,13 @@ Function Get-RoboItem {
     }
 
     Process {
-        try {
-            $PSBoundParameters.Remove('Path') | Out-Null
-
-            foreach ($Location in $Path) {
-                Invoke-RoboCopy -Source $location -Destination $env:TEMP -List @PSBoundParameters
+        foreach ($Location in $Path) {
+            try {
+                Invoke-RoboCopy -Source $location -Destination $env:TEMP -List -ErrorAction Stop @PSBoundParameters
             }
-        }
-        catch {
-            $PSCmdlet.WriteError($PSitem)
+            catch {
+                $PSCmdlet.WriteError($PSitem)
+            }
         }
     }
 
