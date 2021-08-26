@@ -10,8 +10,8 @@ PARAM (
 task UpdateHelp {
     "Import Module $PSScriptRoot\RobocopyPS"
     Import-Module $PSScriptRoot\RobocopyPS -Force
-    Update-MarkdownHelp -Path $PSScriptRoot\docs
-    New-ExternalHelp -Path $PSScriptRoot\docs -OutputPath .\en-US -Force
+    Update-MarkdownHelpModule -Path $PSScriptRoot\docs
+    New-ExternalHelp -Path $PSScriptRoot\docs -OutputPath .\RobocopyPS\en-US -Force
 }
 
 #region Task to run all Pester tests in folder .\tests
