@@ -4,11 +4,13 @@
 
 ### Added
 
-* Added new cmdlet Get-RoboItem
+* Added new cmdlets Get-RoboItem, Remove-RoboItem
 
 ### Changed
 
 * Removed all ParameterSetName in Invoke-Robocopy, including IncludeSubDirectories (/s) and IncludeEmptySubDirectories (/e) as they are not mutually exlusive.
+* Changed Pester Tests to match Version 5 of Pester.
+* Changed help file
 
 ## 0.2.5 - 2021-08-12
 

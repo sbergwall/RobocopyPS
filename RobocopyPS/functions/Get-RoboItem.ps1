@@ -40,7 +40,7 @@ Function Get-RoboItem {
     Process {
         foreach ($Location in $Path) {
             try {
-                Invoke-RoboCopy -Source $location -Destination $env:TEMP -List -ErrorAction Stop @PSBoundParameters
+                Invoke-RoboCopy -Source $location -Destination NULL -List -ErrorAction Stop @PSBoundParameters
             }
             catch {
                 $PSCmdlet.WriteError($PSitem)

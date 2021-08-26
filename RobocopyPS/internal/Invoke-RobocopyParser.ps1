@@ -30,10 +30,12 @@ Function Invoke-RobocopyParser {
 
         # Regex for catching all text that will be sent to Error Stream
         $ErrorFilter = @(
+            "The filename, directory name, or volume label syntax is incorrect.",
             "\*\*\*\*\*  You need these to perform Backup copies \(\/B or \/ZB\).",
             "ERROR \d{1,3} \(0x\d{1,11}\)",
-            "ERROR : *",
-            "ERROR: RETRY LIMIT EXCEEDED."
+            "ERROR : ",
+            "ERROR: RETRY LIMIT EXCEEDED.",
+            "ERROR 123"
         ) -join '|'
 
         # Regex for catching all text that will be sent to Warning Stream
