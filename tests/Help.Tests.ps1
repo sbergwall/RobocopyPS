@@ -28,6 +28,10 @@ Describe "$ModuleName" {
             It "Has Description" -TestCases $Help {
                 $Help.Description | Should -Not -BeNullOrEmpty
             }
+
+            It "Has Examples" -TestCases $Help {
+                $help.Examples.Example | Should -Not -BeNullOrEmpty
+            }
         }
     }
 }

@@ -10,7 +10,7 @@
 
 * Removed all ParameterSetName in Invoke-Robocopy, including IncludeSubDirectories (/s) and IncludeEmptySubDirectories (/e) as they are not mutually exlusive.
 * Changed Pester Tests to match Version 5 of Pester.
-* Changed help file
+* Changed help file for Get-Help
 
 ## 0.2.5 - 2021-08-12
 
