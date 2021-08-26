@@ -1,5 +1,15 @@
 # RobocopyPS Release History
 
+## 0.2.6 - 2021-08-20
+
+### Added
+
+* Added new cmdlet Get-RoboItem
+
+### Changed
+
+* Removed all ParameterSetName in Invoke-Robocopy, including IncludeSubDirectories (/s) and IncludeEmptySubDirectories (/e) as they are not mutually exlusive.
+
 ## 0.2.5 - 2021-08-12
 
 ### Added

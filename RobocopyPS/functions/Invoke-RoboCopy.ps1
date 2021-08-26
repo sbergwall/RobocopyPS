@@ -124,17 +124,16 @@ Function Invoke-RoboCopy {
 
         # Specifies the file or files to be copied. You can use wildcard characters (* or ?), if you want. If the File parameter is not specified, *.* is used as the default value.
         [Parameter(Mandatory = $False)]
+        [Alias('File')]
         [String[]] $Files = '*.*',
 
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
         # Copies subdirectories. Note that this option excludes empty directories.
-        [Parameter(ParameterSetName = 'IncludeSubDirectories')]
         [Alias('s')]
         [switch]$IncludeSubDirectories,
 
         # Copies subdirectories. Note that this option includes empty directories.
-        [Parameter(ParameterSetName = 'IncludeEmptySubDirectories')]
         [Alias('e', 'Recurse')]
         [switch]$IncludeEmptySubDirectories,
 
@@ -198,17 +197,14 @@ Function Invoke-RoboCopy {
         [switch]$Purge,
 
         # Mirrors a directory tree
-        [Parameter(ParameterSetName = 'Mirror')]
         [Alias('mir', 'Sync')]
         [switch]$Mirror,
 
         # Moves files, recursively, and deletes them from the source after they are copied. Folders will still be in source directory.
-        [Parameter(ParameterSetName = 'MoveFiles')]
         [Alias('mov')]
         [switch]$MoveFiles,
 
         # Moves files and directories, and deletes them from the source after they are copied.
-        [Parameter(ParameterSetName = 'MoveFilesAndDirectories')]
         [Alias('move')]
         [switch]$MoveFilesAndDirectories,
 

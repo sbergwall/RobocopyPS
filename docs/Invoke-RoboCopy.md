@@ -12,119 +12,27 @@ Invoke Robocopy with PowerShell
 
 ## SYNTAX
 
-### IncludeSubDirectories
 ```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-IncludeSubDirectories]
- [-Level <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw]
- [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
- [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
- [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
+Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>] [-IncludeSubDirectories]
+ [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode]
+ [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>] [-CopyWithSecurity]
+ [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-Mirror] [-MoveFiles]
+ [-MoveFilesAndDirectories] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT]
+ [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <String>]
+ [[-RunTimes] <String>] [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink]
  [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
- [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
+ [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>]
+ [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
  [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
- [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
- [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
- [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### IncludeEmptySubDirectories
-```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-IncludeEmptySubDirectories]
- [-Level <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw]
- [-CopyFlags <String[]>] [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation]
- [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
- [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
- [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
- [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
- [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
- [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
- [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### Mirror
-```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
- [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
- [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
- [-Timefix] [-Purge] [-Mirror] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
- [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
- [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
- [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
- [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
- [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### MoveFiles
-```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
- [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
- [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
- [-Timefix] [-Purge] [-MoveFiles] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>] [-RunTimes <String>]
- [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [-IncludeAttribute <String[]>]
- [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [-MaximumFileSize <String>]
- [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
- [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
- [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
- [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
-```
-
-### MoveFilesAndDirectories
-```
-Invoke-RoboCopy -Source <String> -Destination <String> [-Files <String[]>] [-Level <Int32>] [-RestartMode]
- [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [-CopyFlags <String[]>]
- [-DirectoryCopyFlags <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
- [-Timefix] [-Purge] [-MoveFilesAndDirectories] [-AddAttribute <String[]>] [-RemoveAttribute <String[]>]
- [-Create] [-FAT] [-IgnoreLongPath] [-MonitorChanges <Int32>] [-MonitorMinutes <Int32>] [-Threads <String>]
- [-RunTimes <String>] [-UsePerFileRunTimes] [-InterPacketGap <Int32>] [-CopyJunction] [-SymbolicLink]
- [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [-IncludeAttribute <String[]>] [-ExcludeAttribute <String[]>] [-ExcludeFileName <String[]>]
- [-ExcludeDirectory <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [-MaximumFileSize <String>] [-MinimumFileSize <String>] [-MaximumFileAge <String>] [-MinimumFileAge <String>]
- [-MaximumFileLastAccessDate <String>] [-MinimumFileLastAccessDate <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [-Retry <Int32>] [-Wait <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [-LowFreeSpaceModeValue <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [-NoFileNameToLog <Object>] [-LogFile <String>] [-LogFileWithAppend <String>] [-Unicode]
- [-UnicodeLog <String>] [-UnicodeLogWithAppend <String>] [-JobName <String>] [-SaveJob <String>] [-Quit]
- [-NoSourceDirectory] [-NoDestinationDirectory] [-IncludeFollowingFile <String>] [-Unit <String>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>]
+ [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>]
+ [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
+ [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName]
+ [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
+ [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
+ [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
+ [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -240,7 +148,7 @@ Parameter Sets: (All)
 Aliases: Path, FullPath
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
@@ -256,7 +164,7 @@ Parameter Sets: (All)
 Aliases: Target
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
@@ -270,10 +178,10 @@ If the File parameter is not specified, *.* is used as the default value.
 ```yaml
 Type: String[]
 Parameter Sets: (All)
-Aliases:
+Aliases: File
 
 Required: False
-Position: Named
+Position: 3
 Default value: *.*
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -285,7 +193,7 @@ Note that this option excludes empty directories.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: IncludeSubDirectories
+Parameter Sets: (All)
 Aliases: s
 
 Required: False
@@ -301,7 +209,7 @@ Note that this option includes empty directories.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: IncludeEmptySubDirectories
+Parameter Sets: (All)
 Aliases: e, Recurse
 
 Required: False
@@ -320,7 +228,7 @@ Parameter Sets: (All)
 Aliases: lev, Depth
 
 Required: False
-Position: Named
+Position: 4
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -417,7 +325,7 @@ Parameter Sets: (All)
 Aliases: copy
 
 Required: False
-Position: Named
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -434,7 +342,7 @@ Parameter Sets: (All)
 Aliases: dcopy
 
 Required: False
-Position: Named
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -535,7 +443,7 @@ Mirrors a directory tree
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Mirror
+Parameter Sets: (All)
 Aliases: mir, Sync
 
 Required: False
@@ -551,7 +459,7 @@ Folders will still be in source directory.
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: MoveFiles
+Parameter Sets: (All)
 Aliases: mov
 
 Required: False
@@ -566,7 +474,7 @@ Moves files and directories, and deletes them from the source after they are cop
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: MoveFilesAndDirectories
+Parameter Sets: (All)
 Aliases: move
 
 Required: False
@@ -585,7 +493,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -600,7 +508,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -660,7 +568,7 @@ Parameter Sets: (All)
 Aliases: mon
 
 Required: False
-Position: Named
+Position: 9
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -675,7 +583,7 @@ Parameter Sets: (All)
 Aliases: mot
 
 Required: False
-Position: Named
+Position: 10
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -693,7 +601,7 @@ Parameter Sets: (All)
 Aliases: MT, MultiThread
 
 Required: False
-Position: Named
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -708,7 +616,7 @@ Parameter Sets: (All)
 Aliases: rh
 
 Required: False
-Position: Named
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -738,7 +646,7 @@ Parameter Sets: (All)
 Aliases: ipg
 
 Required: False
-Position: Named
+Position: 13
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -858,7 +766,7 @@ Parameter Sets: (All)
 Aliases: ia
 
 Required: False
-Position: Named
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -873,7 +781,7 @@ Parameter Sets: (All)
 Aliases: xa
 
 Required: False
-Position: Named
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -889,7 +797,7 @@ Parameter Sets: (All)
 Aliases: xf
 
 Required: False
-Position: Named
+Position: 16
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -904,7 +812,7 @@ Parameter Sets: (All)
 Aliases: xd
 
 Required: False
-Position: Named
+Position: 17
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1039,7 +947,7 @@ Parameter Sets: (All)
 Aliases: max
 
 Required: False
-Position: Named
+Position: 18
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1054,7 +962,7 @@ Parameter Sets: (All)
 Aliases: min
 
 Required: False
-Position: Named
+Position: 19
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1069,7 +977,7 @@ Parameter Sets: (All)
 Aliases: maxage
 
 Required: False
-Position: Named
+Position: 20
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1084,7 +992,7 @@ Parameter Sets: (All)
 Aliases: minage
 
 Required: False
-Position: Named
+Position: 21
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1099,7 +1007,7 @@ Parameter Sets: (All)
 Aliases: maxlad
 
 Required: False
-Position: Named
+Position: 22
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1115,7 +1023,7 @@ Parameter Sets: (All)
 Aliases: minlad
 
 Required: False
-Position: Named
+Position: 23
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1206,7 +1114,7 @@ Parameter Sets: (All)
 Aliases: r
 
 Required: False
-Position: Named
+Position: 24
 Default value: 3
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1222,7 +1130,7 @@ Parameter Sets: (All)
 Aliases: w
 
 Required: False
-Position: Named
+Position: 25
 Default value: 3
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1284,7 +1192,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 26
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1359,7 +1267,7 @@ Parameter Sets: (All)
 Aliases: nfl
 
 Required: False
-Position: Named
+Position: 27
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1374,7 +1282,7 @@ Parameter Sets: (All)
 Aliases: log
 
 Required: False
-Position: Named
+Position: 28
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1389,7 +1297,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 29
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1419,7 +1327,7 @@ Parameter Sets: (All)
 Aliases: unilog
 
 Required: False
-Position: Named
+Position: 30
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1434,7 +1342,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 31
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1449,7 +1357,7 @@ Parameter Sets: (All)
 Aliases: Job
 
 Required: False
-Position: Named
+Position: 32
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1464,7 +1372,7 @@ Parameter Sets: (All)
 Aliases: Save
 
 Required: False
-Position: Named
+Position: 33
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1524,7 +1432,7 @@ Parameter Sets: (All)
 Aliases: IF
 
 Required: False
-Position: Named
+Position: 34
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -1539,7 +1447,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
+Position: 35
 Default value: Auto
 Accept pipeline input: False
 Accept wildcard characters: False
