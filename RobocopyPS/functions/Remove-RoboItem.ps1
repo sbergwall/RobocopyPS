@@ -39,19 +39,20 @@ Function Remove-RoboItem {
     Process {
         foreach ($Location in $Path) {
             If ($PSCmdlet.ShouldProcess("$Location" , "Remove")) {
-                If (!(Test-Path -path $Location -PathType Container)) {
-                    $PSCmdlet.WriteError("Cannot find path $location because it does not exist.")
-                }
-                else {
-                    try {
-                        $tempDirectory = New-Item -Path $env:temp -Name (New-Guid).Guid -ItemType Directory -ErrorAction Stop
-                        Invoke-RoboCopy -Source $tempDirectory -Destination $Location -Mirror -ErrorAction Stop @PSBoundParameters
-                        Remove-Item -Path $tempDirectory, $Location -ErrorAction Stop
+                try {
+                    # Verify that both Source and Destination exists and are a directory
+                    If (!(Test-Path -path $Location -PathType Container)) {
+                        throw "Cannot find path $location because it does not exist."
                     }
-                    catch {
-                        $PSCmdlet.WriteError($PSitem)
-                    }
+
+                    $tempDirectory = New-Item -Path $env:temp -Name (New-Guid).Guid -ItemType Directory -ErrorAction Stop
+                    Invoke-RoboCopy -Source $tempDirectory -Destination $Location -Mirror -ErrorAction Stop @PSBoundParameters
+                    Remove-Item -Path $tempDirectory, $Location -ErrorAction Stop
                 }
+                catch {
+                    $PSCmdlet.WriteError($PSitem)
+                }
+
             }
         }
     }

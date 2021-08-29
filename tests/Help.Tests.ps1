@@ -56,7 +56,7 @@ Describe "Invoke-Robocopy" {
     $RobocopyOptions = $RobocopyHelp | ForEach-Object { $_ -split ("`r`n") -split (" ") -split ("\[") -split (" :: ") -split (":") -replace ("\s", "") } | ForEach-Object { $_ | Where-Object { $_ -match "^/[A-Z]{1,}\b$|^/[0-9]{1,}\b$" -and $_ -notin $RobocopyOptionsIgnore } } | Sort-Object -Unique | ForEach-Object { $_ -replace ("/", "") }
 
     foreach ($Option in $RobocopyOptions) {
-        It "$Option" -TestCases @{'o' = $Option ; 'all' = $allParameterNameAndAlias} {
+        It "$Option has a parameter or alias" -TestCases @{'o' = $Option ; 'all' = $allParameterNameAndAlias} {
             $o | Should -BeIn $all
         }
     }

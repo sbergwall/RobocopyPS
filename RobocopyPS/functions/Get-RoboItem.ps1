@@ -43,6 +43,11 @@ Function Get-RoboItem {
     Process {
         foreach ($Location in $Path) {
             try {
+                # Verify that both Source and Destination exists and are a directory
+                If (!(Test-Path -path $Location -PathType Container)) {
+                    throw "Cannot find path $location because it does not exist."
+                }
+
                 Invoke-RoboCopy -Source $location -Destination NULL -List -ErrorAction Stop @PSBoundParameters
             }
             catch {
