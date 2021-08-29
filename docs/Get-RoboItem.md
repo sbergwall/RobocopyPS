@@ -125,7 +125,7 @@ Get Robocopy information about multiple directories.
 
 ### Example 3: Pipe from Get-Childitem
 ```powershell
-PS C:\> Get-ChildItem -Path 'E:\Anno 1800\' -Recurse -Directory | Get-RoboItem -Unit MB | Out-GridView
+PS C:\> Get-ChildItem -Path 'E:\Anno 1800\' -Recurse -Directory -Depth 1 | Get-RoboItem -Unit MB -Recurse -RestartAndBackupMode | Out-GridView
 ```
 
 Get information including directorys size of all subfolders for a folder in MB.

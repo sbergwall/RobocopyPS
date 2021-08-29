@@ -30,8 +30,11 @@ Function Get-RoboItem {
 
         # Get files in restartable mode. If file access is denied, switches to backup mode.
         [Alias('zb')]
-        [switch]$RestartAndBackupMode
+        [switch]$RestartAndBackupMode,
 
+        # What unit the sizes are shown as
+        [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
+        [String]$Unit = 'Auto'
     )
 
     Begin {
