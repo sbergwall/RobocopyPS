@@ -1,16 +1,17 @@
 # RobocopyPS Release History
 
-## 0.2.6 - 2021-08-20
+## 0.2.6 - 2021-09-02
 
 ### Added
 
-* Added new cmdlets Get-RoboItem, Remove-RoboItem
+* Added new cmdlets Get-RoboItem, Remove-RoboItem,Copy-RoboItem,Move-RoboItem.
 
 ### Changed
 
 * Removed all ParameterSetName in Invoke-Robocopy, including IncludeSubDirectories (/s) and IncludeEmptySubDirectories (/e) as they are not mutually exlusive.
 * Changed Pester Tests to match Version 5 of Pester.
-* Changed help file for Get-Help
+* Changed help file for Get-Help.
+* Changed how we validate source directories.
 
 ## 0.2.5 - 2021-08-12
 

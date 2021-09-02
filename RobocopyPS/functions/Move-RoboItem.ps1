@@ -1,5 +1,5 @@
 function Move-RoboItem {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $True)]
     param (
 
     )
@@ -15,21 +15,17 @@ function Move-RoboItem {
     }
 
     process {
-        try {
-            #region Verify that both Source and Destination exists and are a directory
-            foreach ($Location in $PSBoundParameters['Source'], $PSBoundParameters['Destination']) {
-                If (!(Test-Path -path $Location -PathType Container)) {
-                    throw "Cannot find path $location because it does not exist."
-                }
+        $Destination = $PSBoundParameters['Destination']
+        $Source = $PSBoundParameters['Source']
+
+        If ($PSCmdlet.ShouldProcess("$Destination from $Source" , "Move")) {
+            try {
+                Invoke-RoboCopy -MoveFilesAndDirectories @PSBoundParameters -ErrorAction Stop
             }
-            #endregion
-
-            Invoke-RoboCopy -MoveFilesAndDirectories @PSBoundParameters
+            catch {
+                $PSCmdlet.WriteError($psitem)
+            }
         }
-        catch {
-            $PSCmdlet.WriteError($psitem)
-        }
-
     }
 
     end {

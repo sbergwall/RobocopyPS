@@ -506,93 +506,255 @@ Function Invoke-RoboCopy {
         $RobocopyArguments += '/w:' + $Wait
 
         # Copy options
-        if ($IncludeSubDirectories) {$RobocopyArguments += '/s'; $action = 'Copy'}
-        if ($IncludeEmptySubDirectories) {$RobocopyArguments += '/e'; $action = 'Copy'}
-        if ($Level) {$RobocopyArguments += '/lev:' + $Level}
-        if ($BackupMode) {$RobocopyArguments += '/b'}
-        if ($RestartMode) {$RobocopyArguments += '/z'}
-        if ($RestartAndBackupMode) {$RobocopyArguments += '/zb'}
-        if ($UnbufferedIO) {$RobocopyArguments += '/j'}
-        if ($EFSRaw) {$RobocopyArguments += '/efsraw'}
-        if ($CopyFlags) {$RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '')}
-        If ($DirectoryCopyFlags) {$RobocopyArguments += '/dcopy:' + (($DirectoryCopyFlags | Sort-Object -Unique) -join '')}
-        if ($CopyWithSecurity) {$RobocopyArguments += '/sec'}
-        If ($CopyAllFileInformation) {$RobocopyArguments += '/copyall'}
-        if ($NoCopy) {$RobocopyArguments += '/nocopy'}
-        if ($SecurityFix) {$RobocopyArguments += '/secfix'}
-        if ($Timefix) {$RobocopyArguments += '/timfix'}
-        if ($Purge) {$RobocopyArguments += '/purge' ; $action = 'Purge'}
-        if ($Mirror) {$RobocopyArguments += '/mir'; $action = 'Mirror'}
-        if ($MoveFiles) {$RobocopyArguments += '/mov'; $action = 'Move'}
-        if ($MoveFilesAndDirectories) {$RobocopyArguments += '/move' ; $action = 'Move'}
-        if ($AddAttribute) {$RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object -Unique) -join '')}
-        if ($RemoveAttribute) {$RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object -Unique) -join '')}
-        if ($Create) {$RobocopyArguments += '/create'}
-        if ($fat) {$RobocopyArguments += '/fat'}
-        if ($IgnoreLongPath) {$RobocopyArguments += '/256'}
-        if ($MonitorChanges) {$RobocopyArguments += '/mon:' + $MonitorChanges}
-        if ($MonitorMinutes) {$RobocopyArguments += '/mot:' + $MonitorMinutes}
-        if ($Threads) {$RobocopyArguments += '/MT:' + $Threads}
-        if ($RunTimes) {$RobocopyArguments += '/rh:' + $RunTimes}
-        if ($UsePerFileRunTimes) {$RobocopyArguments += '/pf'}
-        if ($InterPacketGap) {$RobocopyArguments += '/ipg:' + $InterPacketGap}
-        if ($CopyJunction) {$RobocopyArguments += '/sj'}
-        if ($SymbolicLink) {$RobocopyArguments += '/sl'}
-        if ($NoDirectoryInformation) {$RobocopyArguments += '/nodcopy'}
-        if ($NoOffload) {$RobocopyArguments += '/nooffload'}
-        if ($Compress) {$RobocopyArguments += '/compress'}
+        if ($IncludeSubDirectories) {
+            $RobocopyArguments += '/s'; $action = 'Copy'
+        }
+        if ($IncludeEmptySubDirectories) {
+            $RobocopyArguments += '/e'; $action = 'Copy'
+        }
+        if ($Level) {
+            $RobocopyArguments += '/lev:' + $Level
+        }
+        if ($BackupMode) {
+            $RobocopyArguments += '/b'
+        }
+        if ($RestartMode) {
+            $RobocopyArguments += '/z'
+        }
+        if ($RestartAndBackupMode) {
+            $RobocopyArguments += '/zb'
+        }
+        if ($UnbufferedIO) {
+            $RobocopyArguments += '/j'
+        }
+        if ($EFSRaw) {
+            $RobocopyArguments += '/efsraw'
+        }
+        if ($CopyFlags) {
+            $RobocopyArguments += '/copy:' + (($CopyFlags | Sort-Object -Unique) -join '')
+        }
+        If ($DirectoryCopyFlags) {
+            $RobocopyArguments += '/dcopy:' + (($DirectoryCopyFlags | Sort-Object -Unique) -join '')
+        }
+        if ($CopyWithSecurity) {
+            $RobocopyArguments += '/sec'
+        }
+        If ($CopyAllFileInformation) {
+            $RobocopyArguments += '/copyall'
+        }
+        if ($NoCopy) {
+            $RobocopyArguments += '/nocopy'
+        }
+        if ($SecurityFix) {
+            $RobocopyArguments += '/secfix'
+        }
+        if ($Timefix) {
+            $RobocopyArguments += '/timfix'
+        }
+        if ($Purge) {
+            $RobocopyArguments += '/purge' ; $action = 'Purge'
+        }
+        if ($Mirror) {
+            $RobocopyArguments += '/mir'; $action = 'Mirror'
+        }
+        if ($MoveFiles) {
+            $RobocopyArguments += '/mov'; $action = 'Move'
+        }
+        if ($MoveFilesAndDirectories) {
+            $RobocopyArguments += '/move' ; $action = 'Move'
+        }
+        if ($AddAttribute) {
+            $RobocopyArguments += '/a+:' + (($AddAttribute | Sort-Object -Unique) -join '')
+        }
+        if ($RemoveAttribute) {
+            $RobocopyArguments += '/a-:' + (($RemoveAttribute | Sort-Object -Unique) -join '')
+        }
+        if ($Create) {
+            $RobocopyArguments += '/create'
+        }
+        if ($fat) {
+            $RobocopyArguments += '/fat'
+        }
+        if ($IgnoreLongPath) {
+            $RobocopyArguments += '/256'
+        }
+        if ($MonitorChanges) {
+            $RobocopyArguments += '/mon:' + $MonitorChanges
+        }
+        if ($MonitorMinutes) {
+            $RobocopyArguments += '/mot:' + $MonitorMinutes
+        }
+        if ($Threads) {
+            $RobocopyArguments += '/MT:' + $Threads
+        }
+        if ($RunTimes) {
+            $RobocopyArguments += '/rh:' + $RunTimes
+        }
+        if ($UsePerFileRunTimes) {
+            $RobocopyArguments += '/pf'
+        }
+        if ($InterPacketGap) {
+            $RobocopyArguments += '/ipg:' + $InterPacketGap
+        }
+        if ($CopyJunction) {
+            $RobocopyArguments += '/sj'
+        }
+        if ($SymbolicLink) {
+            $RobocopyArguments += '/sl'
+        }
+        if ($NoDirectoryInformation) {
+            $RobocopyArguments += '/nodcopy'
+        }
+        if ($NoOffload) {
+            $RobocopyArguments += '/nooffload'
+        }
+        if ($Compress) {
+            $RobocopyArguments += '/compress'
+        }
 
         # File selection options
-        if ($Archive) {$RobocopyArguments += '/a'}
-        if ($ResetArchiveAttribute) {$RobocopyArguments += '/m'}
-        if ($IncludeAttribute) {$RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join ''}
-        if ($ExcludeAttribute) {$RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join ''}
-        if ($ExcludeFileName) {$RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '}
-        if ($ExcludeDirectory) {$RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '}
-        if ($ExcludeChangedFiles) {$RobocopyArguments += '/xc'}
-        if ($ExcludeNewerFiles) {$RobocopyArguments += '/xn'}
-        if ($ExcludeOlderFiles) {$RobocopyArguments += '/xo'}
-        if ($ExcludeExtraFiles) {$RobocopyArguments += '/xx'}
-        if ($ExcludeLonelyFiles) {$RobocopyArguments += '/xl'}
-        if ($IncludeModifiedFile) {$RobocopyArguments += '/im'}
-        if ($IncludeSameFiles) {$RobocopyArguments += '/is'}
-        if ($IncludeTweakedFiles) {$RobocopyArguments += '/it'}
-        if ($MaximumFileSize) {$RobocopyArguments += '/max:' + $MaximumFileSize}
-        if ($MinimumFileSize) {$RobocopyArguments += '/min:' + $MinimumFileSize}
-        if ($MaximumFileAge) {$RobocopyArguments += '/maxage:' + $MaximumFileAge}
-        if ($MinimumFileAge) {$RobocopyArguments += '/minage:' + $MinimumFileAge}
-        if ($MaximumFileLastAccessDate) {$RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate}
-        if ($MinimumFileLastAccessDate) {$RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate}
-        if ($ExcludeJunctionPoints) {$RobocopyArguments += '/xj'}
-        if ($ExcludeFileJunctionPoints) {$RobocopyArguments += '/xjf'}
-        if ($ExcludeDirectoryJunctionPoints) {$RobocopyArguments += '/xjd'}
-        if ($AssumeFATFileTime) {$RobocopyArguments += '/fft'}
-        if ($CompensateDST) {$RobocopyArguments += '/dst'}
-        if ($SaveRetrySettings) {$RobocopyArguments += '/reg'}
-        if ($WaitForShareName) {$RobocopyArguments += '/tbd'}
-        If ($LowFreeSpaceMode) {$RobocopyArguments += '/LFSM'}
-        If ($LowFreeSpaceModeValue) {$RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue}
+        if ($Archive) {
+            $RobocopyArguments += '/a'
+        }
+        if ($ResetArchiveAttribute) {
+            $RobocopyArguments += '/m'
+        }
+        if ($IncludeAttribute) {
+            $RobocopyArguments += '/ia:' + ($IncludeAttribute | Sort-Object -Unique) -join ''
+        }
+        if ($ExcludeAttribute) {
+            $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join ''
+        }
+        if ($ExcludeFileName) {
+            $RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '
+        }
+        if ($ExcludeDirectory) {
+            $RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '
+        }
+        if ($ExcludeChangedFiles) {
+            $RobocopyArguments += '/xc'
+        }
+        if ($ExcludeNewerFiles) {
+            $RobocopyArguments += '/xn'
+        }
+        if ($ExcludeOlderFiles) {
+            $RobocopyArguments += '/xo'
+        }
+        if ($ExcludeExtraFiles) {
+            $RobocopyArguments += '/xx'
+        }
+        if ($ExcludeLonelyFiles) {
+            $RobocopyArguments += '/xl'
+        }
+        if ($IncludeModifiedFile) {
+            $RobocopyArguments += '/im'
+        }
+        if ($IncludeSameFiles) {
+            $RobocopyArguments += '/is'
+        }
+        if ($IncludeTweakedFiles) {
+            $RobocopyArguments += '/it'
+        }
+        if ($MaximumFileSize) {
+            $RobocopyArguments += '/max:' + $MaximumFileSize
+        }
+        if ($MinimumFileSize) {
+            $RobocopyArguments += '/min:' + $MinimumFileSize
+        }
+        if ($MaximumFileAge) {
+            $RobocopyArguments += '/maxage:' + $MaximumFileAge
+        }
+        if ($MinimumFileAge) {
+            $RobocopyArguments += '/minage:' + $MinimumFileAge
+        }
+        if ($MaximumFileLastAccessDate) {
+            $RobocopyArguments += '/maxlad:' + $MaximumFileLastAccessDate
+        }
+        if ($MinimumFileLastAccessDate) {
+            $RobocopyArguments += '/minlad:' + $MinimumFileLastAccessDate
+        }
+        if ($ExcludeJunctionPoints) {
+            $RobocopyArguments += '/xj'
+        }
+        if ($ExcludeFileJunctionPoints) {
+            $RobocopyArguments += '/xjf'
+        }
+        if ($ExcludeDirectoryJunctionPoints) {
+            $RobocopyArguments += '/xjd'
+        }
+        if ($AssumeFATFileTime) {
+            $RobocopyArguments += '/fft'
+        }
+        if ($CompensateDST) {
+            $RobocopyArguments += '/dst'
+        }
+        if ($SaveRetrySettings) {
+            $RobocopyArguments += '/reg'
+        }
+        if ($WaitForShareName) {
+            $RobocopyArguments += '/tbd'
+        }
+        If ($LowFreeSpaceMode) {
+            $RobocopyArguments += '/LFSM'
+        }
+        If ($LowFreeSpaceModeValue) {
+            $RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue
+        }
 
         # Logging Options
-        If ($List) {$RobocopyArguments += '/l' ; $action = 'List'}
-        If ($ReportExtraFile) {$RobocopyArguments += '/x'}
-        If ($Verbose -eq $True) {$RobocopyArguments += '/v'}
-        If ($NoSizeToLog) {$RobocopyArguments += '/ns'}
-        If ($NoClassToLog) {$RobocopyArguments += '/nc'}
-        If ($NoFileNameToLog) {$RobocopyArguments += '/nfl'}
-        If ($LogFile) {$RobocopyArguments += '/log:' + $LogFile}
-        If ($LogFileWithAppend){$RobocopyArguments += '/log+:' + $LogFileWithAppend}
-        If ($Unicode) {$RobocopyArguments += '/unicode'}
-        If ($UnicodeLog) {$RobocopyArguments += '/unilog:' + $UnicodeLog}
-        If ($UnicodeLogWithAppend) {$RobocopyArguments += '/unilog+:' + $UnicodeLogWithAppend}
+        If ($List) {
+            $RobocopyArguments += '/l' ; $action = 'List'
+        }
+        If ($ReportExtraFile) {
+            $RobocopyArguments += '/x'
+        }
+        If ($Verbose -eq $True) {
+            $RobocopyArguments += '/v'
+        }
+        If ($NoSizeToLog) {
+            $RobocopyArguments += '/ns'
+        }
+        If ($NoClassToLog) {
+            $RobocopyArguments += '/nc'
+        }
+        If ($NoFileNameToLog) {
+            $RobocopyArguments += '/nfl'
+        }
+        If ($LogFile) {
+            $RobocopyArguments += '/log:' + $LogFile
+        }
+        If ($LogFileWithAppend) {
+            $RobocopyArguments += '/log+:' + $LogFileWithAppend
+        }
+        If ($Unicode) {
+            $RobocopyArguments += '/unicode'
+        }
+        If ($UnicodeLog) {
+            $RobocopyArguments += '/unilog:' + $UnicodeLog
+        }
+        If ($UnicodeLogWithAppend) {
+            $RobocopyArguments += '/unilog+:' + $UnicodeLogWithAppend
+        }
 
         # Job Options
-        If ($JobName) {$RobocopyArguments += '/job:' + $JobName}
-        If ($SaveJob) {$RobocopyArguments += '/save:' + $SaveJob}
-        If ($Quit) {$RobocopyArguments += '/quit'}
-        If ($NoSourceDirectory) {$RobocopyArguments += '/NOSD'}
-        If ($NoDestinationDirectory) {$RobocopyArguments += '/NODD'}
-        If ($IncludeFollowingFile) {$RobocopyArguments += '/IF' + " $IncludeFollowingFile"}
+        If ($JobName) {
+            $RobocopyArguments += '/job:' + $JobName
+        }
+        If ($SaveJob) {
+            $RobocopyArguments += '/save:' + $SaveJob
+        }
+        If ($Quit) {
+            $RobocopyArguments += '/quit'
+        }
+        If ($NoSourceDirectory) {
+            $RobocopyArguments += '/NOSD'
+        }
+        If ($NoDestinationDirectory) {
+            $RobocopyArguments += '/NODD'
+        }
+        If ($IncludeFollowingFile) {
+            $RobocopyArguments += '/IF' + " $IncludeFollowingFile"
+        }
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
@@ -609,6 +771,18 @@ Function Invoke-RoboCopy {
                 # If Quit is used output parameters and break
                 Robocopy.exe $RoboArgs
                 break
+            }
+
+            If (!(Test-Path -path $Source -PathType Container)) {
+                $Exception = [Exception]::new("Cannot find source directory $Source because it does not exist.")
+                $TargetObject = $source
+                $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                    $Exception,
+                    "errorID",
+                    [System.Management.Automation.ErrorCategory]::NotSpecified,
+                    $TargetObject
+                )
+                $PSCmdlet.ThrowTerminatingError($ErrorRecord)
             }
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.

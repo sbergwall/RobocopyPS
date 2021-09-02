@@ -1,5 +1,5 @@
 Function Get-RoboItem {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $True)]
 
     PARAM (
         # Path to directory
@@ -41,18 +41,17 @@ Function Get-RoboItem {
     }
 
     Process {
+        If ($PSCmdlet.ShouldProcess("$Path" , "Get")) {
+
         foreach ($Location in $Path) {
             try {
-                # Verify that both Source and Destination exists and are a directory
-                If (!(Test-Path -path $Location -PathType Container)) {
-                    throw "Cannot find path $location because it does not exist."
-                }
-
                 Invoke-RoboCopy -Source $location -Destination NULL -List -ErrorAction Stop @PSBoundParameters
             }
             catch {
                 $PSCmdlet.WriteError($PSitem)
             }
+
+                }
         }
     }
 

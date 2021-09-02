@@ -5,47 +5,46 @@ online version:
 schema: 2.0.0
 ---
 
-# Move-RoboItem
+# Copy-RoboItem
 
 ## SYNOPSIS
-Move directory with Robocopy.
+Copy directories with RoboCopy.
 
 ## SYNTAX
 
 ```
-Move-RoboItem [-WhatIf] [-Confirm] [-Source] <String> [-Destination] <String> [[-Files] <String[]>]
+Copy-RoboItem [-Source] <String[]> [-WhatIf] [-Confirm] [-Destination] <String> [[-Files] <String[]>]
  [-IncludeSubDirectories] [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode]
  [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>]
- [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge]
- [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
- [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <String>] [[-RunTimes] <String>]
- [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>]
- [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [[-MaximumFileSize] <String>]
- [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>]
- [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
- [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
- [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
- [<CommonParameters>]
+ [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [[-AddAttribute] <String[]>]
+ [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath] [[-MonitorChanges] <Int32>]
+ [[-MonitorMinutes] <Int32>] [[-Threads] <String>] [[-RunTimes] <String>] [-UsePerFileRunTimes]
+ [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload] [-Compress]
+ [-Archive] [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>]
+ [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
+ [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
+ [-IncludeTweakedFiles] [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>]
+ [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>]
+ [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
+ [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>]
+ [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List]
+ [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>]
+ [[-LogFileWithAppend] <String>] [-Unicode] [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>]
+ [[-JobName] <String>] [[-SaveJob] <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
+ [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-A simplified cmdlet for moving directories with help from Invoke-Robocopy.
+Copy one or more directories to a destination directory with the help of Invoke-RoboCopy.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> Move-RoboItem -Source D:\tmp\from\ -Destination D:\tmp\to
+PS C:\> Copy-RoboItem -Source "D:\tmp\from" -Destination "D:\tmp\to"
 ```
 
-Move D:\tmp\from to destination D:\tmp\to.
+Copy files and folders from D:\tmp\from to D:\tmp\to
 
 ## PARAMETERS
 
@@ -136,6 +135,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the function.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -956,21 +970,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Purge
-Deletes destination files and directories that no longer exist in the source.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Quit
 Quits after processing command line to view parameters.
 
@@ -1144,7 +1143,7 @@ Specifies the path to the source directory.
 Must be a folder.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases: Path, FullPath
 
@@ -1325,21 +1324,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the function.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the function runs.
 The function is not run.
@@ -1360,6 +1344,8 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
+
+### System.String[]
 
 ### System.String
 
