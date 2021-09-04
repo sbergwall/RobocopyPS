@@ -765,7 +765,7 @@ Function Invoke-RoboCopy {
             }
 
             # Arguments of the copy command. Fills in the $RoboLog temp file
-            $RoboArgs = $RobocopyArguments + "/bytes /TEE /np /njh /fp /ndl /ts" -split " "
+            $RoboArgs = $RobocopyArguments + ("/bytes /TEE /np /njh /fp /ndl /ts" -split " ")
 
             If ($Quit) {
                 # If Quit is used output parameters and break
