@@ -1,5 +1,16 @@
 # RobocopyPS Release History
 
+## 0.2.7 - 2021-10-17
+
+### Added
+
+* Added parameters ExcludeDirectory and ExcludeFileName to Get-RoboItem
+
+### Changed
+
+* Fixed problem with parameters ExcludeDirectory and ExcludeFileName
+
+
 ## 0.2.6 - 2021-09-02
 
 ### Added

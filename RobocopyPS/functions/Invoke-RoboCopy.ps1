@@ -626,10 +626,10 @@ Function Invoke-RoboCopy {
             $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join ''
         }
         if ($ExcludeFileName) {
-            $RobocopyArguments += '/xf ' + ($ExcludeFileName | ForEach-Object { '"' + $_ + '"' }) -join ' '
+            $RobocopyArguments += ('/xf',($ExcludeFileName | ForEach-Object {$_}))
         }
         if ($ExcludeDirectory) {
-            $RobocopyArguments += '/xd ' + ($ExcludeDirectory | ForEach-Object { '"' + $_ + '"' }) -join ' '
+            $RobocopyArguments +=  ('/xd',($ExcludeDirectory | ForEach-Object {$_}))
         }
         if ($ExcludeChangedFiles) {
             $RobocopyArguments += '/xc'
@@ -756,16 +756,17 @@ Function Invoke-RoboCopy {
             $RobocopyArguments += '/IF' + " $IncludeFollowingFile"
         }
 
+        # Arguments of the copy command. Fills in the $RoboLog temp file
+        $RoboArgs = @($RobocopyArguments + ("/bytes", "/TEE", "/np", "/njh", "/fp", "/ndl", "/ts"))
+
         # Reason why ShouldProcess is this far down is because $action is not set before this part
-        If ($PSCmdlet.ShouldProcess("$Destination from $Source" , $action)) {
+        $strRoboArgs = ($RoboArgs | ForEach-Object {[string]$_}) -join " "
+        If ($PSCmdlet.ShouldProcess("$Destination from $Source" , "$action with arguments $strRoboArgs")) {
 
             if (-not (Get-Command -Name robocopy -ErrorAction SilentlyContinue)) {
                 Write-Warning -Message "Action failed because robocopy.exe could not be found."
                 break
             }
-
-            # Arguments of the copy command. Fills in the $RoboLog temp file
-            $RoboArgs = $RobocopyArguments + ("/bytes /TEE /np /njh /fp /ndl /ts" -split " ")
 
             If ($Quit) {
                 # If Quit is used output parameters and break
@@ -786,7 +787,7 @@ Function Invoke-RoboCopy {
             }
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            Robocopy.exe $RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit | & {
+            Robocopy.exe @RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit | & {
                 process {
                     If ($psitem.stream -eq "Verbose") {
                         Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Length on Item "{4}". TimeStamp on Item "{5}"' -f $action, $psitem.FullName , $Destination, $psitem.status, $psitem.length, $psitem.TimeStamp)

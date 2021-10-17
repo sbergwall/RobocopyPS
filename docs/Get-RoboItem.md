@@ -14,7 +14,8 @@ Get information about file or directories with Robocopy.
 
 ```
 Get-RoboItem [-Path] <String[]> [[-Files] <String[]>] [-Recurse] [[-Level] <Int32>] [-RestartMode]
- [-BackupMode] [-RestartAndBackupMode] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-BackupMode] [-RestartAndBackupMode] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
+ [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -274,6 +275,37 @@ Shows what would happen if the cmdlet runs. The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeDirectory
+Excludes directories that match the specified names and paths.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases: xd
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ExcludeFileName
+Excludes files that match the specified names or paths.
+Note that FileName can include wildcard characters (* and ?).
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases: xf
 
 Required: False
 Position: Named

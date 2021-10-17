@@ -32,6 +32,16 @@ Function Get-RoboItem {
         [Alias('zb')]
         [switch]$RestartAndBackupMode,
 
+        # Excludes files that match the specified names or paths. Note that FileName can include wildcard characters (* and ?).
+        [Parameter(Mandatory = $False)]
+        [Alias('xf')]
+        [String[]]$ExcludeFileName,
+
+        # Excludes directories that match the specified names and paths.
+        [Parameter(Mandatory = $False)]
+        [Alias('xd')]
+        [String[]]$ExcludeDirectory,
+
         # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto'

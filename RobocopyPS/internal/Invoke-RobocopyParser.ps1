@@ -164,7 +164,7 @@ Function Invoke-RobocopyParser {
         [PSCustomObject]@{
             'Source'              = [System.IO.DirectoryInfo]$Source
             'Destination'         = [System.IO.DirectoryInfo]$Destination
-            'Command'             = 'Robocopy.exe ' + $RoboArgs -join " "
+            'Command'             = 'Robocopy.exe ' + ($RoboArgs | ForEach-Object {[string]$_}) -join " "
             'DirCount'            = [int]$TotalDirs
             'FileCount'           = [int]$TotalFiles
             #'Duration'     = $TotalDuration
