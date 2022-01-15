@@ -4,7 +4,8 @@
 #>
 PARAM (
     $VersionType = 'Patch',
-    $m
+    $m,
+    $branch
 )
 
 task UpdateHelp {
@@ -48,5 +49,5 @@ Task UpdateModuleVersion {
 Task push UpdateHelp, Test, TestComp,{
     git add .
     git commit -a -m $m
-    git push
+    git push origin $branch
 }
