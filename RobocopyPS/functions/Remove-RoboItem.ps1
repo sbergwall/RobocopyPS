@@ -57,7 +57,8 @@ Function Remove-RoboItem {
 
                 try {
                     $tempDirectory = New-Item -Path $env:temp -Name (New-Guid).Guid -ItemType Directory -ErrorAction Stop
-                    Invoke-RoboCopy -Source $tempDirectory -Destination $Location -Mirror -ErrorAction Stop @PSBoundParameters
+                    $PSBoundParameters.Set_Item("Path", $location)
+                    Invoke-RoboCopy -Destination $Location -Mirror -ErrorAction Stop @PSBoundParameters
                     Remove-Item -Path $tempDirectory, $Location -ErrorAction Stop
                 }
                 catch {

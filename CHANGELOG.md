@@ -5,6 +5,7 @@
 ### Fixed
 
 * Fixed problem with escape character in PowerShell, for example paths with [ in them
+* Fixed problem when using Remove-RoboItem and Get-RoboItem when specifying multiple paths
 
 ## 0.2.7 - 2021-10-17
 

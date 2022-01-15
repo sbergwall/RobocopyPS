@@ -502,18 +502,20 @@ Function Invoke-RoboCopy {
             $PSCmdlet.WriteError($PSitem)
         }
 
-        try {
-            # Try literalpath, if it doesnt exist we will try with -Path
-            $Destination = (Get-Item -LiteralPath $Destination -ErrorAction Stop).FullName
+        # See if $destination is NULL because its used by other cmdlets
+        If ($Destination -eq "NULL") {}
+        else {
+            try {
+                # Try literalpath, if it doesnt exist we will try with -Path
+                $Destination = (Get-Item -LiteralPath $Destination -ErrorAction Stop).FullName
+            }
+            Catch [System.Management.Automation.ItemNotFoundException] {
+                $Destination = (Get-Item -Path $Destination -ErrorAction Stop).FullName
+            }
+            Catch {
+                $PSCmdlet.WriteError($PSitem)
+            }
         }
-        Catch [System.Management.Automation.ItemNotFoundException] {
-            $Destination = (Get-Item -Path $Destination -ErrorAction Stop).FullName
-        }
-        Catch {
-            $PSCmdlet.WriteError($PSitem)
-        }
-
-
 
         # Remove trailing backslash because Robocopy can sometimes error out when spaces are in path names
         $ModifiedSource = $Source -replace '\\$'
@@ -652,10 +654,10 @@ Function Invoke-RoboCopy {
             $RobocopyArguments += '/xa:' + ($ExcludeAttribute | Sort-Object -Unique) -join ''
         }
         if ($ExcludeFileName) {
-            $RobocopyArguments += ('/xf',($ExcludeFileName | ForEach-Object {$_}))
+            $RobocopyArguments += ('/xf', ($ExcludeFileName | ForEach-Object { $_ }))
         }
         if ($ExcludeDirectory) {
-            $RobocopyArguments +=  ('/xd',($ExcludeDirectory | ForEach-Object {$_}))
+            $RobocopyArguments += ('/xd', ($ExcludeDirectory | ForEach-Object { $_ }))
         }
         if ($ExcludeChangedFiles) {
             $RobocopyArguments += '/xc'
@@ -789,7 +791,7 @@ Function Invoke-RoboCopy {
         $RoboArgs = @($RobocopyArguments + ("/bytes", "/TEE", "/np", "/njh", "/fp", "/ndl", "/ts"))
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
-        $strRoboArgs = ($RoboArgs | ForEach-Object {[string]$_}) -join " "
+        $strRoboArgs = ($RoboArgs | ForEach-Object { [string]$_ }) -join " "
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , "$action with arguments $strRoboArgs")) {
 
             if (-not (Get-Command -Name robocopy -ErrorAction SilentlyContinue)) {

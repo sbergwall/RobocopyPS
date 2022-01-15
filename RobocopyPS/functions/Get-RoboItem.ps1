@@ -10,7 +10,7 @@ Function Get-RoboItem {
         [String[]]$Path,
 
         # Specifies the file or files. You can use wildcard characters (* or ?), if you want. If the File parameter is not specified, *.* is used as the default value.
-        [String[]] $Files = '*.*',
+        [String[]]$Files = '*.*',
 
         # Includes subdirectories and files.
         [Switch]$Recurse,
@@ -53,15 +53,16 @@ Function Get-RoboItem {
     Process {
         If ($PSCmdlet.ShouldProcess("$Path" , "Get")) {
 
-        foreach ($Location in $Path) {
-            try {
-                Invoke-RoboCopy -Source $location -Destination NULL -List -ErrorAction Stop @PSBoundParameters
-            }
-            catch {
-                $PSCmdlet.WriteError($PSitem)
-            }
+            foreach ($Location in $Path) {
+                try {
+                    $PSBoundParameters.Set_Item("Path", $location)
 
+                    Invoke-RoboCopy -Destination NULL -List -ErrorAction Stop @PSBoundParameters
                 }
+                catch {
+                    $PSCmdlet.WriteError($PSitem)
+                }
+            }
         }
     }
 
