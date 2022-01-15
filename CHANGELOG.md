@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.8 - 2022-01-15
+
+### Fixed
+
+* Fixed problem with escape character in PowerShell, for example paths with [ in them
+
 ## 0.2.7 - 2021-10-17
 
 ### Added
