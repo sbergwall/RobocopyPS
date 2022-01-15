@@ -76,7 +76,8 @@ Function Invoke-RobocopyParser {
             }
         }
 
-        ElseIf ($InputObject -like "*$Source*") {
+        ElseIf ($InputObject -like "*$($Source.Replace('[','`[').Replace(']','`]'))*") {
+        #ElseIf ($InputObject -like "*$Source*") {
             $Line = $InputObject.Trim().Split("`t")
             $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
             $ExtensionSplit = ($Line[3]).Split(".")

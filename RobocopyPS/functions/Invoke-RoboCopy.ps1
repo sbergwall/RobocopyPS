@@ -490,6 +490,31 @@ Function Invoke-RoboCopy {
     )
 
     Process {
+        # Handle different types of paths, like C:\tmp\[] and 'C:\tmp\`[`]\' (note the escape characters, Powershell usually do this when using tab to find your folder)
+        try {
+            # Try literalpath, if it doesnt exist we will try with -Path
+            $Source = (Get-Item -LiteralPath $Source -ErrorAction Stop).FullName
+        }
+        Catch [System.Management.Automation.ItemNotFoundException] {
+            $Source = (Get-Item -Path $Source -ErrorAction Stop).FullName
+        }
+        Catch {
+            $PSCmdlet.WriteError($PSitem)
+        }
+
+        try {
+            # Try literalpath, if it doesnt exist we will try with -Path
+            $Destination = (Get-Item -LiteralPath $Destination -ErrorAction Stop).FullName
+        }
+        Catch [System.Management.Automation.ItemNotFoundException] {
+            $Destination = (Get-Item -Path $Destination -ErrorAction Stop).FullName
+        }
+        Catch {
+            $PSCmdlet.WriteError($PSitem)
+        }
+
+
+
         # Remove trailing backslash because Robocopy can sometimes error out when spaces are in path names
         $ModifiedSource = $Source -replace '\\$'
         $ModifiedDestination = $Destination -replace '\\$'
@@ -505,7 +530,7 @@ Function Invoke-RoboCopy {
         $RobocopyArguments += '/r:' + $Retry
         $RobocopyArguments += '/w:' + $Wait
 
-        # Copy options
+        #region Copy options
         if ($IncludeSubDirectories) {
             $RobocopyArguments += '/s'; $action = 'Copy'
         }
@@ -611,8 +636,9 @@ Function Invoke-RoboCopy {
         if ($Compress) {
             $RobocopyArguments += '/compress'
         }
+        #endregion
 
-        # File selection options
+        #region File selection options
         if ($Archive) {
             $RobocopyArguments += '/a'
         }
@@ -700,8 +726,9 @@ Function Invoke-RoboCopy {
         If ($LowFreeSpaceModeValue) {
             $RobocopyArguments += '/LFSM:' + $LowFreeSpaceModeValue
         }
+        #endregion
 
-        # Logging Options
+        #region Logging Options
         If ($List) {
             $RobocopyArguments += '/l' ; $action = 'List'
         }
@@ -735,8 +762,9 @@ Function Invoke-RoboCopy {
         If ($UnicodeLogWithAppend) {
             $RobocopyArguments += '/unilog+:' + $UnicodeLogWithAppend
         }
+        #endregion
 
-        # Job Options
+        #region Job Options
         If ($JobName) {
             $RobocopyArguments += '/job:' + $JobName
         }
@@ -755,6 +783,7 @@ Function Invoke-RoboCopy {
         If ($IncludeFollowingFile) {
             $RobocopyArguments += '/IF' + " $IncludeFollowingFile"
         }
+        #endregion
 
         # Arguments of the copy command. Fills in the $RoboLog temp file
         $RoboArgs = @($RobocopyArguments + ("/bytes", "/TEE", "/np", "/njh", "/fp", "/ndl", "/ts"))
@@ -774,7 +803,8 @@ Function Invoke-RoboCopy {
                 break
             }
 
-            If (!(Test-Path -path $Source -PathType Container)) {
+            <#
+            If (!(Test-Path -LiteralPath $Source -PathType Container)) {
                 $Exception = [Exception]::new("Cannot find source directory $Source because it does not exist.")
                 $TargetObject = $source
                 $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
@@ -785,6 +815,7 @@ Function Invoke-RoboCopy {
                 )
                 $PSCmdlet.ThrowTerminatingError($ErrorRecord)
             }
+            #>
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
             Robocopy.exe @RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit | & {
