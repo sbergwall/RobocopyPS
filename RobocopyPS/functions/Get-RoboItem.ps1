@@ -42,6 +42,12 @@ Function Get-RoboItem {
         [Alias('xd')]
         [String[]]$ExcludeDirectory,
 
+        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        [Parameter(Mandatory = $False)]
+        [ValidateRange(1,128)]
+        [Alias('MT', 'MultiThread')]
+        [int]$Threads,
+
         # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto'
