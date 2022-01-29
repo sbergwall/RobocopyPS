@@ -1,5 +1,15 @@
 # RobocopyPS Release History
 
+## 0.2.9 . 2202-01-29
+
+### Added
+
+* Added Parameter -Threads to Get-RoboItem
+
+### Changed
+
+* Changed Parameter Validation to ValidateRange on -Thread Parameter
+
 ## 0.2.8 - 2022-01-15
 
 ### Fixed
