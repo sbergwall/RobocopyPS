@@ -15,7 +15,7 @@ Get information about file or directories with Robocopy.
 ```
 Get-RoboItem [-Path] <String[]> [[-Files] <String[]>] [-Recurse] [[-Level] <Int32>] [-RestartMode]
  [-BackupMode] [-RestartAndBackupMode] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Threads <Int32>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -306,6 +306,24 @@ Note that FileName can include wildcard characters (* and ?).
 Type: String[]
 Parameter Sets: (All)
 Aliases: xf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Threads
+Creates multi-threaded copies with N threads.
+N must be an integer between 1 and 128.
+Cannot be used with the InterPacketGap and EFSRAW parameters.
+The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: MT, MultiThread
 
 Required: False
 Position: Named

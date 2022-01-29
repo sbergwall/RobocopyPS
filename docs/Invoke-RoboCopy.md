@@ -18,7 +18,7 @@ Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>]
  [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>] [-CopyWithSecurity]
  [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-Mirror] [-MoveFiles]
  [-MoveFilesAndDirectories] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <String>]
+ [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>]
  [[-RunTimes] <String>] [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink]
  [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
  [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>]
@@ -596,7 +596,7 @@ Cannot be used with the InterPacketGap and EFSRAW parameters.
 The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases: MT, MultiThread
 
