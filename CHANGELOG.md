@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.12 - 2022-02-06
+
+### Added
+
+* Added Force parameter that will try and create the destination folder if it does not exist
+
 ## 0.2.8 - 2022-01-15
 
 ### Fixed

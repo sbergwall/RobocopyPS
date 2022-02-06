@@ -13,7 +13,7 @@ Copy directories with RoboCopy.
 ## SYNTAX
 
 ```
-Copy-RoboItem [-Source] <String[]> [-WhatIf] [-Confirm] [-Destination] <String> [[-Files] <String[]>]
+Copy-RoboItem [-Source] <String[]> [-WhatIf] [-Confirm] [-Destination] <String> [[-Files] <String[]>] [-Force]
  [-IncludeSubDirectories] [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode]
  [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>]
  [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [[-AddAttribute] <String[]>]
@@ -1332,6 +1332,21 @@ The function is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+If destination folder does not exist the Force parameter will try and create it.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

@@ -127,6 +127,10 @@ Function Invoke-RoboCopy {
         [Alias('File')]
         [String[]] $Files = '*.*',
 
+        # If destination folder does not exist the Force parameter will try and create it.
+        [Parameter(Mandatory = $False)]
+        [switch] $Force,
+
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
         # Copies subdirectories. Note that this option excludes empty directories.
@@ -505,6 +509,17 @@ Function Invoke-RoboCopy {
 
         # See if $destination is NULL because its used by other cmdlets
         If ($Destination -eq "NULL") {}
+
+        # If Force is true we want to create the destination folder even if it doesnt exist
+        elseif ($Force -eq $True -and $null -eq $WhatIf) {
+            try {
+                New-Item -Path $Destination -Force -ItemType Directory -ErrorAction Stop
+            }
+            catch {
+                $PSCmdlet.WriteError($PSitem)
+            }
+        }
+
         else {
             try {
                 # Try literalpath, if it doesnt exist we will try with -Path

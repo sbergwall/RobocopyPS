@@ -13,12 +13,12 @@ Invoke Robocopy with PowerShell
 ## SYNTAX
 
 ```
-Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>] [-IncludeSubDirectories]
- [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode]
- [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>] [-CopyWithSecurity]
- [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-Mirror] [-MoveFiles]
- [-MoveFilesAndDirectories] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>]
+Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>] [-Force]
+ [-IncludeSubDirectories] [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode]
+ [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>]
+ [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [-Purge] [-Mirror]
+ [-MoveFiles] [-MoveFilesAndDirectories] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create]
+ [-FAT] [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>]
  [[-RunTimes] <String>] [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink]
  [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
  [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>]
@@ -183,6 +183,21 @@ Aliases: File
 Required: False
 Position: 3
 Default value: *.*
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+If destination folder does not exist the Force parameter will try and create it.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
