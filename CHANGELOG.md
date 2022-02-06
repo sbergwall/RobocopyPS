@@ -6,6 +6,10 @@
 
 * Added Force parameter that will try and create the destination folder if it does not exist
 
+### Fixed
+
+* Fixed problem when using Copy-RoboItem when specifying multiple paths
+
 ## 0.2.8 - 2022-01-15
 
 ### Fixed

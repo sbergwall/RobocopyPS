@@ -513,7 +513,12 @@ Function Invoke-RoboCopy {
         # If Force is true we want to create the destination folder even if it doesnt exist
         elseif ($Force -eq $True -and $null -eq $WhatIf) {
             try {
-                New-Item -Path $Destination -Force -ItemType Directory -ErrorAction Stop
+                If (Test-Path $Destination) {
+                    Write-Verbose "$Destination already exist"
+                }
+                else {
+                    New-Item -Path $Destination -ItemType Directory -ErrorAction Stop | Out-Null
+                }
             }
             catch {
                 $PSCmdlet.WriteError($PSitem)
