@@ -158,7 +158,6 @@ Function Invoke-RoboCopy {
         [Alias('zb')]
         [switch]$RestartAndBackupMode,
 
-
         # Copies using unbuffered I/O (recommended for large files).
         [Alias('j')]
         [Switch]$UnbufferedIO,
@@ -242,11 +241,11 @@ Function Invoke-RoboCopy {
         [Alias('mot')]
         [Int]$MonitorMinutes,
 
-        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        #Default value is 8. Value must be at least 1 and not greater than 128. This option is incompatible with the /IPG and /EFSRAW options. Redirect output using /LOG option for better performance.
         [Parameter(Mandatory = $False)]
         [ValidateRange(1,128)]
         [Alias('MT', 'MultiThread')]
-        [int]$Threads,
+        [int]$Threads = 8,
 
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]

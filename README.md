@@ -20,43 +20,37 @@ The easiest way to get RobocopyPS is using the [PowerShell Gallery](https://powe
 ### Installing the module
 
 ``` PowerShell
-PS> Install-Module -Name RobocopyPS
+Install-Module -Name RobocopyPS
 ```
 
-### Example: Copy with Recurse
+### Usage examples
+
+Invoke-RoboCopy is the core function used by RobocopyPS and will contain all parameters that can be used with Robocopy.exe. Most, if not all, other functions will call Invoke-RoboCopy.
+
+#### Example 1: Copy all items from C:\tmp\from\ to C:\tmp\to\\. Include subdirectories that is empty and create a log file at C:\tmp\log.log
+```` PowerShell
+Invoke-RoboCopy -Source C:\tmp\from\ -Destination C:\tmp\to\ -IncludeEmptySubDirectories -LogFile C:\tmp\log.log
+````
+
+#### Example 2: Move all items from C:\tmp\from\ to C:\tmp\to\\. Note that this will remove C:\tmp\from\ when Robocopy is done
+```` PowerShell
+Invoke-RoboCopy -Source C:\tmp\from\ -Destination C:\tmp\to\ -MoveFilesAndDirectories
+````
+
+### Other functions
+
+Other functions are usually using Invoke-Robocopy under the hood but exist for convenience for the user to easier understand what the specific function does.
+
+#### Example 1: Copy items from one directory to another, including empty subdirectories. Using -Force will create the destination folder if it does not exist
 
 ```` PowerShell
-PS > Invoke-RoboCopy -Source "E:\Google Drive\Script Library" -Destination G:\Temp\ -Recurse  -Unit Bytes
+Copy-RoboItem -Source C:\tmp\from\ -Destination C:\tmp\to\ -IncludeEmptySubDirectories -Force
+````
 
-Source              : E:\Google Drive\Script Library
-Destination         : G:\Temp\
-Command             : Robocopy.exe "E:\Google Drive\Script Library" "G:\Temp" *.* /r:3 /w:3 /e /bytes /TEE /np /njh /fp /v /ndl /ts
-DirCount            : 589
-FileCount           : 1220
-DirCopied           : 588
-FileCopied          : 1220
-DirIgnored          : 1
-FileIgnored         : 0
-DirMismatched       : 0
-FileMismatched      : 0
-DirFailed           : 0
-FileFailed          : 0
-DirExtra            : 0
-FileExtra           : 1
-TotalTime           : 00:00:02
-StartedTime         : 7/16/2019 10:03:28 PM
-EndedTime           : 7/16/2019 10:03:30 PM
-TotalSize           : 18839977 B
-TotalSizeCopied     : 18839977 B
-TotalSizeIgnored    : 0 B
-TotalSizeMismatched : 0 B
-TotalSizeFailed     : 0 B
-TotalSizeExtra      : 557048280 B
-Speed               : 12957343 B/s
-ExitCode            : 3
-Success             : True
-LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+#### Example 2: List information about a directory, including file count and total folder size, and show the size in bytes
 
+```` PowerShell
+Get-RoboItem -Path C:\tmp\from\ -Unit Bytes
 ````
 
 ### How RobocopyPS handle native Robocopy errors

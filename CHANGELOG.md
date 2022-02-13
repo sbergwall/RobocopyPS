@@ -10,6 +10,10 @@
 
 * Fixed problem when using Copy-RoboItem when specifying multiple paths
 
+### Changed
+
+* Updated readme 
+
 ## 0.2.8 - 2022-01-15
 
 ### Fixed
