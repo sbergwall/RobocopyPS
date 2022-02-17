@@ -1,14 +1,19 @@
 # RobocopyPS Release History
 
-## 0.2.9 . 2202-01-29
+## 0.2.12 - 2022-02-06
 
 ### Added
 
-* Added Parameter -Threads to Get-RoboItem
+* Added Force parameter that will try and create the destination folder if it does not exist
+* Added TotalSizeBytes as a int64
+
+### Fixed
+
+* Fixed problem when using Copy-RoboItem when specifying multiple paths
 
 ### Changed
 
-* Changed Parameter Validation to ValidateRange on -Thread Parameter
+* Updated readme
 
 ## 0.2.8 - 2022-01-15
 

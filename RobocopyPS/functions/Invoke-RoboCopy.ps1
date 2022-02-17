@@ -127,6 +127,10 @@ Function Invoke-RoboCopy {
         [Alias('File')]
         [String[]] $Files = '*.*',
 
+        # If destination folder does not exist the Force parameter will try and create it.
+        [Parameter(Mandatory = $False)]
+        [switch] $Force,
+
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
         # Copies subdirectories. Note that this option excludes empty directories.
@@ -153,7 +157,6 @@ Function Invoke-RoboCopy {
         # Copies files in restartable mode. If file access is denied, switches to backup mode.
         [Alias('zb')]
         [switch]$RestartAndBackupMode,
-
 
         # Copies using unbuffered I/O (recommended for large files).
         [Alias('j')]
@@ -238,11 +241,11 @@ Function Invoke-RoboCopy {
         [Alias('mot')]
         [Int]$MonitorMinutes,
 
-        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        #Default value is 8. Value must be at least 1 and not greater than 128. This option is incompatible with the /IPG and /EFSRAW options. Redirect output using /LOG option for better performance.
         [Parameter(Mandatory = $False)]
         [ValidateRange(1,128)]
         [Alias('MT', 'MultiThread')]
-        [int]$Threads,
+        [int]$Threads = 8,
 
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
@@ -505,6 +508,22 @@ Function Invoke-RoboCopy {
 
         # See if $destination is NULL because its used by other cmdlets
         If ($Destination -eq "NULL") {}
+
+        # If Force is true we want to create the destination folder even if it doesnt exist
+        elseif ($Force -eq $True -and $null -eq $WhatIf) {
+            try {
+                If (Test-Path $Destination) {
+                    Write-Verbose "$Destination already exist"
+                }
+                else {
+                    New-Item -Path $Destination -ItemType Directory -ErrorAction Stop | Out-Null
+                }
+            }
+            catch {
+                $PSCmdlet.WriteError($PSitem)
+            }
+        }
+
         else {
             try {
                 # Try literalpath, if it doesnt exist we will try with -Path

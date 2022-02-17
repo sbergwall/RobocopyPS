@@ -20,13 +20,12 @@ function Copy-RoboItem {
     }
 
     process {
+        $Destination = $PSBoundParameters['Destination']
         foreach ($Dir in $Source) {
-            $Destination = $PSBoundParameters['Destination']
-
             If ($PSCmdlet.ShouldProcess("$Destination from $Dir" , "Copy")) {
-
                 try {
-                    Invoke-RoboCopy -Source $dir @PSBoundParameters -ErrorAction Stop
+                    $PSBoundParameters.Set_Item('Source', $dir)
+                    Invoke-RoboCopy @PSBoundParameters -ErrorAction Stop
                 }
                 catch {
                     $PSCmdlet.WriteError($PSitem)

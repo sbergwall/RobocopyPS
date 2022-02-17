@@ -5,7 +5,7 @@
 PARAM (
     $VersionType = 'Patch',
     $m,
-    $branch
+    $branch = 'dev'
 )
 
 task UpdateHelp {
