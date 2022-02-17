@@ -162,38 +162,39 @@ Function Invoke-RobocopyParser {
         }
 
         [PSCustomObject]@{
-            'Source'              = [System.IO.DirectoryInfo]$Source
-            'Destination'         = [System.IO.DirectoryInfo]$Destination
-            'Command'             = 'Robocopy.exe ' + ($RoboArgs | ForEach-Object {[string]$_}) -join " "
-            'DirCount'            = [int]$TotalDirs
-            'FileCount'           = [int]$TotalFiles
+            'Source'                = [System.IO.DirectoryInfo]$Source
+            'Destination'           = [System.IO.DirectoryInfo]$Destination
+            'Command'               = 'Robocopy.exe ' + ($RoboArgs | ForEach-Object {[string]$_}) -join " "
+            'DirCount'              = [int]$TotalDirs
+            'FileCount'             = [int]$TotalFiles
             #'Duration'     = $TotalDuration
-            'DirCopied'           = [int]$TotalDirCopied
-            'FileCopied'          = [int]$TotalFileCopied
+            'DirCopied'             = [int]$TotalDirCopied
+            'FileCopied'            = [int]$TotalFileCopied
             #'CopyDuration' = $CopyDuration
-            'DirIgnored'          = [int]$TotalDirIgnored
-            'FileIgnored'         = [int]$TotalFileIgnored
-            'DirMismatched'       = [int]$TotalDirMismatched
-            'FileMismatched'      = [int]$TotalFileMismatched
-            'DirFailed'           = [int]$TotalDirFailed
-            'FileFailed'          = [int]$TotalFileFailed
+            'DirIgnored'            = [int]$TotalDirIgnored
+            'FileIgnored'           = [int]$TotalFileIgnored
+            'DirMismatched'         = [int]$TotalDirMismatched
+            'FileMismatched'        = [int]$TotalFileMismatched
+            'DirFailed'             = [int]$TotalDirFailed
+            'FileFailed'            = [int]$TotalFileFailed
             #'FailedDuration'   = $FailedDuration
-            'DirExtra'            = [int]$TotalDirExtra
-            'FileExtra'           = [int]$TotalFileExtra
+            'DirExtra'              = [int]$TotalDirExtra
+            'FileExtra'             = [int]$TotalFileExtra
             #'ExtraDuration'    = $ExtraDuration
-            'TotalTime'           = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
-            'StartedTime'         = [datetime]$StartTime
-            'EndedTime'           = [datetime]$endTime
-            'TotalSize'           = (Format-SpeedHumanReadable $Totalbytes @FormatSpeedSplatting)
-            'TotalSizeCopied'     = (Format-SpeedHumanReadable $TotalBytesCopied @FormatSpeedSplatting)
-            'TotalSizeIgnored'    = (Format-SpeedHumanReadable $TotalBytesIgnored @FormatSpeedSplatting)
-            'TotalSizeMismatched' = (Format-SpeedHumanReadable $TotalBytesMismatched @FormatSpeedSplatting)
-            'TotalSizeFailed'     = (Format-SpeedHumanReadable $TotalBytesFailed @FormatSpeedSplatting)
-            'TotalSizeExtra'      = (Format-SpeedHumanReadable $TotalBytesExtra @FormatSpeedSplatting)
-            'Speed'               = (Format-SpeedHumanReadable $TotalSpeedBytes @FormatSpeedSplatting) + '/s'
-            'ExitCode'            = $LASTEXITCODE
-            'Success'             = If ($LASTEXITCODE -lt 8) { $true } else { $false }
-            'LastExitCodeMessage' = [string]$LastExitCodeMessage
+            'TotalTime'             = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
+            'StartedTime'           = [datetime]$StartTime
+            'EndedTime'             = [datetime]$endTime
+            'TotalSize'             = (Format-SpeedHumanReadable $Totalbytes @FormatSpeedSplatting)
+            'TotalSizeCopied'       = (Format-SpeedHumanReadable $TotalBytesCopied @FormatSpeedSplatting)
+            'TotalSizeIgnored'      = (Format-SpeedHumanReadable $TotalBytesIgnored @FormatSpeedSplatting)
+            'TotalSizeMismatched'   = (Format-SpeedHumanReadable $TotalBytesMismatched @FormatSpeedSplatting)
+            'TotalSizeFailed'       = (Format-SpeedHumanReadable $TotalBytesFailed @FormatSpeedSplatting)
+            'TotalSizeExtra'        = (Format-SpeedHumanReadable $TotalBytesExtra @FormatSpeedSplatting)
+            'TotalSizeBytes'        = [int64]$Totalbytes
+            'Speed'                 = (Format-SpeedHumanReadable $TotalSpeedBytes @FormatSpeedSplatting) + '/s'
+            'ExitCode'              = $LASTEXITCODE
+            'Success'               = If ($LASTEXITCODE -lt 8) { $true } else { $false }
+            'LastExitCodeMessage'   = [string]$LastExitCodeMessage
         }
     }
 }

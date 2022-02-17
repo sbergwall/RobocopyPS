@@ -5,6 +5,7 @@
 ### Added
 
 * Added Force parameter that will try and create the destination folder if it does not exist
+* Added TotalSizeBytes as a int64
 
 ### Fixed
 
@@ -12,7 +13,7 @@
 
 ### Changed
 
-* Updated readme 
+* Updated readme
 
 ## 0.2.8 - 2022-01-15
 
