@@ -100,7 +100,7 @@ Function Invoke-RobocopyParser {
                 $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                 $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                 $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                $TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                #$TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                 $EndedLineRegex { }
                 $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                 $SpeedInMinutesRegex { }
@@ -181,7 +181,7 @@ Function Invoke-RobocopyParser {
             'DirExtra'              = [int]$TotalDirExtra
             'FileExtra'             = [int]$TotalFileExtra
             #'ExtraDuration'    = $ExtraDuration
-            'TotalTime'             = "{0:HH:mm:ss}" -f ([datetime]$($endtime - $StartTime).Ticks)
+            'TotalTime'             = "{0:g}" -f ($endtime - $StartTime)
             'StartedTime'           = [datetime]$StartTime
             'EndedTime'             = [datetime]$endTime
             'TotalSize'             = (Format-SpeedHumanReadable $Totalbytes @FormatSpeedSplatting)
