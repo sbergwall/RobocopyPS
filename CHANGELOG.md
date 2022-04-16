@@ -1,5 +1,10 @@
 # RobocopyPS Release History
 
+## 0.2.13 - 2022-04-16
+
+### Changed
+* Changes to TotalTime in Invoke-RobocopyParser.ps1
+
 ## 0.2.12 - 2022-02-06
 
 ### Added
