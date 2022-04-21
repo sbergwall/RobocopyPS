@@ -2,8 +2,15 @@
 
 ## 0.2.13 - 2022-04-16
 
-### Changed
-* Changes to TotalTime in Invoke-RobocopyParser.ps1
+### Added
+
+* Remove-RoboItem: Added Threads parameter
+
+### Fixed
+
+* Invoke-RobocopyParser.ps1: Changes to TotalTime for jobs running for a day or longer
+* Remove-RoboItem: Fixed bug where temporary folders where not deleted correctly
+* Remove-RoboItem: Fixed bug where function tried to remove the temporary instead of the specified folder
 
 ## 0.2.12 - 2022-02-06
 

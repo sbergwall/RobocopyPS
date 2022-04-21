@@ -13,8 +13,8 @@ Remove directory.
 ## SYNTAX
 
 ```
-Remove-RoboItem [-Path] <String[]> [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [[-Retry] <Int32>]
- [[-Wait] <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-RoboItem [-Path] <String[]> [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-Threads <Int32>]
+ [[-Retry] <Int32>] [[-Wait] <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -144,6 +144,21 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Threads
+Creates multi-threaded copies with N threads. N must be an integer between 1 and 128.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases: MT, MultiThread
 
 Required: False
 Position: Named

@@ -6956,6 +6956,18 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
+          <maml:name>Threads</maml:name>
+          <maml:description>
+            <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -7054,6 +7066,18 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MT, MultiThread">
+        <maml:name>Threads</maml:name>
+        <maml:description>
+          <maml:para>Creates multi-threaded copies with N threads. N must be an integer between 1 and 128.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>

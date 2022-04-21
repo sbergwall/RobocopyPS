@@ -21,6 +21,12 @@ Function Remove-RoboItem {
         [Alias('zb')]
         [switch]$RestartAndBackupMode,
 
+        # Creates multi-threaded copies with N threads. N must be an integer between 1 and 128. Cannot be used with the InterPacketGap and EFSRAW parameters. The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
+        [Parameter(Mandatory = $False)]
+        [ValidateRange(1, 128)]
+        [Alias('MT', 'MultiThread')]
+        [int]$Threads,
+
         <#Retry Options#>
 
         # Specifies the number of retries on failed copies. Default is 3.
@@ -33,42 +39,45 @@ Function Remove-RoboItem {
 
     )
 
-    Begin {
-    }
+    Begin {}
 
     Process {
         foreach ($Location in $Path) {
-            If ($PSCmdlet.ShouldProcess("$Location" , "Remove")) {
+            If ($PSCmdlet.ShouldProcess("$Location" , 'Remove')) {
 
                 # Because we are using -Destination in Invoke-RoboCopy, and no validation to check if the Destination directory
                 # actually exists we need to create the validation here instead
 
-                If (!(Test-Path -path $Location -PathType Container)) {
+
+                If (!(Test-Path -Path $Location -PathType Container)) {
                     $Exception = [Exception]::new("Cannot find directory $Location because it does not exist.")
                     $TargetObject = $Location
                     $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
                         $Exception,
-                        "errorID",
+                        'errorID',
                         [System.Management.Automation.ErrorCategory]::NotSpecified,
                         $TargetObject
                     )
-                    $PSCmdlet.ThrowTerminatingError($ErrorRecord)
+                    $PSCmdlet.WriteError($ErrorRecord)
+                    Continue
                 }
 
                 try {
                     $tempDirectory = New-Item -Path $env:temp -Name (New-Guid).Guid -ItemType Directory -ErrorAction Stop
-                    $PSBoundParameters.Set_Item("Path", $location)
-                    Invoke-RoboCopy -Destination $Location -Mirror -ErrorAction Stop @PSBoundParameters
-                    Remove-Item -Path $tempDirectory, $Location -ErrorAction Stop
+                    $PSBoundParameters.Set_Item('Path', $tempDirectory)
+
+                    Invoke-RoboCopy -Destination $Location -Mirror @PSBoundParameters
+                    Remove-Item $Location -Force -Recurse -ErrorAction SilentlyContinue
                 }
                 catch {
                     $PSCmdlet.WriteError($PSitem)
                 }
-
+                finally {
+                    Remove-Item -Path $tempDirectory -Force
+                }
             } # end WhatIf
         } #end foreach
     }
 
-    End {
-    }
+    End {}
 }
