@@ -12,6 +12,9 @@
 * Remove-RoboItem: Fixed bug where temporary folders where not deleted correctly
 * Remove-RoboItem: Fixed bug where function tried to remove the temporary instead of the specified folder
 
+### Changed
+* Copy-RoboItem: Removed ErrorAction Stop when calling Invoke-RoboCopy to let the end user handle errors
+
 ## 0.2.12 - 2022-02-06
 
 ### Added

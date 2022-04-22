@@ -25,7 +25,7 @@ function Copy-RoboItem {
             If ($PSCmdlet.ShouldProcess("$Destination from $Dir" , "Copy")) {
                 try {
                     $PSBoundParameters.Set_Item('Source', $dir)
-                    Invoke-RoboCopy @PSBoundParameters -ErrorAction Stop
+                    Invoke-RoboCopy @PSBoundParameters
                 }
                 catch {
                     $PSCmdlet.WriteError($PSitem)

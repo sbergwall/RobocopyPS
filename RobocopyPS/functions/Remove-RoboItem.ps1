@@ -48,7 +48,6 @@ Function Remove-RoboItem {
                 # Because we are using -Destination in Invoke-RoboCopy, and no validation to check if the Destination directory
                 # actually exists we need to create the validation here instead
 
-
                 If (!(Test-Path -Path $Location -PathType Container)) {
                     $Exception = [Exception]::new("Cannot find directory $Location because it does not exist.")
                     $TargetObject = $Location
@@ -67,13 +66,13 @@ Function Remove-RoboItem {
                     $PSBoundParameters.Set_Item('Path', $tempDirectory)
 
                     Invoke-RoboCopy -Destination $Location -Mirror @PSBoundParameters
-                    Remove-Item $Location -Force -Recurse -ErrorAction SilentlyContinue
+                    Get-Item -Path $Location | ForEach-Object {$_.Delete()}
                 }
                 catch {
                     $PSCmdlet.WriteError($PSitem)
                 }
                 finally {
-                    Remove-Item -Path $tempDirectory -Force
+                    Get-Item -Path $tempDirectory | ForEach-Object {$_.Delete()}
                 }
             } # end WhatIf
         } #end foreach
