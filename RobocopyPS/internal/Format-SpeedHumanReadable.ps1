@@ -26,7 +26,8 @@ Function Format-SpeedHumanReadable {
             }
             { $_ -ge 1GB } {
                 #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
-                [Math]::Round(([Decimal] $absSize / 1GB), $Precision)
+                $Output = [Math]::Round(([Decimal] $absSize / 1GB), $Precision)
+                [System.String]$Output + " GB" ; break
             }
             { $_ -ge 1MB } {
                 "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
@@ -49,8 +50,8 @@ Function Format-SpeedHumanReadable {
             }
             'GB' {
                 #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
-                $Output = [Math]::Round(([decimal] $absSize / 1GB), $Precision); break
-                [System.String]$Output + " GB"
+                $Output = [Math]::Round(([decimal] $absSize / 1GB), $Precision)
+                [System.String]$Output + " GB" ; break
             }
             'MB' {
                 "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
