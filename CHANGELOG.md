@@ -1,6 +1,6 @@
 # RobocopyPS Release History
 
-## 0.2.13 - 2022-04-16
+## 0.2.13 - 2022-05-22
 
 ### Added
 
@@ -11,6 +11,7 @@
 * Invoke-RobocopyParser.ps1: Changes to TotalTime for jobs running for a day or longer
 * Remove-RoboItem: Fixed bug where temporary folders where not deleted correctly
 * Remove-RoboItem: Fixed bug where function tried to remove the temporary instead of the specified folder
+* Fixed module auto import
 
 ### Changed
 * Copy-RoboItem: Removed ErrorAction Stop when calling Invoke-RoboCopy to let the end user handle errors
