@@ -3,10 +3,12 @@ Function Format-SpeedHumanReadable {
         [String]$Size,
 
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
-        [String]$Unit = 'Auto'
+        [String]$Unit = 'Auto',
+
+        [System.Int64]$Precision
     )
 
-    [System.Double]$absSize = $size.trimStart('-')
+    [System.String]$absSize = $size.trimStart('-')
     if ($size -like '-*') {
         $Operator = '-'
     }
@@ -23,7 +25,8 @@ Function Format-SpeedHumanReadable {
                 "{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
             }
             { $_ -ge 1GB } {
-                "{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
+                #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
+                [Math]::Round(([Decimal] $absSize / 1GB), $Precision)
             }
             { $_ -ge 1MB } {
                 "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
@@ -45,7 +48,9 @@ Function Format-SpeedHumanReadable {
                 "{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
             }
             'GB' {
-                "{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
+                #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
+                $Output = [Math]::Round(([decimal] $absSize / 1GB), $Precision); break
+                [System.String]$Output + " GB"
             }
             'MB' {
                 "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
