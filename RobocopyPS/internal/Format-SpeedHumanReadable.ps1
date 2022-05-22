@@ -8,7 +8,7 @@ Function Format-SpeedHumanReadable {
         [System.Int64]$Precision
     )
 
-    [System.String]$absSize = $size.trimStart('-')
+    [System.Double]$absSize = $size.trimStart('-')
     if ($size -like '-*') {
         $Operator = '-'
     }
@@ -19,29 +19,29 @@ Function Format-SpeedHumanReadable {
     If ($Unit -eq 'Auto') {
         switch ($absSize) {
             { $_ -ge 1PB } {
-                "{1}{0:#.#' PB'}" -f ($absSize / 1PB), $Operator; break
-                #$Output = [Math]::Round(([Decimal] $absSize / 1PB), $Precision)
-                #[System.String]$Output + " PB" ; break
+                #"{1}{0:#.#' PB'}" -f ($absSize / 1PB), $Operator; break
+                $Output = [Math]::Round(([Decimal] $absSize / 1PB), $Precision)
+                [System.String]$Output + " PB" ; break
             }
             { $_ -ge 1TB } {
-                "{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
-                #$Output = [Math]::Round(([Decimal] $absSize / 1TB), $Precision)
-                #[System.String]$Output + " TB" ; break
+                #"{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
+                $Output = [Math]::Round(([Decimal] $absSize / 1TB), $Precision)
+                [System.String]$Output + " TB" ; break
             }
             { $_ -ge 1GB } {
-                "{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
-                #$Output = [Math]::Round(([Decimal] $absSize / 1GB), $Precision)
-                #[System.String]$Output + " GB" ; break
+                #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
+                $Output = [Math]::Round(([Decimal] $absSize / 1GB), $Precision)
+                [System.String]$Output + " GB" ; break
             }
             { $_ -ge 1MB } {
-                "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
-                #$Output = [Math]::Round(([Decimal] $absSize / 1MB), $Precision)
-                #[System.String]$Output + " MB" ; break
+                #"{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
+                $Output = [Math]::Round(([Decimal] $absSize / 1MB), $Precision)
+                [System.String]$Output + " MB" ; break
             }
             { $_ -ge 1KB } {
-                "{1}{0:#' KB'}" -f ($absSize / 1KB), $Operator; break
-                #$Output = [Math]::Round(([Decimal] $absSize / 1KB), $Precision)
-                #[System.String]$Output + " KB" ; break
+                #"{1}{0:#' KB'}" -f ($absSize / 1KB), $Operator; break
+                $Output = [Math]::Round(([Decimal] $absSize / 1KB), $Precision)
+                [System.String]$Output + " KB" ; break
             }
             default {
                 "{1}{0}" -f ($absSize), $Operator + " B"
@@ -51,10 +51,14 @@ Function Format-SpeedHumanReadable {
     else {
         switch ($Unit) {
             'PB' {
-                "{1}{0:#.#' PB'}" -f ($absSize / 1PB), $Operator; break
+                #"{1}{0:#.#' PB'}" -f ($absSize / 1PB), $Operator; break
+                $Output = [Math]::Round(([decimal] $absSize / 1PB), $Precision)
+                [System.String]$Output + " PB" ; break
             }
             'TB' {
-                "{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
+                #"{1}{0:#.#' TB'}" -f ($absSize / 1TB), $Operator; break
+                $Output = [Math]::Round(([decimal] $absSize / 1TB), $Precision)
+                [System.String]$Output + " TB" ; break
             }
             'GB' {
                 #"{1}{0:#.#' GB'}" -f ($absSize / 1GB), $Operator; break
@@ -62,10 +66,14 @@ Function Format-SpeedHumanReadable {
                 [System.String]$Output + " GB" ; break
             }
             'MB' {
-                "{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
+                #"{1}{0:#.#' MB'}" -f ($absSize / 1MB), $Operator; break
+                $Output = [Math]::Round(([decimal] $absSize / 1MB), $Precision)
+                [System.String]$Output + " MB" ; break
             }
             'KB' {
-                "{1}{0:#' KB'}" -f ($absSize / 1KB), $Operator; break
+                #"{1}{0:#' KB'}" -f ($absSize / 1KB), $Operator; break
+                $Output = [Math]::Round(([decimal] $absSize / 1KB), $Precision)
+                [System.String]$Output + " KB" ; break
             }
             default {
                 "{1}{0}" -f ($absSize), $Operator + " B"
