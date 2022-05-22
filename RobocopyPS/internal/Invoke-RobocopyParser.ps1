@@ -23,7 +23,7 @@ Function Invoke-RobocopyParser {
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto',
 
-        [System.Int64]$Precision
+        [System.Int64]$Precision = 4
     )
 
     begin {
