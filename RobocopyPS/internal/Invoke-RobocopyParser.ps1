@@ -21,7 +21,9 @@ Function Invoke-RobocopyParser {
 
         # What unit the sizes are shown as
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
-        [String]$Unit = 'Auto'
+        [String]$Unit = 'Auto',
+
+        [System.Int64]$Precision
     )
 
     begin {
