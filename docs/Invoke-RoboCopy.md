@@ -32,7 +32,7 @@ Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>]
  [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
  [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
  [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Precision] <Int64>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1464,6 +1464,21 @@ Aliases:
 Required: False
 Position: 35
 Default value: Auto
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Precision
+Number of digits after decimal point in rounded numbers.
+
+```yaml
+Type: Int64
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 36
+Default value: 4
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

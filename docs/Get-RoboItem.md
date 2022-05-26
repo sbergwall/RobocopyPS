@@ -15,7 +15,7 @@ Get information about file or directories with Robocopy.
 ```
 Get-RoboItem [-Path] <String[]> [[-Files] <String[]>] [-Recurse] [[-Level] <Int32>] [-RestartMode]
  [-BackupMode] [-RestartAndBackupMode] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-Threads <Int32>] [-Unit <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Threads <Int32>] [-Unit <String>] [-Precision <Int64>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -324,6 +324,21 @@ The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
 Type: Int32
 Parameter Sets: (All)
 Aliases: MT, MultiThread
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Precision
+Number of digits after decimal point in rounded numbers.
+
+```yaml
+Type: Int64
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

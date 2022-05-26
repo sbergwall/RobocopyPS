@@ -31,7 +31,7 @@ Copy-RoboItem [-Source] <String[]> [-WhatIf] [-Confirm] [-Destination] <String> 
  [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>]
  [[-LogFileWithAppend] <String>] [-Unicode] [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>]
  [[-JobName] <String>] [[-SaveJob] <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
- [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [<CommonParameters>]
+ [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [-Precision <Int64>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1345,6 +1345,21 @@ If destination folder does not exist the Force parameter will try and create it.
 
 ```yaml
 Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Precision
+Number of digits after decimal point in rounded numbers.
+
+```yaml
+Type: Int64
 Parameter Sets: (All)
 Aliases:
 

@@ -5,6 +5,7 @@
 ### Added
 
 * Remove-RoboItem: Added Threads parameter
+* Added Precision parameter 
 
 ### Fixed
 

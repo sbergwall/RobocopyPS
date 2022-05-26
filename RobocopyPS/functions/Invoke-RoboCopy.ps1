@@ -492,6 +492,7 @@ Function Invoke-RoboCopy {
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto',
 
+        [ValidateRange(1,28)]
         [System.Int64]$Precision = 4
     )
 
