@@ -1,11 +1,11 @@
 # RobocopyPS Release History
 
-## 0.2.13 - 2022-05-22
+## 0.2.13 - 2022-05-26
 
 ### Added
 
 * Remove-RoboItem: Added Threads parameter
-* Added Precision parameter 
+* Added Precision parameter
 
 ### Fixed
 
