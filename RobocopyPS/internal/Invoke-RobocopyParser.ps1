@@ -170,23 +170,10 @@ Function Invoke-RobocopyParser {
         # We have a corresponding $starttime to measure how long the code ran for
         $endtime = $(Get-Date)
 
-        <#
-        If ($Unit) {
-            $FormatSpeedSplatting = @{
-                Unit = $Unit
-            }
-        }
-        Else {
-            $FormatSpeedSplatting = @{
-                Unit = 'Auto'
-            }
-        }
-        #>
         $FormatSpeedSplatting = @{
             Unit = $Unit
             Precision = $Precision
         }
-
 
         [PSCustomObject]@{
             'Source'                = [System.IO.DirectoryInfo]$Source
