@@ -760,7 +760,7 @@ Function Invoke-RoboCopy {
         If ($ReportExtraFile) {
             $RobocopyArguments += '/x'
         }
-        If ($Verbose -eq $True) {
+        if ($PSBoundParameters.ContainsKey('Verbose')) {
             $RobocopyArguments += '/v'
         }
         If ($NoSizeToLog) {

@@ -95,6 +95,23 @@ Function Invoke-RobocopyParser {
             }
         }
 
+        # Handle "#EXTRA File" output if there is extra files in destination
+        elseif ($InputObject -like "*$Destination*" -and $InputObject -like "*EXTRA File*") {
+            $Line = $InputObject.Trim().Split("`t")
+            $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
+            $ExtensionSplit = ($Line[3]).Split(".")
+
+            [PSCustomObject]@{
+                Extension = if ($ExtensionSplit.count -gt 1) { $ExtensionSplit[-1] } else { }
+                Name      = $line[3].Split("\")[-1]
+                FullName  = $line[3]
+                Length    = $Size
+                TimeStamp = $TimeStamp
+                Status    = $line[0].Trim()
+                Stream    = "Verbose"
+            }
+        }
+
         ElseIf ($InputObject -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
             # Some we will just assign to variables and dont use or dont do anything with
             Switch -Regex ($inputobject) {
