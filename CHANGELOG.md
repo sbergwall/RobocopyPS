@@ -1,5 +1,12 @@
 # RobocopyPS Release History
 
+## 0.2.14 - 2022-06-04
+
+### Fixed
+
+* Fixed a bug where "EXTRA File" was not handled by Invoke-RobocopyParser
+* Fixed a bug where Robocopys native /v was not added correctly when using -Verbose
+
 ## 0.2.13 - 2022-05-26
 
 ### Added
