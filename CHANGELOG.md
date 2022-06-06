@@ -2,16 +2,20 @@
 
 ## 0.2.15 - 2022-06-06
 
-### Changed
-
-* Removed []
-
-## 0.2.14 - 2022-06-04
-
 ### Fixed
 
 * Fixed a bug where "EXTRA File" was not handled by Invoke-RobocopyParser
 * Fixed a bug where Robocopys native /v was not added correctly when using -Verbose
+* Fixed an bug where property Success not always was correct
+
+### Changed
+
+* Moved "How RobocopyPS handle native Robocopy errors" to Wiki
+* Updated readme.md
+
+### Removed
+
+* Removed [SUCCESS], [WARNING] and [ERROR] from property LastExitCodeMessage. This is done to not confuse end users.
 
 ## 0.2.13 - 2022-05-26
 
