@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.14 - 2022-06-06
+
+### Changed
+
+* Removed []
+
 ## 0.2.14 - 2022-06-04
 
 ### Fixed
