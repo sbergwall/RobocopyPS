@@ -15,7 +15,7 @@
 
 ### Removed
 
-* Removed [SUCCESS], [WARNING] and [ERROR] from property LastExitCodeMessage. This is done to not confuse end users.
+* Removed [SUCCESS], [WARNING] and [ERROR] from property LastExitCodeMessage. This is done to not confuse end users. LastExitCodeMessage will still write information about that happended.
 
 ## 0.2.13 - 2022-05-26
 
