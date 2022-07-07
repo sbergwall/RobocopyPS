@@ -8,7 +8,7 @@ schema: 2.0.0
 # Sync-RoboItem
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Sync (mirror) a source directory to a destination directory.
 
 ## SYNTAX
 
@@ -16,40 +16,48 @@ schema: 2.0.0
 Sync-RoboItem [-WhatIf] [-Confirm] [-Source] <String> [-Destination] <String> [-Force] [[-Level] <Int32>]
  [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>]
  [[-DirectoryCopyFlags] <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
- [-Timefix] [-Purge] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT]
- [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>]
- [[-RunTimes] <String>] [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink]
- [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute]
- [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>]
- [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>]
- [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>]
- [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
- [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName]
- [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
+ [-Timefix] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
+ [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>] [[-RunTimes] <String>]
+ [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>]
+ [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>]
+ [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
+ [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [[-MaximumFileSize] <String>]
+ [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>]
+ [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints]
+ [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
+ [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
+ [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
+ [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
  [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
  [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
  [[-Precision] <Int64>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Sync (mirror) a source directory to a destination directory using Robocopy /mir. The destination directory will be an exact copy of source and will add and remove all files and directories that is not in the source folder.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Sync-RoboItem -Source C:\HR -Destination C:\backup\HR
 ```
 
-{{ Add example description here }}
+Sync (mirror) directory C:\HR to C:\backup\HR.
+
+### Example 2
+```powershell
+PS C:\> $date = Get-Date -Format yyyyMMdd
+PS C:\> Sync-RoboItem -Source C:\HR -Destination C:\backup\HR\$date
+```
+
+Sync (mirror) directory C:\HR to  C:\backup\HR\$date and create destination directories if they do not exist.
 
 ## PARAMETERS
 
 ### -AddAttribute
-{{ Fill AddAttribute Description }}
+Adds the specified attributes to copied files.
 
 ```yaml
 Type: String[]
@@ -65,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -Archive
-{{ Fill Archive Description }}
+Copies only files for which the Archive attribute is set.
 
 ```yaml
 Type: SwitchParameter
@@ -80,7 +88,7 @@ Accept wildcard characters: False
 ```
 
 ### -AssumeFATFileTime
-{{ Fill AssumeFATFileTime Description }}
+Assumes FAT file times (two-second precision).
 
 ```yaml
 Type: SwitchParameter
@@ -95,7 +103,7 @@ Accept wildcard characters: False
 ```
 
 ### -BackupMode
-{{ Fill BackupMode Description }}
+Copies files in Backup mode.
 
 ```yaml
 Type: SwitchParameter
@@ -110,7 +118,7 @@ Accept wildcard characters: False
 ```
 
 ### -CompensateDST
-{{ Fill CompensateDST Description }}
+Compensates for one-hour DST time differences.
 
 ```yaml
 Type: SwitchParameter
@@ -125,7 +133,7 @@ Accept wildcard characters: False
 ```
 
 ### -Compress
-{{ Fill Compress Description }}
+Requests network compression during file transfer, if applicable.
 
 ```yaml
 Type: SwitchParameter
@@ -155,7 +163,7 @@ Accept wildcard characters: False
 ```
 
 ### -CopyAllFileInformation
-{{ Fill CopyAllFileInformation Description }}
+Copies all file information (equivalent to /copy:DATSOU).
 
 ```yaml
 Type: SwitchParameter
@@ -170,7 +178,13 @@ Accept wildcard characters: False
 ```
 
 ### -CopyFlags
-{{ Fill CopyFlags Description }}
+Specifies the file properties to be copied.
+The default value for CopyFlags is DAT (data, attributes, and time stamps).
+D = Data.
+A = Attributes.
+T = Time stamps.S = NTFS access control list (ACL).
+O =Owner information.
+U = Auditing information
 
 ```yaml
 Type: String[]
@@ -186,7 +200,7 @@ Accept wildcard characters: False
 ```
 
 ### -CopyJunction
-{{ Fill CopyJunction Description }}
+Copy Junctions as junctions instead of as the junction targets.
 
 ```yaml
 Type: SwitchParameter
@@ -201,7 +215,7 @@ Accept wildcard characters: False
 ```
 
 ### -CopyWithSecurity
-{{ Fill CopyWithSecurity Description }}
+Copies files with security (equivalent to /copy:DATS).
 
 ```yaml
 Type: SwitchParameter
@@ -216,7 +230,7 @@ Accept wildcard characters: False
 ```
 
 ### -Create
-{{ Fill Create Description }}
+Creates a directory tree and zero-length files only.
 
 ```yaml
 Type: SwitchParameter
@@ -231,7 +245,8 @@ Accept wildcard characters: False
 ```
 
 ### -Destination
-{{ Fill Destination Description }}
+Specifies the path to the destination directory.
+Must be a folder.
 
 ```yaml
 Type: String
@@ -246,7 +261,9 @@ Accept wildcard characters: False
 ```
 
 ### -DirectoryCopyFlags
-{{ Fill DirectoryCopyFlags Description }}
+Specifies what to copy in directories.
+The valid values for this option are:D - Data, A - Attributes, T - Time stamps.
+The default value for this option is DA (data and attributes).
 
 ```yaml
 Type: String[]
@@ -262,7 +279,7 @@ Accept wildcard characters: False
 ```
 
 ### -EFSRaw
-{{ Fill EFSRaw Description }}
+Copies all encrypted files in EFS RAW mode.
 
 ```yaml
 Type: SwitchParameter
@@ -277,7 +294,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeAttribute
-{{ Fill ExcludeAttribute Description }}
+Excludes files for which any of the specified attributes are set.
 
 ```yaml
 Type: String[]
@@ -293,7 +310,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeChangedFiles
-{{ Fill ExcludeChangedFiles Description }}
+Excludes changed files.
 
 ```yaml
 Type: SwitchParameter
@@ -308,7 +325,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeDirectory
-{{ Fill ExcludeDirectory Description }}
+Excludes directories that match the specified names and paths.
 
 ```yaml
 Type: String[]
@@ -323,7 +340,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeDirectoryJunctionPoints
-{{ Fill ExcludeDirectoryJunctionPoints Description }}
+Excludes junction points for directories.
 
 ```yaml
 Type: SwitchParameter
@@ -338,7 +355,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeExtraFiles
-{{ Fill ExcludeExtraFiles Description }}
+Excludes extra files and directories.
 
 ```yaml
 Type: SwitchParameter
@@ -353,7 +370,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeFileJunctionPoints
-{{ Fill ExcludeFileJunctionPoints Description }}
+Excludes junction points for files.
 
 ```yaml
 Type: SwitchParameter
@@ -368,7 +385,8 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeFileName
-{{ Fill ExcludeFileName Description }}
+Excludes files that match the specified names or paths.
+Note that FileName can include wildcard characters (* and ?).
 
 ```yaml
 Type: String[]
@@ -383,7 +401,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeJunctionPoints
-{{ Fill ExcludeJunctionPoints Description }}
+Excludes junction points, which are normally included by default.
 
 ```yaml
 Type: SwitchParameter
@@ -398,7 +416,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeLonelyFiles
-{{ Fill ExcludeLonelyFiles Description }}
+Excludes "lonely" files and directories.
 
 ```yaml
 Type: SwitchParameter
@@ -413,7 +431,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeNewerFiles
-{{ Fill ExcludeNewerFiles Description }}
+Excludes newer files.
 
 ```yaml
 Type: SwitchParameter
@@ -428,7 +446,7 @@ Accept wildcard characters: False
 ```
 
 ### -ExcludeOlderFiles
-{{ Fill ExcludeOlderFiles Description }}
+Excludes older files.
 
 ```yaml
 Type: SwitchParameter
@@ -443,7 +461,7 @@ Accept wildcard characters: False
 ```
 
 ### -FAT
-{{ Fill FAT Description }}
+Creates destination files by using 8.3 character-length FAT file names only.
 
 ```yaml
 Type: SwitchParameter
@@ -458,7 +476,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+If destination folder does not exist the Force parameter will try and create it.
 
 ```yaml
 Type: SwitchParameter
@@ -473,7 +491,7 @@ Accept wildcard characters: False
 ```
 
 ### -IgnoreLongPath
-{{ Fill IgnoreLongPath Description }}
+Turns off support for very long paths.
 
 ```yaml
 Type: SwitchParameter
@@ -488,7 +506,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeAttribute
-{{ Fill IncludeAttribute Description }}
+Includes only files for which any of the specified attributes are set.
 
 ```yaml
 Type: String[]
@@ -504,7 +522,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeFollowingFile
-{{ Fill IncludeFollowingFile Description }}
+Include the following Files.
 
 ```yaml
 Type: String
@@ -519,7 +537,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeModifiedFile
-{{ Fill IncludeModifiedFile Description }}
+Include modified files (differing change times).
 
 ```yaml
 Type: SwitchParameter
@@ -534,7 +552,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeSameFiles
-{{ Fill IncludeSameFiles Description }}
+Includes the same files.
 
 ```yaml
 Type: SwitchParameter
@@ -549,7 +567,7 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeTweakedFiles
-{{ Fill IncludeTweakedFiles Description }}
+Includes "tweaked" files.
 
 ```yaml
 Type: SwitchParameter
@@ -564,7 +582,7 @@ Accept wildcard characters: False
 ```
 
 ### -InterPacketGap
-{{ Fill InterPacketGap Description }}
+Specifies the inter-packet gap to free bandwidth on slow lines.
 
 ```yaml
 Type: Int32
@@ -579,7 +597,7 @@ Accept wildcard characters: False
 ```
 
 ### -JobName
-{{ Fill JobName Description }}
+Specifies that parameters are to be derived from the named job file.
 
 ```yaml
 Type: String
@@ -594,7 +612,7 @@ Accept wildcard characters: False
 ```
 
 ### -Level
-{{ Fill Level Description }}
+Copies only the top N levels of the source directory tree.
 
 ```yaml
 Type: Int32
@@ -609,7 +627,7 @@ Accept wildcard characters: False
 ```
 
 ### -List
-{{ Fill List Description }}
+Specifies that files are to be listed only (and not copied, deleted, or time stamped).
 
 ```yaml
 Type: SwitchParameter
@@ -624,7 +642,7 @@ Accept wildcard characters: False
 ```
 
 ### -LogFile
-{{ Fill LogFile Description }}
+Writes the status output to the log file (overwrites the existing log file).
 
 ```yaml
 Type: String
@@ -639,7 +657,7 @@ Accept wildcard characters: False
 ```
 
 ### -LogFileWithAppend
-{{ Fill LogFileWithAppend Description }}
+Writes the status output to the log file (appends the output to the existing log file).
 
 ```yaml
 Type: String
@@ -654,7 +672,8 @@ Accept wildcard characters: False
 ```
 
 ### -LowFreeSpaceMode
-{{ Fill LowFreeSpaceMode Description }}
+Using /LFSM requests robocopy to operate in 'low free space mode'.
+In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below ten percent of the destination volume's size.
 
 ```yaml
 Type: SwitchParameter
@@ -669,7 +688,8 @@ Accept wildcard characters: False
 ```
 
 ### -LowFreeSpaceModeValue
-{{ Fill LowFreeSpaceModeValue Description }}
+Using /LFSM requests robocopy to operate in 'low free space mode'.
+In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n\[KMG\] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.
 
 ```yaml
 Type: String
@@ -684,7 +704,7 @@ Accept wildcard characters: False
 ```
 
 ### -MaximumFileAge
-{{ Fill MaximumFileAge Description }}
+Specifies the maximum file age (to exclude files older than N days or date).
 
 ```yaml
 Type: String
@@ -699,7 +719,7 @@ Accept wildcard characters: False
 ```
 
 ### -MaximumFileLastAccessDate
-{{ Fill MaximumFileLastAccessDate Description }}
+Specifies the maximum last access date (excludes files unused since N).
 
 ```yaml
 Type: String
@@ -714,7 +734,7 @@ Accept wildcard characters: False
 ```
 
 ### -MaximumFileSize
-{{ Fill MaximumFileSize Description }}
+Specifies the maximum file size (to exclude files bigger than N bytes).
 
 ```yaml
 Type: String
@@ -729,7 +749,7 @@ Accept wildcard characters: False
 ```
 
 ### -MinimumFileAge
-{{ Fill MinimumFileAge Description }}
+Specifies the minimum file age (exclude files newer than N days or date).
 
 ```yaml
 Type: String
@@ -744,7 +764,8 @@ Accept wildcard characters: False
 ```
 
 ### -MinimumFileLastAccessDate
-{{ Fill MinimumFileLastAccessDate Description }}
+Specifies the minimum last access date (excludes files used since N) If N is less than 1900, N specifies the number of days.
+Otherwise, N specifies a date in the format YYYYMMDD.
 
 ```yaml
 Type: String
@@ -759,7 +780,7 @@ Accept wildcard characters: False
 ```
 
 ### -MinimumFileSize
-{{ Fill MinimumFileSize Description }}
+Specifies the minimum file size (to exclude files smaller than N bytes).
 
 ```yaml
 Type: String
@@ -774,7 +795,7 @@ Accept wildcard characters: False
 ```
 
 ### -MonitorChanges
-{{ Fill MonitorChanges Description }}
+Monitors the source, and runs again when more than N changes are detected.
 
 ```yaml
 Type: Int32
@@ -789,7 +810,7 @@ Accept wildcard characters: False
 ```
 
 ### -MonitorMinutes
-{{ Fill MonitorMinutes Description }}
+Monitors source, and runs again in M minutes if changes are detected.
 
 ```yaml
 Type: Int32
@@ -804,7 +825,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoClassToLog
-{{ Fill NoClassToLog Description }}
+Specifies that file sizes are not to be logged.
 
 ```yaml
 Type: SwitchParameter
@@ -819,7 +840,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoCopy
-{{ Fill NoCopy Description }}
+Copies no file information.
 
 ```yaml
 Type: SwitchParameter
@@ -834,7 +855,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoDestinationDirectory
-{{ Fill NoDestinationDirectory Description }}
+NO Destination Directory is specified.
 
 ```yaml
 Type: SwitchParameter
@@ -849,7 +870,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoDirectoryInformation
-{{ Fill NoDirectoryInformation Description }}
+Copies no directory info (the default /dcopy:DA is done).
 
 ```yaml
 Type: SwitchParameter
@@ -864,7 +885,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoFileNameToLog
-{{ Fill NoFileNameToLog Description }}
+Specifies that file names are not to be logged.
 
 ```yaml
 Type: Object
@@ -879,7 +900,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoOffload
-{{ Fill NoOffload Description }}
+Copies files without using the Windows Copy Offload mechanism.
 
 ```yaml
 Type: SwitchParameter
@@ -894,7 +915,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoSizeToLog
-{{ Fill NoSizeToLog Description }}
+Specifies that file sizes are not to be logged.
 
 ```yaml
 Type: SwitchParameter
@@ -909,7 +930,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoSourceDirectory
-{{ Fill NoSourceDirectory Description }}
+NO Source Directory is specified.
 
 ```yaml
 Type: SwitchParameter
@@ -924,7 +945,7 @@ Accept wildcard characters: False
 ```
 
 ### -Precision
-{{ Fill Precision Description }}
+Number of digits after decimal point in rounded numbers.
 
 ```yaml
 Type: Int64
@@ -938,23 +959,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Purge
-{{ Fill Purge Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Quit
-{{ Fill Quit Description }}
+Quits after processing command line to view parameters.
 
 ```yaml
 Type: SwitchParameter
@@ -969,7 +975,7 @@ Accept wildcard characters: False
 ```
 
 ### -RemoveAttribute
-{{ Fill RemoveAttribute Description }}
+Removes the specified attributes from copied files.
 
 ```yaml
 Type: String[]
@@ -985,7 +991,7 @@ Accept wildcard characters: False
 ```
 
 ### -ReportExtraFile
-{{ Fill ReportExtraFile Description }}
+Report all eXtra files, not just those selected & copied.
 
 ```yaml
 Type: SwitchParameter
@@ -1000,7 +1006,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResetArchiveAttribute
-{{ Fill ResetArchiveAttribute Description }}
+Copies only files for which the Archive attribute is set, and resets the Archive attribute.
 
 ```yaml
 Type: SwitchParameter
@@ -1015,7 +1021,8 @@ Accept wildcard characters: False
 ```
 
 ### -RestartAndBackupMode
-{{ Fill RestartAndBackupMode Description }}
+Copies files in restartable mode.
+If file access is denied, switches to backup mode.
 
 ```yaml
 Type: SwitchParameter
@@ -1030,7 +1037,7 @@ Accept wildcard characters: False
 ```
 
 ### -RestartMode
-{{ Fill RestartMode Description }}
+Copies files in restartable mode.
 
 ```yaml
 Type: SwitchParameter
@@ -1045,7 +1052,8 @@ Accept wildcard characters: False
 ```
 
 ### -Retry
-{{ Fill Retry Description }}
+Specifies the number of retries on failed copies.
+Default is 3.
 
 ```yaml
 Type: Int32
@@ -1060,7 +1068,7 @@ Accept wildcard characters: False
 ```
 
 ### -RunTimes
-{{ Fill RunTimes Description }}
+Specifies run times when new copies may be started.
 
 ```yaml
 Type: String
@@ -1075,7 +1083,7 @@ Accept wildcard characters: False
 ```
 
 ### -SaveJob
-{{ Fill SaveJob Description }}
+Specifies that parameters are to be saved to the named job file.
 
 ```yaml
 Type: String
@@ -1090,7 +1098,7 @@ Accept wildcard characters: False
 ```
 
 ### -SaveRetrySettings
-{{ Fill SaveRetrySettings Description }}
+Saves the values specified in the /r and /w options as default settings in the registry.
 
 ```yaml
 Type: SwitchParameter
@@ -1105,7 +1113,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityFix
-{{ Fill SecurityFix Description }}
+Fixes file security on all files, even skipped ones.
 
 ```yaml
 Type: SwitchParameter
@@ -1120,7 +1128,8 @@ Accept wildcard characters: False
 ```
 
 ### -Source
-{{ Fill Source Description }}
+Specifies the path to the source directory.
+Must be a folder.
 
 ```yaml
 Type: String
@@ -1135,7 +1144,7 @@ Accept wildcard characters: False
 ```
 
 ### -SymbolicLink
-{{ Fill SymbolicLink Description }}
+Copy Symbolic Links as links instead of as the link targets.
 
 ```yaml
 Type: SwitchParameter
@@ -1150,7 +1159,10 @@ Accept wildcard characters: False
 ```
 
 ### -Threads
-{{ Fill Threads Description }}
+Creates multi-threaded copies with N threads.
+N must be an integer between 1 and 128.
+Cannot be used with the InterPacketGap and EFSRAW parameters.
+The /MT parameter applies to Windows Server 2008 R2 and Windows 7.
 
 ```yaml
 Type: Int32
@@ -1165,7 +1177,7 @@ Accept wildcard characters: False
 ```
 
 ### -Timefix
-{{ Fill Timefix Description }}
+Fixes file times on all files, even skipped ones.
 
 ```yaml
 Type: SwitchParameter
@@ -1180,7 +1192,7 @@ Accept wildcard characters: False
 ```
 
 ### -UnbufferedIO
-{{ Fill UnbufferedIO Description }}
+Copies using unbuffered I/O (recommended for large files).
 
 ```yaml
 Type: SwitchParameter
@@ -1195,7 +1207,7 @@ Accept wildcard characters: False
 ```
 
 ### -Unicode
-{{ Fill Unicode Description }}
+Displays the status output as Unicode text.
 
 ```yaml
 Type: SwitchParameter
@@ -1210,7 +1222,7 @@ Accept wildcard characters: False
 ```
 
 ### -UnicodeLog
-{{ Fill UnicodeLog Description }}
+Writes the status output to the log file as Unicode text (overwrites the existing log file).
 
 ```yaml
 Type: String
@@ -1225,7 +1237,7 @@ Accept wildcard characters: False
 ```
 
 ### -UnicodeLogWithAppend
-{{ Fill UnicodeLogWithAppend Description }}
+Writes the status output to the log file as Unicode text (appends the output to the existing log file).
 
 ```yaml
 Type: String
@@ -1240,7 +1252,7 @@ Accept wildcard characters: False
 ```
 
 ### -Unit
-{{ Fill Unit Description }}
+What unit the sizes are shown as
 
 ```yaml
 Type: String
@@ -1256,7 +1268,7 @@ Accept wildcard characters: False
 ```
 
 ### -UsePerFileRunTimes
-{{ Fill UsePerFileRunTimes Description }}
+Checks run times on a per-file (not per-pass) basis.
 
 ```yaml
 Type: SwitchParameter
@@ -1271,7 +1283,8 @@ Accept wildcard characters: False
 ```
 
 ### -Wait
-{{ Fill Wait Description }}
+Specifies the wait time between retries, in seconds.
+The default value of N is 3.
 
 ```yaml
 Type: Int32
@@ -1286,7 +1299,7 @@ Accept wildcard characters: False
 ```
 
 ### -WaitForShareName
-{{ Fill WaitForShareName Description }}
+Specifies that the system will wait for share names to be defined (retry error 67).
 
 ```yaml
 Type: SwitchParameter

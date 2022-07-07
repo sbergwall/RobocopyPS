@@ -8,7 +8,7 @@ function Sync-RoboItem {
 
     DynamicParam {
         # Get available parameters from Invoke-RoboCopy and ignore parameters that is not for moving items
-        New-ProxyFunction -CommandName 'Invoke-RoboCopy' -CommandType 'Function' -ignoredParams "Mirror", "MoveFiles", "MoveFilesAndDirectories","Files","IncludeSubDirectories","IncludeEmptySubDirectories"
+        New-ProxyFunction -CommandName 'Invoke-RoboCopy' -CommandType 'Function' -ignoredParams "Mirror", "MoveFiles", "MoveFilesAndDirectories","Files","IncludeSubDirectories","IncludeEmptySubDirectories","Purge"
     }
 
     begin {

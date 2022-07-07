@@ -22,20 +22,24 @@ Describe "$ModuleName" {
 
             $Help = @{ Help = Get-Help -Name $Command -Full | Select-Object -Property * }
 
-            It "Has Synopsis" -TestCases $Help {
+            It "Has Synopsis and not have synopsis from PlatyPS" -TestCases $Help {
                 $Help.Synopsis | Should -Not -BeNullOrEmpty
+                $Help.Synopsis | should -Not -BeLike "*{{ Fill in the Synopsis }}*"
             }
 
-            It "Has Description" -TestCases $Help {
+            It "Has Description and not have description from PlatyPS" -TestCases $Help {
                 $Help.Description | Should -Not -BeNullOrEmpty
+                $Help.Description | should -Not -BeLike "*{{ Fill in the Description }}*"
             }
 
-            It "Has Examples" -TestCases $Help {
+            It "Has Examples and not have examples from PlatyPS" -TestCases $Help {
                 $help.Examples.Example | Should -Not -BeNullOrEmpty
+                $Help.Examples.Example | should -Not -BeLike "*{{ Add example code here }}*"
             }
         }
     }
 }
+
 
 Describe "Invoke-Robocopy" {
 
