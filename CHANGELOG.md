@@ -1,5 +1,12 @@
 # RobocopyPS Release History
 
+## 0.2.17 - 2022-07-15
+
+### Added
+
+* Sync-RoboItem: New command for syncing (Robocopy.exe /MIR) folders
+* Added IoMaxSize, IoRate and Threshold parameters for Windows 11
+
 ## 0.2.15 - 2022-06-06
 
 ### Fixed
