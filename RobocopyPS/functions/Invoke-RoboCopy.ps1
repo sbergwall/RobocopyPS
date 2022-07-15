@@ -131,6 +131,7 @@ Function Invoke-RoboCopy {
         [Parameter(Mandatory = $False)]
         [switch] $Force,
 
+        #region Copy Options
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
         # Copies subdirectories. Note that this option excludes empty directories.
@@ -279,7 +280,20 @@ Function Invoke-RoboCopy {
 
         # Requests network compression during file transfer, if applicable.
         [Switch]$Compress,
+        #endregion
 
+        #region Copy File Throttling Options
+        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [String]$IoMaxSize,
+
+        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [String]$IoRate,
+
+        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [String]$Threshold,
+        #endregion
+
+        #region File Selection Options
         <# File selection options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#file-selection-options #>
 
         # Copies only files for which the Archive attribute is set.
@@ -393,7 +407,9 @@ Function Invoke-RoboCopy {
         # Excludes junction points for files.
         [Alias('xjf')]
         [switch]$ExcludeFileJunctionPoints,
+        #endregion
 
+        #region Retry Options
         <#Retry Options#>
 
         # Specifies the number of retries on failed copies. Default is 3.
@@ -419,7 +435,9 @@ Function Invoke-RoboCopy {
         # Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n[KMG] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.
         [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
         [String]$LowFreeSpaceModeValue,
+        #endregion
 
+        #region Logging
         <# Logging #>
 
         # Specifies that files are to be listed only (and not copied, deleted, or time stamped).
@@ -460,7 +478,9 @@ Function Invoke-RoboCopy {
 
         # Writes the status output to the log file as Unicode text (appends the output to the existing log file).
         [string]$UnicodeLogWithAppend,
+        #endregion
 
+        #region Job options
         <#Job options#>
 
         # Specifies that parameters are to be derived from the named job file.
@@ -485,7 +505,9 @@ Function Invoke-RoboCopy {
         # Include the following Files.
         [Alias('IF')]
         [string]$IncludeFollowingFile,
+        #endregion
 
+        #Region Other
         <# Other #>
 
         # What unit the sizes are shown as
@@ -494,6 +516,7 @@ Function Invoke-RoboCopy {
 
         [ValidateRange(1,28)]
         [System.Int64]$Precision = 4
+        #endregion
     )
 
     Process {
@@ -660,6 +683,18 @@ Function Invoke-RoboCopy {
         }
         if ($Compress) {
             $RobocopyArguments += '/compress'
+        }
+        #endregion
+
+        #region Copy File Throttling Options
+        If ($IoMaxSize) {
+            $RobocopyArguments += '/IoMaxSize:' + $IoMaxSize
+        }
+        If ($IoRate) {
+            $RobocopyArguments += '/IoRate:' + $IoRate
+        }
+        If ($Threshold) {
+            $RobocopyArguments += '/Threshold:' + $Threshold
         }
         #endregion
 

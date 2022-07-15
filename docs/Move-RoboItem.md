@@ -20,19 +20,19 @@ Move-RoboItem [-WhatIf] [-Confirm] [-Source] <String> [-Destination] <String> [[
  [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
  [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>] [[-RunTimes] <String>]
  [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-Archive] [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>]
- [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>]
- [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
- [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles] [[-MaximumFileSize] <String>]
- [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>]
- [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints]
- [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints]
- [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode]
- [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog]
- [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
- [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
- [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
- [-Precision <Int64>] [<CommonParameters>]
+ [-NoOffload] [-Compress] [-IoMaxSize <String>] [-IoRate <String>] [-Threshold <String>] [-Archive]
+ [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>]
+ [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
+ [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
+ [-IncludeTweakedFiles] [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>]
+ [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>]
+ [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
+ [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>]
+ [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List]
+ [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>]
+ [[-LogFileWithAppend] <String>] [-Unicode] [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>]
+ [[-JobName] <String>] [[-SaveJob] <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
+ [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [-Precision <Int64>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1376,6 +1376,51 @@ Number of digits after decimal point in rounded numbers.
 
 ```yaml
 Type: Int64
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IoMaxSize
+Requested max i/o size per {read,write} cycle, in n [KMG] bytes.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IoRate
+Requested i/o rate, in n [KMG] bytes per second.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Threshold
+File size threshold for throttling, in n [KMG] bytes.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

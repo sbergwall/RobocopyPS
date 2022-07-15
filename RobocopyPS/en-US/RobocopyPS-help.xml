@@ -1061,6 +1061,42 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoMaxSize</maml:name>
+          <maml:description>
+            <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoRate</maml:name>
+          <maml:description>
+            <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Threshold</maml:name>
+          <maml:description>
+            <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2096,6 +2132,42 @@
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoMaxSize</maml:name>
+        <maml:description>
+          <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoRate</maml:name>
+        <maml:description>
+          <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Threshold</maml:name>
+        <maml:description>
+          <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -2702,7 +2774,43 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>0</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="14" aliases="ia">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="14" aliases="none">
+          <maml:name>IoMaxSize</maml:name>
+          <maml:description>
+            <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="15" aliases="none">
+          <maml:name>IoRate</maml:name>
+          <maml:description>
+            <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="16" aliases="none">
+          <maml:name>Threshold</maml:name>
+          <maml:description>
+            <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="17" aliases="ia">
           <maml:name>IncludeAttribute</maml:name>
           <maml:description>
             <maml:para>Includes only files for which any of the specified attributes are set.</maml:para>
@@ -2714,7 +2822,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="15" aliases="xa">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="18" aliases="xa">
           <maml:name>ExcludeAttribute</maml:name>
           <maml:description>
             <maml:para>Excludes files for which any of the specified attributes are set.</maml:para>
@@ -2726,7 +2834,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="16" aliases="xf">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="19" aliases="xf">
           <maml:name>ExcludeFileName</maml:name>
           <maml:description>
             <maml:para>Excludes files that match the specified names or paths. Note that FileName can include wildcard characters (* and ?).</maml:para>
@@ -2734,42 +2842,6 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
           <dev:type>
             <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="17" aliases="xd">
-          <maml:name>ExcludeDirectory</maml:name>
-          <maml:description>
-            <maml:para>Excludes directories that match the specified names and paths.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
-          <dev:type>
-            <maml:name>String[]</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="18" aliases="max">
-          <maml:name>MaximumFileSize</maml:name>
-          <maml:description>
-            <maml:para>Specifies the maximum file size (to exclude files bigger than N bytes).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="19" aliases="min">
-          <maml:name>MinimumFileSize</maml:name>
-          <maml:description>
-            <maml:para>Specifies the minimum file size (to exclude files smaller than N bytes).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
@@ -2786,7 +2858,43 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="20" aliases="maxage">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="20" aliases="xd">
+          <maml:name>ExcludeDirectory</maml:name>
+          <maml:description>
+            <maml:para>Excludes directories that match the specified names and paths.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="21" aliases="max">
+          <maml:name>MaximumFileSize</maml:name>
+          <maml:description>
+            <maml:para>Specifies the maximum file size (to exclude files bigger than N bytes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="22" aliases="min">
+          <maml:name>MinimumFileSize</maml:name>
+          <maml:description>
+            <maml:para>Specifies the minimum file size (to exclude files smaller than N bytes).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="23" aliases="maxage">
           <maml:name>MaximumFileAge</maml:name>
           <maml:description>
             <maml:para>Specifies the maximum file age (to exclude files older than N days or date).</maml:para>
@@ -2798,7 +2906,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="21" aliases="minage">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="24" aliases="minage">
           <maml:name>MinimumFileAge</maml:name>
           <maml:description>
             <maml:para>Specifies the minimum file age (exclude files newer than N days or date).</maml:para>
@@ -2810,7 +2918,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="22" aliases="maxlad">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="25" aliases="maxlad">
           <maml:name>MaximumFileLastAccessDate</maml:name>
           <maml:description>
             <maml:para>Specifies the maximum last access date (excludes files unused since N).</maml:para>
@@ -2822,7 +2930,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="23" aliases="minlad">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="26" aliases="minlad">
           <maml:name>MinimumFileLastAccessDate</maml:name>
           <maml:description>
             <maml:para>Specifies the minimum last access date (excludes files used since N) If N is less than 1900, N specifies the number of days. Otherwise, N specifies a date in the format YYYYMMDD.</maml:para>
@@ -2834,7 +2942,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="24" aliases="r">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="27" aliases="r">
           <maml:name>Retry</maml:name>
           <maml:description>
             <maml:para>Specifies the number of retries on failed copies. Default is 3.</maml:para>
@@ -2846,7 +2954,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>3</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="25" aliases="w">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="28" aliases="w">
           <maml:name>Wait</maml:name>
           <maml:description>
             <maml:para>Specifies the wait time between retries, in seconds. The default value of N is 3.</maml:para>
@@ -2858,46 +2966,10 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>3</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="26" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="29" aliases="none">
           <maml:name>LowFreeSpaceModeValue</maml:name>
           <maml:description>
             <maml:para>Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n[KMG] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="27" aliases="nfl">
-          <maml:name>NoFileNameToLog</maml:name>
-          <maml:description>
-            <maml:para>Specifies that file names are not to be logged.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
-          <dev:type>
-            <maml:name>Object</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="28" aliases="log">
-          <maml:name>LogFile</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="29" aliases="none">
-          <maml:name>LogFileWithAppend</maml:name>
-          <maml:description>
-            <maml:para>Writes the status output to the log file (appends the output to the existing log file).</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2918,7 +2990,43 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>*.*</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="30" aliases="unilog">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="30" aliases="nfl">
+          <maml:name>NoFileNameToLog</maml:name>
+          <maml:description>
+            <maml:para>Specifies that file names are not to be logged.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="31" aliases="log">
+          <maml:name>LogFile</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="32" aliases="none">
+          <maml:name>LogFileWithAppend</maml:name>
+          <maml:description>
+            <maml:para>Writes the status output to the log file (appends the output to the existing log file).</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="33" aliases="unilog">
           <maml:name>UnicodeLog</maml:name>
           <maml:description>
             <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
@@ -2930,7 +3038,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="31" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="34" aliases="none">
           <maml:name>UnicodeLogWithAppend</maml:name>
           <maml:description>
             <maml:para>Writes the status output to the log file as Unicode text (appends the output to the existing log file).</maml:para>
@@ -2942,7 +3050,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="32" aliases="Job">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="35" aliases="Job">
           <maml:name>JobName</maml:name>
           <maml:description>
             <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
@@ -2954,7 +3062,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="33" aliases="Save">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="36" aliases="Save">
           <maml:name>SaveJob</maml:name>
           <maml:description>
             <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
@@ -2966,7 +3074,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="34" aliases="IF">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="37" aliases="IF">
           <maml:name>IncludeFollowingFile</maml:name>
           <maml:description>
             <maml:para>Include the following Files.</maml:para>
@@ -2978,7 +3086,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="35" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="38" aliases="none">
           <maml:name>Unit</maml:name>
           <maml:description>
             <maml:para>What unit the sizes are shown as</maml:para>
@@ -2990,7 +3098,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>Auto</dev:defaultValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="36" aliases="none">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="39" aliases="none">
           <maml:name>Precision</maml:name>
           <maml:description>
             <maml:para>Number of digits after decimal point in rounded numbers.</maml:para>
@@ -4139,6 +4247,42 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="14" aliases="none">
+        <maml:name>IoMaxSize</maml:name>
+        <maml:description>
+          <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="15" aliases="none">
+        <maml:name>IoRate</maml:name>
+        <maml:description>
+          <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="16" aliases="none">
+        <maml:name>Threshold</maml:name>
+        <maml:description>
+          <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="a">
         <maml:name>Archive</maml:name>
         <maml:description>
@@ -4163,7 +4307,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="14" aliases="ia">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="17" aliases="ia">
         <maml:name>IncludeAttribute</maml:name>
         <maml:description>
           <maml:para>Includes only files for which any of the specified attributes are set.</maml:para>
@@ -4175,7 +4319,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="15" aliases="xa">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="18" aliases="xa">
         <maml:name>ExcludeAttribute</maml:name>
         <maml:description>
           <maml:para>Excludes files for which any of the specified attributes are set.</maml:para>
@@ -4187,7 +4331,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="16" aliases="xf">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="19" aliases="xf">
         <maml:name>ExcludeFileName</maml:name>
         <maml:description>
           <maml:para>Excludes files that match the specified names or paths. Note that FileName can include wildcard characters (* and ?).</maml:para>
@@ -4199,7 +4343,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="17" aliases="xd">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="20" aliases="xd">
         <maml:name>ExcludeDirectory</maml:name>
         <maml:description>
           <maml:para>Excludes directories that match the specified names and paths.</maml:para>
@@ -4307,7 +4451,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="18" aliases="max">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="21" aliases="max">
         <maml:name>MaximumFileSize</maml:name>
         <maml:description>
           <maml:para>Specifies the maximum file size (to exclude files bigger than N bytes).</maml:para>
@@ -4319,7 +4463,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="19" aliases="min">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="22" aliases="min">
         <maml:name>MinimumFileSize</maml:name>
         <maml:description>
           <maml:para>Specifies the minimum file size (to exclude files smaller than N bytes).</maml:para>
@@ -4331,7 +4475,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="20" aliases="maxage">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="23" aliases="maxage">
         <maml:name>MaximumFileAge</maml:name>
         <maml:description>
           <maml:para>Specifies the maximum file age (to exclude files older than N days or date).</maml:para>
@@ -4343,7 +4487,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="21" aliases="minage">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="24" aliases="minage">
         <maml:name>MinimumFileAge</maml:name>
         <maml:description>
           <maml:para>Specifies the minimum file age (exclude files newer than N days or date).</maml:para>
@@ -4355,7 +4499,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="22" aliases="maxlad">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="25" aliases="maxlad">
         <maml:name>MaximumFileLastAccessDate</maml:name>
         <maml:description>
           <maml:para>Specifies the maximum last access date (excludes files unused since N).</maml:para>
@@ -4367,7 +4511,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="23" aliases="minlad">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="26" aliases="minlad">
         <maml:name>MinimumFileLastAccessDate</maml:name>
         <maml:description>
           <maml:para>Specifies the minimum last access date (excludes files used since N) If N is less than 1900, N specifies the number of days. Otherwise, N specifies a date in the format YYYYMMDD.</maml:para>
@@ -4439,7 +4583,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="24" aliases="r">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="27" aliases="r">
         <maml:name>Retry</maml:name>
         <maml:description>
           <maml:para>Specifies the number of retries on failed copies. Default is 3.</maml:para>
@@ -4451,7 +4595,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>3</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="25" aliases="w">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="28" aliases="w">
         <maml:name>Wait</maml:name>
         <maml:description>
           <maml:para>Specifies the wait time between retries, in seconds. The default value of N is 3.</maml:para>
@@ -4499,7 +4643,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="26" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="29" aliases="none">
         <maml:name>LowFreeSpaceModeValue</maml:name>
         <maml:description>
           <maml:para>Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n[KMG] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.</maml:para>
@@ -4559,7 +4703,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="27" aliases="nfl">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="30" aliases="nfl">
         <maml:name>NoFileNameToLog</maml:name>
         <maml:description>
           <maml:para>Specifies that file names are not to be logged.</maml:para>
@@ -4571,7 +4715,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="28" aliases="log">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="31" aliases="log">
         <maml:name>LogFile</maml:name>
         <maml:description>
           <maml:para>Writes the status output to the log file (overwrites the existing log file).</maml:para>
@@ -4583,7 +4727,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="29" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="32" aliases="none">
         <maml:name>LogFileWithAppend</maml:name>
         <maml:description>
           <maml:para>Writes the status output to the log file (appends the output to the existing log file).</maml:para>
@@ -4607,7 +4751,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="30" aliases="unilog">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="33" aliases="unilog">
         <maml:name>UnicodeLog</maml:name>
         <maml:description>
           <maml:para>Writes the status output to the log file as Unicode text (overwrites the existing log file).</maml:para>
@@ -4619,7 +4763,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="31" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="34" aliases="none">
         <maml:name>UnicodeLogWithAppend</maml:name>
         <maml:description>
           <maml:para>Writes the status output to the log file as Unicode text (appends the output to the existing log file).</maml:para>
@@ -4631,7 +4775,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="32" aliases="Job">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="35" aliases="Job">
         <maml:name>JobName</maml:name>
         <maml:description>
           <maml:para>Specifies that parameters are to be derived from the named job file.</maml:para>
@@ -4643,7 +4787,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="33" aliases="Save">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="36" aliases="Save">
         <maml:name>SaveJob</maml:name>
         <maml:description>
           <maml:para>Specifies that parameters are to be saved to the named job file.</maml:para>
@@ -4691,7 +4835,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="34" aliases="IF">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="37" aliases="IF">
         <maml:name>IncludeFollowingFile</maml:name>
         <maml:description>
           <maml:para>Include the following Files.</maml:para>
@@ -4703,7 +4847,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="35" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="38" aliases="none">
         <maml:name>Unit</maml:name>
         <maml:description>
           <maml:para>What unit the sizes are shown as</maml:para>
@@ -4715,7 +4859,7 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         </dev:type>
         <dev:defaultValue>Auto</dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="36" aliases="none">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="39" aliases="none">
         <maml:name>Precision</maml:name>
         <maml:description>
           <maml:para>Number of digits after decimal point in rounded numbers.</maml:para>
@@ -5862,6 +6006,42 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoMaxSize</maml:name>
+          <maml:description>
+            <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoRate</maml:name>
+          <maml:description>
+            <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Threshold</maml:name>
+          <maml:description>
+            <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -6905,6 +7085,42 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
         <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
         <dev:type>
           <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoMaxSize</maml:name>
+        <maml:description>
+          <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoRate</maml:name>
+        <maml:description>
+          <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Threshold</maml:name>
+        <maml:description>
+          <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -8239,6 +8455,42 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoMaxSize</maml:name>
+          <maml:description>
+            <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>IoRate</maml:name>
+          <maml:description>
+            <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Threshold</maml:name>
+          <maml:description>
+            <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -9237,6 +9489,42 @@ LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were pre
           <maml:uri />
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoMaxSize</maml:name>
+        <maml:description>
+          <maml:para>Requested max i/o size per {read,write} cycle, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>IoRate</maml:name>
+        <maml:description>
+          <maml:para>Requested i/o rate, in n [KMG] bytes per second.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Threshold</maml:name>
+        <maml:description>
+          <maml:para>File size threshold for throttling, in n [KMG] bytes.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
