@@ -244,14 +244,14 @@ Function Invoke-RoboCopy {
 
         #Default value is 8. Value must be at least 1 and not greater than 128. This option is incompatible with the /IPG and /EFSRAW options. Redirect output using /LOG option for better performance.
         [Parameter(Mandatory = $False)]
-        [ValidateRange(1,128)]
+        [ValidateRange(1, 128)]
         [Alias('MT', 'MultiThread')]
         [int]$Threads = 8,
 
         # Specifies run times when new copies may be started.
         [Parameter(Mandatory = $False)]
         [Alias('rh')]
-        [ValidatePattern("[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}-[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}")]
+        [ValidatePattern('[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}-[0-2]{1}[0-3]{1}[0-5]{1}[0-9]{1}')]
         [String]$RunTimes,
 
         # Checks run times on a per-file (not per-pass) basis.
@@ -283,13 +283,13 @@ Function Invoke-RoboCopy {
         #endregion
 
         #region Copy File Throttling Options
-        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [ValidatePattern('[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]')]
         [String]$IoMaxSize,
 
-        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [ValidatePattern('[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]')]
         [String]$IoRate,
 
-        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [ValidatePattern('[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]')]
         [String]$Threshold,
         #endregion
 
@@ -433,7 +433,7 @@ Function Invoke-RoboCopy {
         [switch]$LowFreeSpaceMode,
 
         # Using /LFSM requests robocopy to operate in 'low free space mode'. In that mode, robocopy will pause whenever a file copy would cause the destination volume's free space to go below a 'floor' value, which can be explicitly specified by the n[KMG] form of the flag where n=number and K:kilobytes ,M:megabytes or G:gigabytes.
-        [ValidatePattern("[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]")]
+        [ValidatePattern('[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]')]
         [String]$LowFreeSpaceModeValue,
         #endregion
 
@@ -514,8 +514,11 @@ Function Invoke-RoboCopy {
         [ValidateSet('Auto', 'PB', 'TB', 'GB', 'MB', 'KB', 'Bytes')]
         [String]$Unit = 'Auto',
 
-        [ValidateRange(1,28)]
-        [System.Int64]$Precision = 4
+        [ValidateRange(1, 28)]
+        [System.Int64]$Precision = 4,
+
+        [ValidateSet('Native', 'Parse')]
+        $OutputType = 'Parse'
         #endregion
     )
 
@@ -533,7 +536,8 @@ Function Invoke-RoboCopy {
         }
 
         # See if $destination is NULL because its used by other cmdlets
-        If ($Destination -eq "NULL") {}
+        If ($Destination -eq 'NULL') {
+        }
 
         # If Force is true we want to create the destination folder even if it doesnt exist
         elseif ($Force -eq $True -and $null -eq $WhatIf) {
@@ -846,14 +850,14 @@ Function Invoke-RoboCopy {
         #endregion
 
         # Arguments of the copy command. Fills in the $RoboLog temp file
-        $RoboArgs = @($RobocopyArguments + ("/bytes", "/TEE", "/np", "/njh", "/fp", "/ndl", "/ts"))
+        $RoboArgs = @($RobocopyArguments + ('/bytes', '/TEE', '/np', '/njh', '/fp', '/ndl', '/ts'))
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
-        $strRoboArgs = ($RoboArgs | ForEach-Object { [string]$_ }) -join " "
+        $strRoboArgs = ($RoboArgs | ForEach-Object { [string]$_ }) -join ' '
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , "$action with arguments $strRoboArgs")) {
 
             if (-not (Get-Command -Name robocopy -ErrorAction SilentlyContinue)) {
-                Write-Warning -Message "Action failed because robocopy.exe could not be found."
+                Write-Warning -Message 'Action failed because robocopy.exe could not be found.'
                 break
             }
 
@@ -878,43 +882,48 @@ Function Invoke-RoboCopy {
             #>
 
             #region All Logic for the robocopy process is handled here. Including what to do with the output etc.
-            Robocopy.exe @RoboArgs | Where-Object { $PSItem -ne "" } | Invoke-RobocopyParser -Unit $unit -Precision $Precision | & {
-                process {
-                    If ($psitem.stream -eq "Verbose") {
-                        Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Length on Item "{4}". TimeStamp on Item "{5}"' -f $action, $psitem.FullName , $Destination, $psitem.status, $psitem.length, $psitem.TimeStamp)
-                    }
-
-                    ElseIf ($psitem.stream -eq "Error") {
-
-                        If ($psitem.exception) {
-                            $Exception = [Exception]::new($psitem.exception)
+            if ($OutputType -eq 'Parse') {
+                Robocopy.exe @RoboArgs | Where-Object { $PSItem -ne '' } | Invoke-RobocopyParser -Unit $unit -Precision $Precision | & {
+                    process {
+                        If ($psitem.stream -eq 'Verbose') {
+                            Write-Verbose -Message ('"{0} File" on "Item {1}" to target "{2}" Status on Item "{3}". Length on Item "{4}". TimeStamp on Item "{5}"' -f $action, $psitem.FullName , $Destination, $psitem.status, $psitem.length, $psitem.TimeStamp)
                         }
+
+                        ElseIf ($psitem.stream -eq 'Error') {
+
+                            If ($psitem.exception) {
+                                $Exception = [Exception]::new($psitem.exception)
+                            }
+                            Else {
+                                $Exception = [Exception]::new($psitem.Value)
+                            }
+
+                            $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
+                                $Exception,
+                                $Psitem.ErrorID,
+                                [System.Management.Automation.ErrorCategory]::NotSpecified,
+                                $TargetObject # usually the object that triggered the error, if possible
+                            )
+                            $PSCmdlet.WriteError($ErrorRecord)
+                        }
+
+                        ElseIf ($psitem.stream -eq 'Warning') {
+                            Write-Warning $psitem.value
+                        }
+
+                        ElseIf ($psitem.stream -eq 'Information') {
+                            Write-Information $psitem.Value
+                        }
+
                         Else {
-                            $Exception = [Exception]::new($psitem.Value)
+                            # This will output the pscustomobject with information as source, destination, success and more
+                            $Psitem
                         }
-
-                        $ErrorRecord = [System.Management.Automation.ErrorRecord]::new(
-                            $Exception,
-                            $Psitem.ErrorID,
-                            [System.Management.Automation.ErrorCategory]::NotSpecified,
-                            $TargetObject # usually the object that triggered the error, if possible
-                        )
-                        $PSCmdlet.WriteError($ErrorRecord)
-                    }
-
-                    ElseIf ($psitem.stream -eq "Warning") {
-                        Write-Warning $psitem.value
-                    }
-
-                    ElseIf ($psitem.stream -eq "Information") {
-                        Write-Information $psitem.Value
-                    }
-
-                    Else {
-                        # This will output the pscustomobject with information as source, destination, success and more
-                        $Psitem
                     }
                 }
+            }
+            else {
+                Robocopy.exe @RoboArgs
             }
         }
     }

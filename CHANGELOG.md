@@ -6,6 +6,7 @@
 
 * Sync-RoboItem: New command for syncing (Robocopy.exe /MIR) folders
 * Added IoMaxSize, IoRate and Threshold parameters for Windows 11
+* Invoke-RoboCopy: Added parameter -OutputType to choose if you want to parse the output or not
 
 ## 0.2.15 - 2022-06-06
 
