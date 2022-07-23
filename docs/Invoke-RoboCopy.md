@@ -33,7 +33,7 @@ Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>]
  [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
  [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
  [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
- [[-Precision] <Int64>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [[-Precision] <Int64>] [[-OutputType] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1525,6 +1525,21 @@ Aliases:
 Required: False
 Position: 39
 Default value: 4
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputType
+Choose if output from Robocopy.exe should be parsed or not.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 40
+Default value: Parse
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

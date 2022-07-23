@@ -32,7 +32,8 @@ Move-RoboItem [-WhatIf] [-Confirm] [-Source] <String> [-Destination] <String> [[
  [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>]
  [[-LogFileWithAppend] <String>] [-Unicode] [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>]
  [[-JobName] <String>] [[-SaveJob] <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
- [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [-Precision <Int64>] [<CommonParameters>]
+ [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [-Precision <Int64>] [-OutputType <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1421,6 +1422,21 @@ File size threshold for throttling, in n [KMG] bytes.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutputType
+Choose if output from Robocopy.exe should be parsed or not.
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
