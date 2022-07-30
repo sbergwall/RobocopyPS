@@ -76,7 +76,7 @@ TotalSizeExtra      : 557048280 B
 Speed               : 12957343 B/s
 ExitCode            : 3
 Success             : True
-LastExitCodeMessage : \[SUCCESS\]Some files were copied.
+LastExitCodeMessage : Some files were copied.
 Additional files were present.
 No failure was encountered.
 
@@ -130,7 +130,7 @@ TotalSizeExtra      : 0 B
 Speed               : 0 B/s
 ExitCode            : 1
 Success             : True
-LastExitCodeMessage : \[SUCCESS\]All files were copied successfully.
+LastExitCodeMessage : All files were copied successfully.
 
 ### EXAMPLE 3
 ```

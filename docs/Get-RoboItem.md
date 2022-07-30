@@ -54,7 +54,7 @@ TotalSizeExtra      : 3,2 MB
 Speed               : 0 B/s
 ExitCode            : 3
 Success             : True
-LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+LastExitCodeMessage : Some files were copied. Additional files were present. No failure was encountered.
 ```
 
 Get the number and size of files and subdirectories on location "E:\Anno 1800"
@@ -90,7 +90,7 @@ TotalSizeExtra      : 1,1 MB
 Speed               : 0 B/s
 ExitCode            : 3
 Success             : True
-LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+LastExitCodeMessage : Some files were copied. Additional files were present. No failure was encountered.
 
 Source              : D:\tmp\
 Destination         : C:\Users\simon\AppData\Local\Temp
@@ -119,7 +119,7 @@ TotalSizeExtra      : 1,1 MB
 Speed               : 0 B/s
 ExitCode            : 3
 Success             : True
-LastExitCodeMessage : [SUCCESS]Some files were copied. Additional files were present. No failure was encountered.
+LastExitCodeMessage : Some files were copied. Additional files were present. No failure was encountered.
 ```
 
 Get Robocopy information about multiple directories.
