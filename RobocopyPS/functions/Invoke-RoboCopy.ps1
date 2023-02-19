@@ -852,6 +852,10 @@ Function Invoke-RoboCopy {
         # Arguments of the copy command. Fills in the $RoboLog temp file
         $RoboArgs = @($RobocopyArguments + ('/bytes', '/TEE', '/np', '/njh', '/fp', '/ndl', '/ts'))
 
+        # Powershell 7.3 introduces breaking changes to argument passing.
+        # https://learn.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.3#psnativecommandargumentpassing
+        $PSNativeCommandArgumentPassing = 'Legacy'
+
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         $strRoboArgs = ($RoboArgs | ForEach-Object { [string]$_ }) -join ' '
         If ($PSCmdlet.ShouldProcess("$Destination from $Source" , "$action with arguments $strRoboArgs")) {
