@@ -854,7 +854,7 @@ Function Invoke-RoboCopy {
 
         # Powershell 7.3 introduces breaking changes to argument passing.
         # https://learn.microsoft.com/en-us/powershell/scripting/learn/experimental-features?view=powershell-7.3#psnativecommandargumentpassing
-        $PSNativeCommandArgumentPassing = 'Legacy'
+        $script:PSNativeCommandArgumentPassing = 'Legacy'
 
         # Reason why ShouldProcess is this far down is because $action is not set before this part
         $strRoboArgs = ($RoboArgs | ForEach-Object { [string]$_ }) -join ' '
