@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.18 - 2023-02-26
+
+### Fixed
+
+* Fixed a bug in PowerShell version 7.3, where a change was made to argument passing. Thanks [@fjollberg](https://github.com/fjollberg)
+
 ## 0.2.17 - 2022-07-15
 
 ### Added
