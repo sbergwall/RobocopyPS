@@ -57,89 +57,83 @@ Function Invoke-RobocopyParser {
         [regex] $SpeedLineRegex = 'Speed\s:\s+(\d+)\sBytes\/sec'
         [regex] $JobSummaryEndLineRegex = '[-]{78}'
         [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
+        [regex] $FileInfoRegex = "\s*(?<status>[\*A-Za-z]+|([\*A-Za-z]+\s+[A-Za-z]+)|)\s+(?<size>[0-9]+)\s+(?<timestamp>([0-9]{4}\/[01][0-9]\/[0-3][0-9])\s+([0-2][0-9]:[0-5][0-9]:[0-5][0-9]))\s+(?<path>.+)\s*$"
     }
 
     Process {
-        If ($InputObject -match $ErrorFilter -or $ForceNextLineIntoError -eq $true) {
-            # If any error happened we set $errorOccured to $true.
-            # This is used in the output Property Success. If $errorOccured is $true we set Success to $false
-            $errorOccured = $true
+        try {
 
-            If ($null -eq $Message) {
-                $Message = $inputobject
-                $ForceNextLineIntoError = $true
+            If ($InputObject -match $ErrorFilter -or $ForceNextLineIntoError -eq $true) {
+                # If any error happened we set $errorOccured to $true.
+                # This is used in the output Property Success. If $errorOccured is $true we set Success to $false
+                $errorOccured = $true
+
+                If ($null -eq $Message) {
+                    $Message = $inputobject
+                    $ForceNextLineIntoError = $true
+                }
+                else {
+                    $LastMessage = ("{0}. {1}" -f $Message, $inputobject.trim())
+                    $ForceNextLineIntoError = $false
+                    $Message = $null
+                    $SplitMessage = $LastMessage -split '(ERROR \d \(0x\d{1,11}\) )'
+                    [PSCustomObject]@{
+                        Value     = $LastMessage
+                        Stream    = "Error"
+                        Exception = $SplitMessage[2]
+                        ErrorID   = $SplitMessage[1]
+                    }
+                }
             }
-            else {
-                $LastMessage = ("{0}. {1}" -f $Message, $inputobject.trim())
-                $ForceNextLineIntoError = $false
-                $Message = $null
-                $SplitMessage = $LastMessage -split '(ERROR \d \(0x\d{1,11}\) )'
+
+            ElseIf ($InputObject -match $FileInfoRegex) {
+                $timestamp = [DateTime]::Parse($Matches.timestamp)
+                $Extension = [System.IO.Path]::GetExtension($Matches.Path)
+                $FileName = [System.IO.Path]::GetFileName($Matches.Path)
+
                 [PSCustomObject]@{
-                    Value     = $LastMessage
-                    Stream    = "Error"
-                    Exception = $SplitMessage[2]
-                    ErrorID   = $SplitMessage[1]
+                    Extension = $Extension
+                    Name      = $FileName
+                    FullName  = $Matches.Path
+                    Length    = $Matches.Size
+                    TimeStamp = $TimeStamp
+                    Status    = $Matches.Status
+                    Stream    = "Verbose"
+                }
+            }
+
+            ElseIf ($InputObject -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
+                # Some we will just assign to variables and dont use or dont do anything with
+                Switch -Regex ($inputobject) {
+                    $JobSummaryEndLine { }
+                    $HeaderRegex { }
+                    $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    #$TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    $EndedLineRegex { }
+                    $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    $SpeedInMinutesRegex { }
+                }
+            }
+
+            elseif ($InputObject -match $WarningFilter) {
+                [PSCustomObject]@{
+                    Value  = $InputObject
+                    Stream = "Warning"
+                }
+            }
+
+            ElseIf ($InputObject) {
+                # Write all strings to Information stream that we dont have rules for
+                [PSCustomObject]@{
+                    Value  = $InputObject
+                    Stream = "Information"
                 }
             }
         }
-
-        ElseIf ($InputObject -like "*$($Source.Replace('[','`[').Replace(']','`]'))*") {
-            $Line = $InputObject.Trim().Split("`t")
-            $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
-            $ExtensionSplit = ($Line[3]).Split(".")
-
-            [PSCustomObject]@{
-                Extension = if ($ExtensionSplit.count -gt 1) { $ExtensionSplit[-1] } else { }
-                Name      = $line[3].Split("\")[-1]
-                FullName  = $line[3]
-                Length    = $Size
-                TimeStamp = $TimeStamp
-                Status    = $line[0].Trim()
-                Stream    = "Verbose"
-            }
-        }
-
-        # Handle "#EXTRA File" output if there is extra files in destination
-        elseif ($InputObject -like "*$Destination*" -and $InputObject -like "*EXTRA File*") {
-            $Line = $InputObject.Trim().Split("`t")
-            $Size, [datetime]$TimeStamp = $line[2].Trim().Split(" ", 2) # Trimming and splitting on this line instead of in Write-Verbose for readability
-            $ExtensionSplit = ($Line[3]).Split(".")
-
-            [PSCustomObject]@{
-                Extension = if ($ExtensionSplit.count -gt 1) { $ExtensionSplit[-1] } else { }
-                Name      = $line[3].Split("\")[-1]
-                FullName  = $line[3]
-                Length    = $Size
-                TimeStamp = $TimeStamp
-                Status    = $line[0].Trim()
-                Stream    = "Verbose"
-            }
-        }
-
-        ElseIf ($InputObject -match "$HeaderRegex|$DirLineRegex|$FileLineRegex|$BytesLineRegex|$TimeLineRegex|$EndedLineRegex|$SpeedLineRegex|$JobSummaryEndLineRegex|$SpeedInMinutesRegex") {
-            # Some we will just assign to variables and dont use or dont do anything with
-            Switch -Regex ($inputobject) {
-                $JobSummaryEndLine { }
-                $HeaderRegex { }
-                $DirLineRegex { $TotalDirs, $TotalDirCopied, $TotalDirIgnored, $TotalDirMismatched, $TotalDirFailed, $TotalDirExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                $FileLineRegex { $TotalFiles, $TotalFileCopied, $TotalFileIgnored, $TotalFileMismatched, $TotalFileFailed, $TotalFileExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                #$TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                $EndedLineRegex { }
-                $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
-                $SpeedInMinutesRegex { }
-            }
-        }
-
-        elseif ($InputObject -match $WarningFilter) {
-            [PSCustomObject]@{
-                Value  = $InputObject
-                Stream = "Warning"
-            }
-        }
-
-        ElseIf ($InputObject) {
-            # Write all strings to Information stream that we dont have rules for
+        catch {
+            Write-Warning "cannot parse output line: ${InputObject}: $($PSItem.Exception.Message)"
             [PSCustomObject]@{
                 Value  = $InputObject
                 Stream = "Information"
