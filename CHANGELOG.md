@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.19 - 2023-07-14
+
+### Fixed
+
+* Fixed a bug in how Robocopy output was parsed. Thanks [@WiredSharp](https://github.com/WiredSharp)
+
 ## 0.2.18 - 2023-02-26
 
 ### Fixed
