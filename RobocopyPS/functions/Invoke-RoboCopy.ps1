@@ -282,6 +282,10 @@ Function Invoke-RoboCopy {
         [Switch]$Compress,
         #endregion
 
+        # Enable retaining sparse state during copy.
+        [Switch]$Sparse,
+        #endregion
+
         #region Copy File Throttling Options
         [ValidatePattern('[0-9]{1,}[K]|[0-9]{1,}[M]|[0-9]{1,}[G]')]
         [String]$IoMaxSize,
@@ -687,6 +691,9 @@ Function Invoke-RoboCopy {
         }
         if ($Compress) {
             $RobocopyArguments += '/compress'
+        }
+        if ($Sparse) {
+            $RobocopyArguments += '/sparse'
         }
         #endregion
 

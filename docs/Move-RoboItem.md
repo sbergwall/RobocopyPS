@@ -20,7 +20,7 @@ Move-RoboItem [-WhatIf] [-Confirm] [-Source] <String> [-Destination] <String> [[
  [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
  [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>] [[-RunTimes] <String>]
  [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
- [-NoOffload] [-Compress] [-IoMaxSize <String>] [-IoRate <String>] [-Threshold <String>] [-Archive]
+ [-NoOffload] [-Compress] [-Sparse] [-IoMaxSize <String>] [-IoRate <String>] [-Threshold <String>] [-Archive]
  [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>]
  [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
  [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
@@ -1437,6 +1437,21 @@ Choose if output from Robocopy.exe should be parsed or not.
 
 ```yaml
 Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Sparse
+Enable retaining sparse state during copy.
+
+```yaml
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 

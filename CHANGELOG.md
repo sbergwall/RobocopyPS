@@ -1,5 +1,7 @@
 # RobocopyPS Release History
 
+## 0.2.20
+
 ## 0.2.18 - 2023-02-26
 
 ### Fixed
