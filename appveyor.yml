@@ -13,7 +13,7 @@ install:
 build: false
 
 test_script:
-   - ps: Write-host "Operating System: $((Get-WmiObject -class Win32_OperatingSystem).Caption)"
+   - ps: "Operating System: $((Get-WmiObject -class Win32_OperatingSystem).Caption)"
    - ps: $version = Get-Command robocopy; Write-Host "Robocopy version: $($version.version)"
    - ps: $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
    - ps: (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestsResults.xml))
