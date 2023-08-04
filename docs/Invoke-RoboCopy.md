@@ -20,7 +20,7 @@ Invoke-RoboCopy [-Source] <String> [-Destination] <String> [[-Files] <String[]>]
  [-MoveFiles] [-MoveFilesAndDirectories] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create]
  [-FAT] [-IgnoreLongPath] [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>]
  [[-RunTimes] <String>] [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink]
- [-NoDirectoryInformation] [-NoOffload] [-Compress] [[-IoMaxSize] <String>] [[-IoRate] <String>]
+ [-NoDirectoryInformation] [-NoOffload] [-Compress] [-Sparse] [[-IoMaxSize] <String>] [[-IoRate] <String>]
  [[-Threshold] <String>] [-Archive] [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>]
  [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>]
  [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles]
@@ -730,6 +730,21 @@ Accept wildcard characters: False
 
 ### -Compress
 Requests network compression during file transfer, if applicable.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Sparse
+Enable retaining sparse state during copy.
 
 ```yaml
 Type: SwitchParameter

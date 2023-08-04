@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.20 - 2023-08-04
+
+### Added
+
+* Added Sparse parameter for Robocopy
+
 ## 0.2.19 - 2023-07-14
 
 ### Fixed

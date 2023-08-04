@@ -18,7 +18,7 @@ Describe "when parsing robocopy output" {
 
             { $parsed = Invoke-RobocopyParser -InputObject $line } | Should -Not -Throw
             $parsed = Invoke-RobocopyParser -InputObject $line
-            Write-Warning "$($parsed | ConvertTo-Json)"
+            #Write-Warning "$($parsed | ConvertTo-Json)" # Commented out this block as it just write to the host, but I'll keep it as a comment if needed further down the line
             $parsed[0].Status | Should -Be $Status
         }
     }
