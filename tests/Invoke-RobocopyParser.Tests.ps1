@@ -23,3 +23,20 @@ Describe "when parsing robocopy output" {
         }
     }
 }
+
+
+
+# TBD - Write tests for commented lines
+Describe "Parsing Robocopy Speed output" {
+    InModuleScope $ModuleName {
+        It 'Should parse speed information from native Robocopy' -ForEach @(
+            @{ line = '   Speed :           22,361,666 Bytes/sec.'; Out = '22361666 B/s' }
+            #@{ line = '   Speed :           22,361 Bytes/sec.' }
+            #@{ line = '   Speed :             8385625 Bytes/sec.' }
+            #@{ line = '   Speed :           989 125 Bytes/sec.' }
+        ) {
+            $Output = Invoke-RobocopyParser -InputObject $line -Unit Bytes
+            $Output[0].Speed | Should -Be $Out
+        }
+    }
+}
