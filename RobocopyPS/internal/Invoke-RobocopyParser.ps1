@@ -54,7 +54,7 @@ Function Invoke-RobocopyParser {
         [regex] $BytesLineRegex = 'Bytes\s*:\s*(?<ByteCount>\d+)(?:\s+\d+){3}\s+(?<BytesFailed>\d+)\s+\d+'
         [regex] $TimeLineRegex = 'Times\s*:\s*(?<TimeElapsed>\d+).*'
         [regex] $EndedLineRegex = 'Ended\s*:\s*(?<EndedTime>.+)'
-        [regex] $SpeedLineRegex = 'Speed\s:\s+(\d+)\sBytes\/sec'
+        [regex] $SpeedLineRegex = 'Speed\s:\s+(\d+)\sBytes\/sec|Speed\s*:\s*([\d\s,]+)\s*Bytes\/sec\.'
         [regex] $JobSummaryEndLineRegex = '[-]{78}'
         [regex] $SpeedInMinutesRegex = 'Speed\s:\s+(\d+).(\d+)\sMegaBytes\/min'
         [regex] $FileInfoRegex = "\s*(?<status>[\*A-Za-z]+|([\*A-Za-z]+\s+[A-Za-z]+)|)\s+(?<size>[0-9]+)\s+(?<timestamp>([0-9]{4}\/[01][0-9]\/[0-3][0-9])\s+([0-2][0-9]:[0-5][0-9]:[0-5][0-9]))\s+(?<path>.+)\s*$"
@@ -112,7 +112,7 @@ Function Invoke-RobocopyParser {
                     $BytesLineRegex { $TotalBytes, $TotalBytesCopied, $TotalBytesIgnored, $TotalBytesMismatched, $TotalBytesFailed, $TotalBytesExtra = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                     #$TimeLineRegex { [TimeSpan]$TotalDuration, [TimeSpan]$CopyDuration, [TimeSpan]$FailedDuration, [TimeSpan]$ExtraDuration = $PSitem | Select-String -Pattern '\d?\d\:\d{2}\:\d{2}' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
                     $EndedLineRegex { }
-                    $SpeedLineRegex { $TotalSpeedBytes, $null = $PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value } }
+                    $SpeedLineRegex { $TotalSpeedBytes, $null = ($PSitem | Select-String -Pattern '\d+' -AllMatches | ForEach-Object { $PSitem.Matches } | ForEach-Object { $PSitem.Value }) -join "" } # fix for issue 18
                     $SpeedInMinutesRegex { }
                 }
             }
