@@ -12,7 +12,7 @@
     RootModule        = 'RobocopyPS.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.2.20'
+    ModuleVersion     = '0.2.21'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()

@@ -31,6 +31,7 @@ Describe "Parsing Robocopy Speed output" {
             @{ line = '   Speed :           22,361 Bytes/sec.'; Out = '22361 B/s'}
             @{ line = '   Speed :             8385625 Bytes/sec.'; Out = '8385625 B/s'}
             @{ line = '   Speed :           989 125 Bytes/sec.'; Out = '989125 B/s'}
+            @{ line = '   Speed :           13,417,000 Bytes/sec.'; Out = '13417000 B/s'}
         ) {
             $Output = Invoke-RobocopyParser -InputObject $line -Unit Bytes
             $Output[0].Speed | Should -Be $Out

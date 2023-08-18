@@ -1,5 +1,11 @@
 # RobocopyPS Release History
 
+## 0.2.21 - 2023-08-18
+
+### Fixed
+
+* Fixed how speed was not parsed correctly in Windows 11
+
 ## 0.2.20 - 2023-08-04
 
 ### Added
