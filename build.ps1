@@ -23,7 +23,7 @@ foreach ($Module in $Script:Modules) {
 }
 
 if ((Get-Module pester -ListAvailable | Sort-Object version | Select-Object -Last 1).Version -lt 5.2){
-    Install-Module 'Pester' -MinimumVersion 5.2 -Scope $Script:ModuleInstallScope -Force
+    Install-Module 'Pester' -MinimumVersion 5.5.0 -Scope $Script:ModuleInstallScope -Force
 }
 
 'Setting Build Environment variables...'
