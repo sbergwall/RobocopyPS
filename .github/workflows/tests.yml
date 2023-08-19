@@ -12,3 +12,9 @@ jobs:
         shell: powershell
         run: |
           .\build.ps1
+
+      - name: Pester Tests
+        shell: powershell
+        run: |
+          $res = Invoke-Pester -Path ".\Tests" -OutputFormat NUnitXml -OutputFile TestsResults.xml -PassThru
+          if ($res.FailedCount -gt 0) { throw "$($res.FailedCount) tests failed."} else {"Tests passed."}
