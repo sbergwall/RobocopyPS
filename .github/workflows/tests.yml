@@ -1,0 +1,14 @@
+name: Tests
+on: [push]
+
+jobs:
+  build:
+    name:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Start Build script
+        shell: powershell
+        run: |
+          .\build.ps1
