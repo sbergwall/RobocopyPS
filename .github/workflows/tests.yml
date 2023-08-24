@@ -3,10 +3,10 @@ on: [push]
 
 jobs:
   build:
-    name:
+    name: Run Tests
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Start Build script
         shell: powershell
