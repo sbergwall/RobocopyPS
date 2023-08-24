@@ -8,6 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install and cache PowerShell modules
+        uses: potatoqualitee/psmodulecache
+        with:
+          modules-to-cache: InvokeBuild, platyPS, BuildHelpers
+          shell: powershell
+
       - name: Start Build script
         shell: powershell
         run: |
