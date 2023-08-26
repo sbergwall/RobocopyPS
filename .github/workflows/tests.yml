@@ -14,6 +14,11 @@ jobs:
           modules-to-cache: InvokeBuild, platyPS, BuildHelpers
           shell: powershell
 
+      - name: Get Robocopy Version
+        shell: powershell
+        run: |
+         Write-Host "Robocopy Version:" $(Get-Command Robocopy | Select-Object -ExpandProperty version).ToString()
+
       - name: Start Build script
         shell: powershell
         run: |
