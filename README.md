@@ -1,6 +1,6 @@
 # RobocopyPS
 
-| Powershell | Dev | Main |
+| Powershell | Dev branch | Main branch |
 |------------|-----|------|
 | ![](https://img.shields.io/powershellgallery/dt/robocopyPS) | ![Dev Branch](https://github.com/sbergwall/RobocopyPS/actions/workflows/tests.yml/badge.svg?branch=dev) | ![Main Branch](https://github.com/sbergwall/RobocopyPS/actions/workflows/tests.yml/badge.svg?branch=master) |
 
