@@ -1,7 +1,8 @@
 # RobocopyPS
 
-[![Build status](https://ci.appveyor.com/api/projects/status/2hpug3ow4yv1810a/branch/master?svg=true)](https://ci.appveyor.com/project/sbergwall/robocopyps/branch/master)
-![](https://img.shields.io/powershellgallery/dt/robocopyPS)
+| Powershell | Dev | Main |
+|------------|-----|------|
+| ![](https://img.shields.io/powershellgallery/dt/robocopyPS) | ![Dev Branch](https://github.com/sbergwall/RobocopyPS/actions/workflows/tests.yml/badge.svg?branch=dev) | ![Main Branch](https://github.com/sbergwall/RobocopyPS/actions/workflows/tests.yml/badge.svg?branch=master) |
 
 
 ## Description
