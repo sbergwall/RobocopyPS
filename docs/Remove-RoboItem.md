@@ -13,8 +13,9 @@ Remove directory.
 ## SYNTAX
 
 ```
-Remove-RoboItem [-Path] <String[]> [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-Threads <Int32>]
- [[-Retry] <Int32>] [[-Wait] <Int32>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-RoboItem [-Path] <String[]> [-ClearLastExitCodeOnSuccess] [-RestartMode] [-BackupMode]
+ [-RestartAndBackupMode] [-Threads <Int32>] [[-Retry] <Int32>] [[-Wait] <Int32>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -159,6 +160,21 @@ Creates multi-threaded copies with N threads. N must be an integer between 1 and
 Type: Int32
 Parameter Sets: (All)
 Aliases: MT, MultiThread
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClearLastExitCodeOnSuccess
+Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ClearExitCode
 
 Required: False
 Position: Named

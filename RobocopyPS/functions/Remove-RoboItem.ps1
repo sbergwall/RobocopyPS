@@ -9,6 +9,11 @@ Function Remove-RoboItem {
         [Alias('FullPath')]
         [String[]]$Path,
 
+        # Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+        [Parameter(Mandatory = $False)]
+        [Alias('ClearExitCode')]
+        [switch]$ClearLastExitCodeOnSuccess,
+
         # Remove files in restartable mode.
         [Alias('z')]
         [switch]$RestartMode,
