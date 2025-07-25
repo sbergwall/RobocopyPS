@@ -12,6 +12,11 @@ Function Get-RoboItem {
         # Specifies the file or files. You can use wildcard characters (* or ?), if you want. If the File parameter is not specified, *.* is used as the default value.
         [String[]]$Files = '*.*',
 
+        # Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+        [Parameter(Mandatory = $False)]
+        [Alias('ClearExitCode')]
+        [switch]$ClearLastExitCodeOnSuccess,
+
         # Includes subdirectories and files.
         [Switch]$Recurse,
 

@@ -131,6 +131,11 @@ Function Invoke-RoboCopy {
         [Parameter(Mandatory = $False)]
         [switch] $Force,
 
+        # Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+        [Parameter(Mandatory = $False)]
+        [Alias('ClearExitCode')]
+        [switch]$ClearLastExitCodeOnSuccess,
+
         #region Copy Options
         <#Copy options: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy#copy-options#>
 
@@ -928,6 +933,9 @@ Function Invoke-RoboCopy {
 
                         Else {
                             # This will output the pscustomobject with information as source, destination, success and more
+                            if ($PSItem.Success -and $ClearLastExitCodeOnSuccess) {
+                                $global:LastExitCode = 0
+                            }
                             $Psitem
                         }
                     }
@@ -936,6 +944,7 @@ Function Invoke-RoboCopy {
             else {
                 Robocopy.exe @RoboArgs
             }
+            #endregion
         }
     }
 }

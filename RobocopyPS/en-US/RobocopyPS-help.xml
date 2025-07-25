@@ -1120,6 +1120,17 @@
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2215,6 +2226,18 @@
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -2437,6 +2460,17 @@
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2607,6 +2641,18 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -3252,6 +3298,17 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LastExitCode variable back to zero if the operation is successful. This parameter has no effect if OutputType -eq 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="s">
           <maml:name>IncludeSubDirectories</maml:name>
           <maml:description>
@@ -3889,6 +3946,18 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
         <maml:name>Force</maml:name>
         <maml:description>
           <maml:para>If destination folder does not exist the Force parameter will try and create it.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LastExitCode variable back to zero if the operation is successful. This parameter has no effect if OutputType -eq 'Native'.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -6159,6 +6228,17 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -7266,6 +7346,18 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
         </dev:type>
         <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -7421,6 +7513,17 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
           </dev:type>
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -7531,6 +7634,18 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -8655,6 +8770,17 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
           </dev:type>
           <dev:defaultValue>False</dev:defaultValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+          <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+          <maml:description>
+            <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -9706,6 +9832,18 @@ LastExitCodeMessage : Some files were copied. Additional files were present. No 
         <maml:name>Sparse</maml:name>
         <maml:description>
           <maml:para>Enable retaining sparse state during copy.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="ClearExitCode">
+        <maml:name>ClearLastExitCodeOnSuccess</maml:name>
+        <maml:description>
+          <maml:para>Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>

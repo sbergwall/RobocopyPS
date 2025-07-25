@@ -13,9 +13,10 @@ Get information about file or directories with Robocopy.
 ## SYNTAX
 
 ```
-Get-RoboItem [-Path] <String[]> [[-Files] <String[]>] [-Recurse] [[-Level] <Int32>] [-RestartMode]
- [-BackupMode] [-RestartAndBackupMode] [-ExcludeFileName <String[]>] [-ExcludeDirectory <String[]>]
- [-Threads <Int32>] [-Unit <String>] [-Precision <Int64>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Get-RoboItem [-Path] <String[]> [[-Files] <String[]>] [-ClearLastExitCodeOnSuccess] [-Recurse]
+ [[-Level] <Int32>] [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-ExcludeFileName <String[]>]
+ [-ExcludeDirectory <String[]>] [-Threads <Int32>] [-Unit <String>] [-Precision <Int64>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -339,6 +340,21 @@ Number of digits after decimal point in rounded numbers.
 Type: Int64
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClearLastExitCodeOnSuccess
+Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ClearExitCode
 
 Required: False
 Position: Named

@@ -14,25 +14,26 @@ Copy directories with RoboCopy.
 
 ```
 Copy-RoboItem [-Source] <String[]> [-WhatIf] [-Confirm] [-Destination] <String> [[-Files] <String[]>] [-Force]
- [-IncludeSubDirectories] [-IncludeEmptySubDirectories] [[-Level] <Int32>] [-RestartMode] [-BackupMode]
- [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>] [[-DirectoryCopyFlags] <String[]>]
- [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix] [-Timefix] [[-AddAttribute] <String[]>]
- [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath] [[-MonitorChanges] <Int32>]
- [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>] [[-RunTimes] <String>] [-UsePerFileRunTimes]
- [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation] [-NoOffload] [-Compress]
- [-Sparse] [-IoMaxSize <String>] [-IoRate <String>] [-Threshold <String>] [-Archive] [-ResetArchiveAttribute]
- [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>] [[-ExcludeFileName] <String[]>]
- [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles] [-ExcludeOlderFiles]
- [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles] [-IncludeTweakedFiles]
- [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>] [[-MaximumFileAge] <String>]
- [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>] [[-MinimumFileLastAccessDate] <String>]
- [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST] [-ExcludeDirectoryJunctionPoints]
- [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>] [-SaveRetrySettings] [-WaitForShareName]
- [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List] [-ReportExtraFile] [-NoSizeToLog]
- [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>] [[-LogFileWithAppend] <String>] [-Unicode]
- [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>] [[-JobName] <String>] [[-SaveJob] <String>]
- [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory] [[-IncludeFollowingFile] <String>] [[-Unit] <String>]
- [-Precision <Int64>] [-OutputType <Object>] [<CommonParameters>]
+ [-ClearLastExitCodeOnSuccess] [-IncludeSubDirectories] [-IncludeEmptySubDirectories] [[-Level] <Int32>]
+ [-RestartMode] [-BackupMode] [-RestartAndBackupMode] [-UnbufferedIO] [-EFSRaw] [[-CopyFlags] <String[]>]
+ [[-DirectoryCopyFlags] <String[]>] [-CopyWithSecurity] [-CopyAllFileInformation] [-NoCopy] [-SecurityFix]
+ [-Timefix] [[-AddAttribute] <String[]>] [[-RemoveAttribute] <String[]>] [-Create] [-FAT] [-IgnoreLongPath]
+ [[-MonitorChanges] <Int32>] [[-MonitorMinutes] <Int32>] [[-Threads] <Int32>] [[-RunTimes] <String>]
+ [-UsePerFileRunTimes] [[-InterPacketGap] <Int32>] [-CopyJunction] [-SymbolicLink] [-NoDirectoryInformation]
+ [-NoOffload] [-Compress] [-Sparse] [-IoMaxSize <String>] [-IoRate <String>] [-Threshold <String>] [-Archive]
+ [-ResetArchiveAttribute] [[-IncludeAttribute] <String[]>] [[-ExcludeAttribute] <String[]>]
+ [[-ExcludeFileName] <String[]>] [[-ExcludeDirectory] <String[]>] [-ExcludeChangedFiles] [-ExcludeNewerFiles]
+ [-ExcludeOlderFiles] [-ExcludeExtraFiles] [-ExcludeLonelyFiles] [-IncludeModifiedFile] [-IncludeSameFiles]
+ [-IncludeTweakedFiles] [[-MaximumFileSize] <String>] [[-MinimumFileSize] <String>]
+ [[-MaximumFileAge] <String>] [[-MinimumFileAge] <String>] [[-MaximumFileLastAccessDate] <String>]
+ [[-MinimumFileLastAccessDate] <String>] [-ExcludeJunctionPoints] [-AssumeFATFileTime] [-CompensateDST]
+ [-ExcludeDirectoryJunctionPoints] [-ExcludeFileJunctionPoints] [[-Retry] <Int32>] [[-Wait] <Int32>]
+ [-SaveRetrySettings] [-WaitForShareName] [-LowFreeSpaceMode] [[-LowFreeSpaceModeValue] <String>] [-List]
+ [-ReportExtraFile] [-NoSizeToLog] [-NoClassToLog] [[-NoFileNameToLog] <Object>] [[-LogFile] <String>]
+ [[-LogFileWithAppend] <String>] [-Unicode] [[-UnicodeLog] <String>] [[-UnicodeLogWithAppend] <String>]
+ [[-JobName] <String>] [[-SaveJob] <String>] [-Quit] [-NoSourceDirectory] [-NoDestinationDirectory]
+ [[-IncludeFollowingFile] <String>] [[-Unit] <String>] [-Precision <Int64>] [-OutputType <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -1438,6 +1439,21 @@ Enable retaining sparse state during copy.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ClearLastExitCodeOnSuccess
+Sets the $global:LASTEXITCODE variable back to zero if the operation is successful. This parameter has no effect if OutputType is 'Native'.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ClearExitCode
 
 Required: False
 Position: Named
