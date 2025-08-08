@@ -1,5 +1,16 @@
 # RobocopyPS Release History
 
+## 0.2.22 - 2025-08-08
+
+### Added
+
+* Added new `-ClearLastExitCodeOnSuccess` parameter (alias: `-ClearExitCode`) to all cmdlets to reset `$global:LASTEXITCODE` to zero after successful operations (Thanks [@skaravos](https://github.com/skaravos))
+
+### Changed
+
+* Updated GitHub Actions workflow to use psmodulecache@v6.2.1
+* Improved error detection regex pattern in Invoke-RobocopyParser for better error handling (Thanks [@anastasiarSievo](https://github.com/anastasiarSievo))
+
 ## 0.2.21 - 2023-08-18
 
 ### Fixed
